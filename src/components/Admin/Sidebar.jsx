@@ -83,9 +83,10 @@ const Sidebar = ({ activeTab, setActiveTab, onLogout }) => {
                         { icon: <DashboardIcon sx={{ fontSize: 20 }} />, label: 'Blood Bank', tab: 'dashboard', delay: 0.15 },
                         { icon: <PeopleIcon sx={{ fontSize: 20 }} />, label: 'Donors', tab: 'donors', delay: 0.2 },
                         { icon: <LocalHospitalIcon sx={{ fontSize: 20 }} />, label: 'Hospitals', tab: 'hospitals', delay: 0.25 },
-                        { icon: <FlashOnIcon sx={{ fontSize: 20 }} />, label: 'Requests', tab: null, delay: 0.3 },
-                        { icon: <EventAvailableIcon sx={{ fontSize: 20 }} />, label: 'Camps', tab: null, delay: 0.35 },
+                        { icon: <FlashOnIcon sx={{ fontSize: 20 }} />, label: 'Requests', tab: 'requests', delay: 0.3 },
+                        { icon: <EventAvailableIcon sx={{ fontSize: 20 }} />, label: 'Camps', tab: 'camps', delay: 0.35 },
                     ].map(item => (
+
                         <SideItem key={item.label} icon={item.icon} label={item.label} active={activeTab === item.tab} onClick={() => item.tab && setActiveTab(item.tab)} delay={item.delay} />
                     ))}
                     <Box sx={{ mx: -2, my: 2, borderTop: '1px dashed #f1f5f9' }} />
@@ -117,12 +118,19 @@ const Sidebar = ({ activeTab, setActiveTab, onLogout }) => {
                             <Typography sx={{ fontWeight: 800, fontSize: 14, mb: 0.5 }}>Host a Blood Camp</Typography>
                             <Typography sx={{ fontSize: 11, color: 'rgba(255,255,255,0.75)', mb: 2.5 }}>Save up to 100 lives a day</Typography>
                             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                                <Button fullWidth sx={{
-                                    bgcolor: 'white', color: '#dc2626', borderRadius: 100,
-                                    fontSize: 12, fontWeight: 800, py: 1,
-                                    '&:hover': { bgcolor: '#f8fafc' }
-                                }}>Organize Now</Button>
+                                <Button
+                                    fullWidth
+                                    onClick={() => setActiveTab('camps')}
+                                    sx={{
+                                        bgcolor: 'white', color: '#dc2626', borderRadius: 100,
+                                        fontSize: 12, fontWeight: 800, py: 1,
+                                        '&:hover': { bgcolor: '#f8fafc' }
+                                    }}
+                                >
+                                    Organize Now
+                                </Button>
                             </motion.div>
+
                         </Box>
                     </Box>
                 </motion.div>

@@ -11,6 +11,8 @@ import { Particles } from '../components/Admin/AdminUIUtils';
 import DashboardView from '../components/Admin/Dashboard/DashboardView';
 import DonorsView from '../components/Admin/Dashboard/DonorsView';
 import HospitalsView from '../components/Admin/Dashboard/HospitalsView';
+import RequestsView from '../components/Admin/Dashboard/RequestsView';
+import CampsView from '../components/Admin/Dashboard/CampsView';
 
 // Hooks
 import { useDashboardData } from '../components/Admin/Dashboard/useDashboardData';
@@ -22,21 +24,29 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [searchQuery, setSearchQuery] = useState('');
-    const { lineData, lineOptions, barData, barOptions, hospitals, donors } = useDashboardData();
+    const { lineData, lineOptions, barData, barOptions, hospitals, donors, requests, camps } = useDashboardData();
+
 
     const handleLogout = () => {
         navigate('/login');
     };
 
-    const filteredDonors = donors.filter(d => 
-        d.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    const filteredDonors = donors.filter(d =>
+        d.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         d.type.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const filteredHospitals = hospitals.filter(h => 
-        h.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    const filteredHospitals = hospitals.filter(h =>
+        h.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         h.need.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const filteredRequests = requests.filter(r =>
+        r.hospital.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r.bloodType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r.id.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
 
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f8fafc', fontFamily: '"DM Sans", Inter, sans-serif', position: 'relative' }}>
@@ -54,17 +64,22 @@ const AdminDashboard = () => {
                 <Box sx={{ p: 4, overflowY: 'auto', flex: 1 }}>
                     <AnimatePresence mode="wait">
                         {activeTab === 'dashboard' && (
-                            <DashboardView 
-                                lineData={lineData} 
-                                lineOptions={lineOptions} 
-                                barData={barData} 
-                                barOptions={barOptions} 
-                                hospitals={filteredHospitals} 
+                            <DashboardView
+                                lineData={lineData}
+                                lineOptions={lineOptions}
+                                barData={barData}
+                                barOptions={barOptions}
+                                hospitals={filteredHospitals}
+                                setActiveTab={setActiveTab}
                             />
                         )}
                         {activeTab === 'donors' && <DonorsView donors={filteredDonors} />}
                         {activeTab === 'hospitals' && <HospitalsView hospitals={filteredHospitals} />}
+                        {activeTab === 'requests' && <RequestsView requests={filteredRequests} />}
+
+                        {activeTab === 'camps' && <CampsView camps={camps} />}
                     </AnimatePresence>
+
                 </Box>
             </Box>
         </Box>

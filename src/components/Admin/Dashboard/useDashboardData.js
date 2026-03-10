@@ -68,12 +68,27 @@ export const useDashboardData = () => {
         { id: 4, name: 'Diana Prince', type: 'AB-', lastDonation: '5 days ago', status: 'Active' },
     ]);
 
+    const [requests] = useState([
+        { id: 'REQ-001', hospital: 'City General', bloodType: 'O-', units: 5, urgency: 'Critical', status: 'Pending' },
+        { id: 'REQ-002', hospital: 'Mercy Care', bloodType: 'A+', units: 2, urgency: 'High', status: 'Approved' },
+        { id: 'REQ-003', hospital: 'St. Jude', bloodType: 'B+', units: 10, urgency: 'Normal', status: 'Fulfilled' },
+    ]);
+
+    const [camps] = useState([
+        { id: 1, name: 'City Plaza Drive', date: '2026-03-20', location: 'Downtown Square', status: 'Upcoming' },
+        { id: 2, name: 'Tech Park Camp', date: '2026-03-25', location: 'Silicon Valley', status: 'Upcoming' },
+        { id: 3, name: 'Community Health', date: '2026-03-10', location: 'Suburbia', status: 'Ongoing' },
+    ]);
+
     return {
         lineData,
         lineOptions,
         barData,
         barOptions,
         hospitals,
-        donors
+        donors,
+        requests,
+        camps
     };
 };
+

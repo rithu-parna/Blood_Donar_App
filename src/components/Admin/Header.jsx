@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
     Box, Typography, IconButton, Badge, Divider, InputBase, Avatar,
-    Drawer, List, ListItem, ListItemAvatar, ListItemText
+    Drawer, List, ListItem, ListItemAvatar, ListItemText, Switch,
+    FormControlLabel, Select, MenuItem, Button
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -9,17 +10,27 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LanguageIcon from '@mui/icons-material/Language';
 import CloseIcon from '@mui/icons-material/Close';
 import BoltIcon from '@mui/icons-material/Bolt';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import SecurityIcon from '@mui/icons-material/Security';
 import { motion } from 'framer-motion';
 
 const Header = ({ searchQuery, setSearchQuery }) => {
     const [searchFocused, setSearchFocused] = useState(false);
     const [notiOpen, setNotiOpen] = useState(false);
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [notifications, setNotifications] = useState([
+        { id: 1, title: 'Critical O- Needed', desc: 'City General Hospital requires 5 units urgently.', time: '2 mins ago', type: 'urgent', read: false },
+        { id: 2, title: 'New Donor Registered', desc: 'John Doe just registered as an A+ donor.', time: '15 mins ago', type: 'info', read: false },
+        { id: 3, title: 'Stock Update', desc: 'B+ inventory replenished to 40 units.', time: '1 hour ago', type: 'success', read: false },
+    ]);
 
-    const notifications = [
-        { id: 1, title: 'Critical O- Needed', desc: 'City General Hospital requires 5 units urgently.', time: '2 mins ago', type: 'urgent' },
-        { id: 2, title: 'New Donor Registered', desc: 'John Doe just registered as an A+ donor.', time: '15 mins ago', type: 'info' },
-        { id: 3, title: 'Stock Update', desc: 'B+ inventory replenished to 40 units.', time: '1 hour ago', type: 'success' },
-    ];
+    const markAsRead = (id) => {
+        setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+    };
+
+    const clearAll = () => setNotifications([]);
 
     return (
         <>
@@ -57,20 +68,31 @@ const Header = ({ searchQuery, setSearchQuery }) => {
 
                     {/* Right icons */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                        {[LanguageIcon, SettingsIcon].map((Icon, i) => (
-                            <motion.div key={i} whileHover={{ scale: 1.1, rotate: i === 1 ? 20 : 0 }} whileTap={{ scale: 0.9 }}>
+                        {[LanguageIcon].map((Icon, i) => (
+                            <motion.div key={i} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                 <IconButton size="small" sx={{ bgcolor: '#f8fafc', color: '#64748b', '&:hover': { bgcolor: '#f1f5f9' } }}>
                                     <Icon sx={{ fontSize: 18 }} />
                                 </IconButton>
                             </motion.div>
                         ))}
+                        <motion.div whileHover={{ scale: 1.1, rotate: 20 }} whileTap={{ scale: 0.9 }}>
+                            <IconButton
+                                size="small"
+                                sx={{ bgcolor: '#f8fafc', color: '#64748b', '&:hover': { bgcolor: '#f1f5f9' } }}
+                                onClick={() => setSettingsOpen(true)}
+                            >
+                                <SettingsIcon sx={{ fontSize: 18 }} />
+                            </IconButton>
+                        </motion.div>
                         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                             <IconButton
                                 size="small"
                                 sx={{ bgcolor: '#fef2f2', color: '#dc2626' }}
                                 onClick={() => setNotiOpen(true)}
                             >
-                                <Badge variant="dot" color="error"><NotificationsIcon sx={{ fontSize: 18 }} /></Badge>
+                                <Badge badgeContent={notifications.filter(n => !n.read).length} color="error">
+                                    <NotificationsIcon sx={{ fontSize: 18 }} />
+                                </Badge>
                             </IconButton>
                         </motion.div>
                         <Divider orientation="vertical" flexItem sx={{ mx: 1, height: 28, my: 'auto' }} />
@@ -88,30 +110,98 @@ const Header = ({ searchQuery, setSearchQuery }) => {
             </motion.div>
 
             {/* Notification Drawer */}
-            <Drawer anchor="right" open={notiOpen} onClose={() => setNotiOpen(false)} PaperProps={{ sx: { width: 320, borderRadius: '24px 0 0 24px', p: 3 } }}>
+            <Drawer anchor="right" open={notiOpen} onClose={() => setNotiOpen(false)} PaperProps={{ sx: { width: 360, borderRadius: '24px 0 0 24px', p: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 800 }}>Notifications</Typography>
-                    <IconButton onClick={() => setNotiOpen(false)} size="small" sx={{ bgcolor: '#f8fafc' }}>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <IconButton onClick={clearAll} size="small" color="error" title="Clear All">
+                            <DeleteSweepIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton onClick={() => setNotiOpen(false)} size="small" sx={{ bgcolor: '#f8fafc' }}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </Box>
+                </Box>
+                {notifications.length === 0 ? (
+                    <Box sx={{ textAlign: 'center', py: 8 }}>
+                        <Typography sx={{ color: '#94a3b8', fontWeight: 600 }}>No new notifications</Typography>
+                    </Box>
+                ) : (
+                    <List>
+                        {notifications.map((n) => (
+                            <ListItem
+                                key={n.id}
+                                sx={{
+                                    mb: 2,
+                                    bgcolor: n.read ? '#f8fafc' : n.type === 'urgent' ? '#fef2f2' : '#f0f9ff',
+                                    borderRadius: 3, p: 2,
+                                    borderLeft: '4px solid',
+                                    borderColor: n.read ? 'transparent' : n.type === 'urgent' ? '#dc2626' : '#0284c7',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => markAsRead(n.id)}
+                            >
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: n.type === 'urgent' ? '#dc2626' : '#0284c7' }}>
+                                        <BoltIcon fontSize="small" />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={n.title}
+                                    secondary={`${n.desc} • ${n.time}`}
+                                    primaryTypographyProps={{ fontWeight: 700, fontSize: 14, color: n.read ? '#94a3b8' : '#0f172a' }}
+                                    secondaryTypographyProps={{ fontSize: 11 }}
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
+            </Drawer>
+
+            {/* Settings Drawer */}
+            <Drawer anchor="right" open={settingsOpen} onClose={() => setSettingsOpen(false)} PaperProps={{ sx: { width: 360, borderRadius: '24px 0 0 24px', p: 3 } }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 800 }}>Admin Settings</Typography>
+                    <IconButton onClick={() => setSettingsOpen(false)} size="small" sx={{ bgcolor: '#f8fafc' }}>
                         <CloseIcon fontSize="small" />
                     </IconButton>
                 </Box>
-                <List>
-                    {notifications.map((n) => (
-                        <ListItem key={n.id} sx={{ mb: 2, bgcolor: n.type === 'urgent' ? '#fef2f2' : '#f8fafc', borderRadius: 3, p: 2 }}>
-                            <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: n.type === 'urgent' ? '#dc2626' : '#64748b' }}>
-                                    <BoltIcon fontSize="small" />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={n.title}
-                                secondary={`${n.desc} • ${n.time}`}
-                                primaryTypographyProps={{ fontWeight: 700, fontSize: 14 }}
-                                secondaryTypographyProps={{ fontSize: 12 }}
-                            />
+
+                <Box sx={{ mb: 4 }}>
+                    <Typography sx={{ fontSize: 12, fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', mb: 2 }}>Preferences</Typography>
+                    <List disablePadding>
+                        <ListItem sx={{ px: 0 }}>
+                            <ListItemAvatar><Avatar sx={{ bgcolor: '#f1f5f9', color: '#64748b' }}><DarkModeIcon fontSize="small" /></Avatar></ListItemAvatar>
+                            <ListItemText primary="Dark Mode" primaryTypographyProps={{ fontWeight: 600, fontSize: 14 }} />
+                            <Switch size="small" />
                         </ListItem>
-                    ))}
-                </List>
+                        <ListItem sx={{ px: 0 }}>
+                            <ListItemAvatar><Avatar sx={{ bgcolor: '#f1f5f9', color: '#64748b' }}><VolumeUpIcon fontSize="small" /></Avatar></ListItemAvatar>
+                            <ListItemText primary="Sound Effects" primaryTypographyProps={{ fontWeight: 600, fontSize: 14 }} />
+                            <Switch defaultChecked size="small" />
+                        </ListItem>
+                        <ListItem sx={{ px: 0 }}>
+                            <ListItemAvatar><Avatar sx={{ bgcolor: '#f1f5f9', color: '#64748b' }}><SecurityIcon fontSize="small" /></Avatar></ListItemAvatar>
+                            <ListItemText primary="Two-Factor Auth" primaryTypographyProps={{ fontWeight: 600, fontSize: 14 }} />
+                            <Switch color="success" size="small" />
+                        </ListItem>
+                    </List>
+                </Box>
+
+                <Box sx={{ mb: 4 }}>
+                    <Typography sx={{ fontSize: 12, fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', mb: 2 }}>System Language</Typography>
+                    <Select fullWidth size="small" defaultValue="en" sx={{ borderRadius: 2, bgcolor: '#f8fafc' }}>
+                        <MenuItem value="en">English (US)</MenuItem>
+                        <MenuItem value="rs">Spanish</MenuItem>
+                        <MenuItem value="fr">French</MenuItem>
+                        <MenuItem value="de">German</MenuItem>
+                    </Select>
+                </Box>
+
+                <Box sx={{ mt: 'auto', p: 2, bgcolor: '#fef2f2', borderRadius: 4, textAlign: 'center' }}>
+                    <Typography sx={{ fontSize: 12, fontWeight: 700, color: '#dc2626', mb: 1 }}>Danger Zone</Typography>
+                    <Button fullWidth color="error" variant="contained" sx={{ borderRadius: 100, textTransform: 'none', fontWeight: 700 }}>Reset Cache</Button>
+                </Box>
             </Drawer>
         </>
     );

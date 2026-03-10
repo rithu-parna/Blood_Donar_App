@@ -19,7 +19,7 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
 };
 
-const DashboardView = ({ lineData, lineOptions, barData, barOptions, hospitals }) => {
+const DashboardView = ({ lineData, lineOptions, barData, barOptions, hospitals, setActiveTab }) => {
     return (
         <AnimatePresence mode="wait">
             <motion.div key="dashboard" variants={containerVariants} initial="hidden" animate="visible">
@@ -163,16 +163,21 @@ const DashboardView = ({ lineData, lineOptions, barData, barOptions, hospitals }
                                 <Typography sx={{ fontSize: 16, fontWeight: 800, color: '#0f172a', mb: 3 }}>Quick Actions</Typography>
                                 <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
                                     {[
-                                        { label: 'Issue Blood', icon: <BloodtypeIcon />, color: '#dc2626' },
-                                        { label: 'Add Donor', icon: <PeopleIcon />, color: '#4f46e5' },
-                                        { label: 'Blood Camp', icon: <FavoriteIcon />, color: '#16a34a' },
-                                        { label: 'Reports', icon: <TrendingUpIcon />, color: '#f59e0b' }
+                                        { label: 'Issue Blood', icon: <BloodtypeIcon />, color: '#dc2626', tab: 'requests' },
+                                        { label: 'Add Donor', icon: <PeopleIcon />, color: '#4f46e5', tab: 'donors' },
+                                        { label: 'Blood Camp', icon: <FavoriteIcon />, color: '#16a34a', tab: 'camps' },
+                                        { label: 'Reports', icon: <TrendingUpIcon />, color: '#f59e0b', tab: 'dashboard' }
                                     ].map(action => (
-                                        <Button key={action.label} fullWidth sx={{
-                                            flexDirection: 'column', gap: 1, py: 2.5, borderRadius: 4, bgcolor: `${action.color}08`, color: action.color,
-                                            border: '1px solid transparent', transition: 'all 0.2s',
-                                            '&:hover': { bgcolor: `${action.color}15`, borderColor: `${action.color}30`, transform: 'translateY(-2px)' }
-                                        }}>
+                                        <Button
+                                            key={action.label}
+                                            fullWidth
+                                            onClick={() => setActiveTab(action.tab)}
+                                            sx={{
+                                                flexDirection: 'column', gap: 1, py: 2.5, borderRadius: 4, bgcolor: `${action.color}08`, color: action.color,
+                                                border: '1px solid transparent', transition: 'all 0.2s',
+                                                '&:hover': { bgcolor: `${action.color}15`, borderColor: `${action.color}30`, transform: 'translateY(-2px)' }
+                                            }}
+                                        >
                                             {React.cloneElement(action.icon, { sx: { fontSize: 24 } })}
                                             <Typography sx={{ fontSize: 11, fontWeight: 800, textTransform: 'none' }}>{action.label}</Typography>
                                         </Button>
