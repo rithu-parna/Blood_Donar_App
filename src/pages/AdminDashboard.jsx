@@ -24,7 +24,8 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [searchQuery, setSearchQuery] = useState('');
-    const { lineData, lineOptions, barData, barOptions, hospitals, donors, requests, camps } = useDashboardData();
+    const { lineData, lineOptions, barData, barOptions, hospitals, donors, requests, camps, setDonors } = useDashboardData();
+
 
 
     const handleLogout = () => {
@@ -73,7 +74,8 @@ const AdminDashboard = () => {
                                 setActiveTab={setActiveTab}
                             />
                         )}
-                        {activeTab === 'donors' && <DonorsView donors={filteredDonors} />}
+                        {activeTab === 'donors' && <DonorsView donors={filteredDonors} setDonors={setDonors} />}
+
                         {activeTab === 'hospitals' && <HospitalsView hospitals={filteredHospitals} />}
                         {activeTab === 'requests' && <RequestsView requests={filteredRequests} />}
 

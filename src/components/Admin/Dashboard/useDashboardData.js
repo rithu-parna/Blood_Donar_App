@@ -55,26 +55,26 @@ export const useDashboardData = () => {
         scales: { x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 11, weight: 700 } } }, y: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: '#f8fafc' } } }
     });
 
-    const [hospitals] = useState([
+    const [hospitals, setHospitals] = useState([
         { name: 'City General Hospital', need: 'Critical O-', units: 5, status: 'Pending' },
         { name: 'Mercy Care Center', need: 'Urgent A+', units: 2, status: 'Fulfilled' },
         { name: 'St. Jude Clinic', need: 'High B+', units: 4, status: 'Pending' },
     ]);
 
-    const [donors] = useState([
+    const [donors, setDonors] = useState([
         { id: 1, name: 'Alice Johnson', type: 'O-', lastDonation: '10 days ago', status: 'Active' },
         { id: 2, name: 'Bob Smith', type: 'A+', lastDonation: '2 months ago', status: 'Active' },
         { id: 3, name: 'Charlie Brown', type: 'B+', lastDonation: '1 year ago', status: 'Inactive' },
         { id: 4, name: 'Diana Prince', type: 'AB-', lastDonation: '5 days ago', status: 'Active' },
     ]);
 
-    const [requests] = useState([
+    const [requests, setRequests] = useState([
         { id: 'REQ-001', hospital: 'City General', bloodType: 'O-', units: 5, urgency: 'Critical', status: 'Pending' },
         { id: 'REQ-002', hospital: 'Mercy Care', bloodType: 'A+', units: 2, urgency: 'High', status: 'Approved' },
         { id: 'REQ-003', hospital: 'St. Jude', bloodType: 'B+', units: 10, urgency: 'Normal', status: 'Fulfilled' },
     ]);
 
-    const [camps] = useState([
+    const [camps, setCamps] = useState([
         { id: 1, name: 'City Plaza Drive', date: '2026-03-20', location: 'Downtown Square', status: 'Upcoming' },
         { id: 2, name: 'Tech Park Camp', date: '2026-03-25', location: 'Silicon Valley', status: 'Upcoming' },
         { id: 3, name: 'Community Health', date: '2026-03-10', location: 'Suburbia', status: 'Ongoing' },
@@ -85,10 +85,10 @@ export const useDashboardData = () => {
         lineOptions,
         barData,
         barOptions,
-        hospitals,
-        donors,
-        requests,
-        camps
+        hospitals, setHospitals,
+        donors, setDonors,
+        requests, setRequests,
+        camps, setCamps
     };
 };
 
