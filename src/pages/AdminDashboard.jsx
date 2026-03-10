@@ -24,7 +24,7 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [searchQuery, setSearchQuery] = useState('');
-    const { lineData, lineOptions, barData, barOptions, hospitals, donors, requests, camps, setDonors, setHospitals } = useDashboardData();
+    const { lineData, lineOptions, barData, barOptions, hospitals, donors, requests, camps, setDonors, setHospitals, setCamps, setRequests } = useDashboardData();
 
 
 
@@ -79,9 +79,9 @@ const AdminDashboard = () => {
 
                         {activeTab === 'hospitals' && <HospitalsView hospitals={filteredHospitals} setHospitals={setHospitals} />}
 
-                        {activeTab === 'requests' && <RequestsView requests={filteredRequests} />}
+                        {activeTab === 'requests' && <RequestsView requests={filteredRequests} setRequests={setRequests} />}
 
-                        {activeTab === 'camps' && <CampsView camps={camps} />}
+                        {activeTab === 'camps' && <CampsView camps={camps} setCamps={setCamps} />}
                     </AnimatePresence>
 
                 </Box>

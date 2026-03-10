@@ -142,7 +142,7 @@ const HospitalsView = ({ hospitals, setHospitals }) => {
                                 transition={{ delay: i * 0.08 }}
                             >
                                 <Paper sx={{
-                                    borderRadius: 7,
+                                    borderRadius: 3,
                                     border: '1px solid #e2e8f0',
                                     boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02)',
                                     position: 'relative',
@@ -254,7 +254,7 @@ const HospitalDialog = ({ open, onClose, onSave, onDelete, title, formData, setF
         open={open} onClose={onClose}
         TransitionComponent={Fade}
         PaperProps={{
-            sx: { borderRadius: 10, p: 1, maxWidth: 520, width: '100%', boxShadow: '0 50px 100px -20px rgba(0,0,0,0.25)', overflow: 'hidden' }
+            sx: { borderRadius: 4, p: 1, maxWidth: 520, width: '100%', boxShadow: '0 50px 100px -20px rgba(0,0,0,0.25)', overflow: 'hidden' }
         }}
     >
         <Box sx={{ p: 4 }}>
@@ -366,10 +366,10 @@ const HistoryDialog = ({ open, onClose, hospital }) => (
         open={open} onClose={onClose}
         TransitionComponent={Zoom}
         PaperProps={{
-            sx: { borderRadius: 10, p: 0, width: 600, maxWidth: '100%', overflow: 'hidden' }
+            sx: { borderRadius: 3, p: 0, width: 600, maxWidth: '100%', overflow: 'hidden' }
         }}
     >
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: 480 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: 600 }}>
             {/* Left Sidebar */}
             <Box sx={{ width: { xs: '100%', md: 240 }, bgcolor: '#0f172a', p: 4, color: 'white' }}>
                 <Box sx={{ mb: 6 }}>
