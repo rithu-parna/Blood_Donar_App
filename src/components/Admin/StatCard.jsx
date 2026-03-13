@@ -17,7 +17,7 @@ const StatCard = ({ icon, label, value, sub, color, delay = 0 }) => {
         >
             <Box sx={{
                 p: 3.5,
-                borderRadius: 4,
+                borderRadius: 1,
                 bgcolor: 'white',
                 border: '1px solid',
                 borderColor: hovered ? color : '#e2e8f0',
@@ -28,6 +28,7 @@ const StatCard = ({ icon, label, value, sub, color, delay = 0 }) => {
                 position: 'relative',
                 overflow: 'hidden',
                 height: '100%',
+                width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center'

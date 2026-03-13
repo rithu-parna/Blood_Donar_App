@@ -24,12 +24,16 @@ const RequestCard = ({ req, viewMode }) => {
             height: 70,
             bgcolor: colorSet.bg,
             color: colorSet.main,
-            borderRadius: 2.5,
+            borderRadius: '40% 60% 70% 30% / 40% 50% 60% 70%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: `0 4px 12px ${colorSet.main}1A`,
-            flexShrink: 0
+            boxShadow: `0 8px 20px ${colorSet.main}15`,
+            transition: 'all 0.5s ease',
+            '&:hover': {
+                borderRadius: '50% 50% 50% 50% / 50% 50% 50% 50%',
+                transform: 'rotate(5deg) scale(1.05)'
+            }
         }}>
             <Typography variant="h4" fontWeight={900}>{req.type}</Typography>
         </Box>
@@ -75,28 +79,49 @@ const RequestCard = ({ req, viewMode }) => {
     if (viewMode === 'list') {
         return (
             <Card sx={{
-                borderRadius: 4,
+                borderRadius: '24px', // More premium large radius
                 boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
                 position: 'relative',
-                overflow: 'visible',
+                overflow: 'hidden',
                 border: '1px solid #F1F5F9',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                    boxShadow: `0 20px 40px -10px ${colorSet.main}1A`,
-                    transform: 'translateY(-2px)',
-                    borderColor: colorSet.main
+                    boxShadow: `0 20px 40px -10px ${colorSet.main}26`,
+                    transform: 'translateX(4px)',
+                    borderColor: colorSet.main + '40',
+                    '& .side-curve': {
+                        height: '100%',
+                        top: 0,
+                        width: 8,
+                        borderRadius: '0 4px 4px 0'
+                    }
                 }
             }}>
-                <Box sx={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: 6, bgcolor: colorSet.main, borderRadius: '4px 0 0 4px' }} />
-                <CardContent sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                {/* Dynamic Curved Indicator */}
+                <Box
+                    className="side-curve"
+                    sx={{
+                        position: 'absolute',
+                        top: '20%',
+                        left: 0,
+                        width: 4,
+                        height: '60%',
+                        bgcolor: colorSet.main,
+                        borderRadius: '0 100px 100px 0',
+                        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                        zIndex: 10
+                    }}
+                />
+
+                <CardContent sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                         <Box sx={{ textAlign: 'center' }}>
                             <BloodBox />
-                            <Typography variant="caption" sx={{ color: colorSet.main, fontWeight: 800, mt: 1, display: 'block' }}>{req.id}</Typography>
+                            <Typography variant="caption" sx={{ color: colorSet.main, fontWeight: 800, mt: 1, display: 'block', letterSpacing: 1 }}>{req.id}</Typography>
                         </Box>
 
                         <Box>
-                            <Typography variant="h6" fontWeight={800} sx={{ mb: 1.5, color: '#0F172A' }}>{req.hospital}</Typography>
+                            <Typography variant="h6" fontWeight={900} sx={{ mb: 1.5, color: '#0F172A', letterSpacing: -0.5 }}>{req.hospital}</Typography>
                             <Stack direction="row" spacing={3}>
                                 <InfoLine icon={<LocationOnIcon sx={{ fontSize: 18 }} />} text={req.location} />
                                 <InfoLine icon={<AccessTimeIcon sx={{ fontSize: 18 }} />} text="By" boldText="Overdue" />
@@ -106,10 +131,11 @@ const RequestCard = ({ req, viewMode }) => {
                                     color: colorSet.main,
                                     px: 2,
                                     py: 0.5,
-                                    borderRadius: 5,
+                                    borderRadius: '12px',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: 1
+                                    gap: 1,
+                                    border: `1px solid ${colorSet.main}20`
                                 }}>
                                     <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: colorSet.main }} />
                                     <Typography variant="caption" fontWeight={900} sx={{ letterSpacing: 0.5 }}>{urgency}</Typography>
@@ -142,20 +168,38 @@ const RequestCard = ({ req, viewMode }) => {
             position: 'relative',
             '&:hover': {
                 boxShadow: `0 30px 60px -15px ${colorSet.main}26`,
-                transform: 'translateY(-8px)',
-                borderColor: colorSet.main + '20', // subtle border
-                '& .top-indicator': { height: 10 }
+                transform: 'translateY(-12px)',
+                borderColor: colorSet.main + '20',
+                '& .top-indicator': {
+                    height: 12,
+                    borderRadius: '0 0 20px 20px' // Curved indicator on hover
+                }
             }
         }}>
-            {/* Top accent line that grows on hover */}
+            {/* Curved Top Indicator */}
             <Box className="top-indicator" sx={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: 0,
-                bgcolor: colorSet.main, transition: 'height 0.3s ease', zIndex: 1
+                position: 'absolute', top: 0, left: '15%', right: '15%', height: 0,
+                bgcolor: colorSet.main, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                zIndex: 1,
+                borderRadius: '0 0 100px 100px'
             }} />
 
             <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
-                    <BloodBox />
+                    <Box sx={{
+                        width: 70,
+                        height: 70,
+                        bgcolor: colorSet.bg,
+                        color: colorSet.main,
+                        borderRadius: '40% 60% 70% 30% / 40% 50% 60% 70%', // Organic curve
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: `0 8px 20px ${colorSet.main}15`,
+                        flexShrink: 0
+                    }}>
+                        <Typography variant="h4" fontWeight={900}>{req.type}</Typography>
+                    </Box>
                     <Box sx={{ textAlign: 'right' }}>
                         <Box sx={{
                             bgcolor: colorSet.bg,

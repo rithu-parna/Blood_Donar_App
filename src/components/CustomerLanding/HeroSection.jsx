@@ -70,7 +70,6 @@ const HeroSection = ({ onRegisterClick, onAboutClick }) => {
                 </motion.div>
             </AnimatePresence>
 
-            {/* Hero Content Area */}
             <Container maxWidth="xl" sx={{ height: '100%', display: 'flex', alignItems: 'center', position: 'relative', zIndex: 10 }}>
                 <Box sx={{
                     maxWidth: { xs: '100%', md: 900 },

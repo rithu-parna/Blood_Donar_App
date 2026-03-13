@@ -79,9 +79,9 @@ const DonorSection = ({ onRegisterClick, limit }) => {
                 </Stack>
             </Box>
 
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
                 {displayedDonors.map((donor, i) => (
-                    <Grid item xs={12} sm={6} lg={3} key={donor.name}>
+                    <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={donor.name}>
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
