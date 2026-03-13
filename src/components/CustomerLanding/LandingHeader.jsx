@@ -31,10 +31,13 @@ const LandingHeader = ({ onRegisterClick, activePage, onPageChange }) => {
 
     // On Home page, we want transparent until scroll.
     // On other pages (About, Donors, Requests), we want solid color OR dark text because background is light.
-    const isLightPage = activePage !== 'home' || scrolled;
-    const textColor = isLightPage ? '#0F172A' : 'white';
-    const bgColor = isLightPage ? 'rgba(255, 255, 255, 0.9)' : 'transparent';
-    const blur = isLightPage ? '20px' : 'none';
+    // UPDATE: About page is now Dark-Themed (Ultra Premium), so header should stay White there.
+    const isDarkPage = activePage === 'about';
+    const isLightPage = (activePage !== 'home' && !isDarkPage);
+
+    const textColor = isDarkPage ? 'white' : (isLightPage ? '#0F172A' : 'white');
+    const bgColor = isDarkPage ? 'rgba(5, 5, 5, 0.8)' : (isLightPage ? 'rgba(255, 255, 255, 0.9)' : 'transparent');
+    const blur = (isLightPage || isDarkPage) ? '20px' : 'none';
 
     return (
         <Box sx={{

@@ -7,19 +7,28 @@ import HistoryIcon from '@mui/icons-material/History';
 import ArticleIcon from '@mui/icons-material/Article';
 
 const RequestCard = ({ req, viewMode }) => {
-    const isCritical = req.urgency === 'CRITICAL';
+    const urgency = req.urgency?.toUpperCase() || 'NORMAL';
+
+    const colors = {
+        CRITICAL: { main: '#E11D48', bg: '#FFF1F2', hover: '#BE123C' },
+        HIGH: { main: '#F59E0B', bg: '#FFFBEB', hover: '#D97706' },
+        NORMAL: { main: '#10B981', bg: '#F0FDF4', hover: '#059669' },
+        DEFAULT: { main: '#64748B', bg: '#F8FAFC', hover: '#475569' }
+    };
+
+    const colorSet = colors[urgency] || colors.DEFAULT;
 
     const BloodBox = () => (
         <Box sx={{
             width: 70,
             height: 70,
-            bgcolor: '#FFF1F2',
-            color: '#E11D48',
+            bgcolor: colorSet.bg,
+            color: colorSet.main,
             borderRadius: 2.5,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(225, 29, 72, 0.08)',
+            boxShadow: `0 4px 12px ${colorSet.main}1A`,
             flexShrink: 0
         }}>
             <Typography variant="h4" fontWeight={900}>{req.type}</Typography>
@@ -28,8 +37,8 @@ const RequestCard = ({ req, viewMode }) => {
 
     const InfoLine = ({ icon, text, boldText }) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#64748B' }}>
-            {icon}
-            <Typography variant="body2" sx={{ fontSize: '0.85rem', fontWeight: 500 }}>
+            {React.cloneElement(icon, { sx: { ...icon.props.sx, color: colorSet.main } })}
+            <Typography variant="body2" sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
                 {text && <span>{text}</span>}
                 {boldText && <span style={{ fontWeight: 800, color: '#1E293B', marginLeft: '4px' }}>{boldText}</span>}
             </Typography>
@@ -47,14 +56,14 @@ const RequestCard = ({ req, viewMode }) => {
             <Button
                 variant="contained"
                 sx={{
-                    bgcolor: '#E11D48',
+                    bgcolor: colorSet.main,
                     textTransform: 'none',
-                    fontWeight: 700,
+                    fontWeight: 800,
                     borderRadius: 2,
                     px: 3,
                     py: 1,
                     fontSize: '0.9rem',
-                    '&:hover': { bgcolor: '#BE123C' },
+                    '&:hover': { bgcolor: colorSet.hover },
                     boxShadow: 'none'
                 }}
             >
@@ -66,29 +75,35 @@ const RequestCard = ({ req, viewMode }) => {
     if (viewMode === 'list') {
         return (
             <Card sx={{
-                borderRadius: 3,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+                borderRadius: 4,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
                 position: 'relative',
                 overflow: 'visible',
-                '&:hover': { boxShadow: '0 8px 30px rgba(0,0,0,0.06)' }
+                border: '1px solid #F1F5F9',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                    boxShadow: `0 20px 40px -10px ${colorSet.main}1A`,
+                    transform: 'translateY(-2px)',
+                    borderColor: colorSet.main
+                }
             }}>
-                <Box sx={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: 4, bgcolor: '#E11D48', borderRadius: '3px 0 0 3px' }} />
+                <Box sx={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: 6, bgcolor: colorSet.main, borderRadius: '4px 0 0 4px' }} />
                 <CardContent sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                         <Box sx={{ textAlign: 'center' }}>
                             <BloodBox />
-                            <Typography variant="caption" sx={{ color: '#E11D48', fontWeight: 800, mt: 1, display: 'block' }}>{req.id}</Typography>
+                            <Typography variant="caption" sx={{ color: colorSet.main, fontWeight: 800, mt: 1, display: 'block' }}>{req.id}</Typography>
                         </Box>
 
                         <Box>
-                            <Typography variant="h6" fontWeight={800} sx={{ mb: 1.5, color: '#1E293B' }}>{req.hospital}</Typography>
+                            <Typography variant="h6" fontWeight={800} sx={{ mb: 1.5, color: '#0F172A' }}>{req.hospital}</Typography>
                             <Stack direction="row" spacing={3}>
-                                <InfoLine icon={<LocationOnIcon sx={{ fontSize: 18, color: '#EF4444' }} />} text={req.location} />
-                                <InfoLine icon={<AccessTimeIcon sx={{ fontSize: 18, color: '#EF4444' }} />} text="By" boldText="Overdue" />
-                                <InfoLine icon={<PersonIcon sx={{ fontSize: 18, color: '#EF4444' }} />} text={req.reason || "Post-surgery emergency"} />
+                                <InfoLine icon={<LocationOnIcon sx={{ fontSize: 18 }} />} text={req.location} />
+                                <InfoLine icon={<AccessTimeIcon sx={{ fontSize: 18 }} />} text="By" boldText="Overdue" />
+                                <InfoLine icon={<PersonIcon sx={{ fontSize: 18 }} />} text={req.reason || "Post-surgery emergency"} />
                                 <Box sx={{
-                                    bgcolor: '#FFF1F2',
-                                    color: '#E11D48',
+                                    bgcolor: colorSet.bg,
+                                    color: colorSet.main,
                                     px: 2,
                                     py: 0.5,
                                     borderRadius: 5,
@@ -96,8 +111,8 @@ const RequestCard = ({ req, viewMode }) => {
                                     alignItems: 'center',
                                     gap: 1
                                 }}>
-                                    <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#E11D48' }} />
-                                    <Typography variant="caption" fontWeight={900} sx={{ letterSpacing: 0.5 }}>{req.urgency}</Typography>
+                                    <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: colorSet.main }} />
+                                    <Typography variant="caption" fontWeight={900} sx={{ letterSpacing: 0.5 }}>{urgency}</Typography>
                                 </Box>
                             </Stack>
                         </Box>
@@ -105,8 +120,8 @@ const RequestCard = ({ req, viewMode }) => {
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
                         <Box sx={{ textAlign: 'right' }}>
-                            <Typography variant="body2" sx={{ fontWeight: 800, color: '#1E293B' }}>Units: <span style={{ color: '#E11D48' }}>{req.units}</span></Typography>
-                            <Typography variant="caption" color="text.secondary" fontWeight={600}>Whole Blood</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 800, color: '#1E293B' }}>Units: <span style={{ color: colorSet.main }}>{req.units}</span></Typography>
+                            <Typography variant="caption" color="text.secondary" fontWeight={700}>Whole Blood</Typography>
                         </Box>
                         <Actions />
                     </Box>
@@ -117,18 +132,34 @@ const RequestCard = ({ req, viewMode }) => {
 
     return (
         <Card sx={{
-            borderRadius: 3,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+            borderRadius: 5,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.03)',
             height: '100%',
-            '&:hover': { boxShadow: '0 8px 30px rgba(0,0,0,0.06)' }
+            overflow: 'hidden',
+            border: '2px solid transparent',
+            bgcolor: 'white',
+            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+            position: 'relative',
+            '&:hover': {
+                boxShadow: `0 30px 60px -15px ${colorSet.main}26`,
+                transform: 'translateY(-8px)',
+                borderColor: colorSet.main + '20', // subtle border
+                '& .top-indicator': { height: 10 }
+            }
         }}>
-            <CardContent sx={{ p: 4 }}>
+            {/* Top accent line that grows on hover */}
+            <Box className="top-indicator" sx={{
+                position: 'absolute', top: 0, left: 0, right: 0, height: 0,
+                bgcolor: colorSet.main, transition: 'height 0.3s ease', zIndex: 1
+            }} />
+
+            <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
                     <BloodBox />
                     <Box sx={{ textAlign: 'right' }}>
                         <Box sx={{
-                            bgcolor: '#FFF1F2',
-                            color: '#E11D48',
+                            bgcolor: colorSet.bg,
+                            color: colorSet.main,
                             px: 1.5,
                             py: 0.5,
                             borderRadius: 5,
@@ -137,25 +168,28 @@ const RequestCard = ({ req, viewMode }) => {
                             gap: 1,
                             mb: 1
                         }}>
-                            <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#E11D48' }} />
-                            <Typography variant="caption" fontWeight={900}>{req.urgency}</Typography>
+                            <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: colorSet.main }} />
+                            <Typography variant="caption" fontWeight={900}>{urgency}</Typography>
                         </Box>
                         <Typography variant="caption" color="text.secondary" fontWeight={800}>{req.id}</Typography>
                     </Box>
                 </Box>
 
-                <Typography variant="h6" fontWeight={800} sx={{ mb: 2, color: '#1E293B', minHeight: '3rem', lineHeight: 1.3 }}>{req.hospital}</Typography>
+                <Typography variant="h6" fontWeight={900} sx={{ mb: 2.5, color: '#0F172A', minHeight: '3.5rem', lineHeight: 1.3 }}>{req.hospital}</Typography>
 
-                <Stack spacing={1.5} sx={{ mb: 3 }}>
-                    <InfoLine icon={<LocationOnIcon sx={{ fontSize: 18, color: '#EF4444' }} />} text={req.location} />
-                    <InfoLine icon={<AccessTimeIcon sx={{ fontSize: 18, color: '#EF4444' }} />} text="By" boldText="Overdue" />
-                    <InfoLine icon={<PersonIcon sx={{ fontSize: 18, color: '#EF4444' }} />} text={req.reason || "Post-surgery emergency"} />
+                <Stack spacing={2} sx={{ mb: 4 }}>
+                    <InfoLine icon={<LocationOnIcon sx={{ fontSize: 18 }} />} text={req.location} />
+                    <InfoLine icon={<AccessTimeIcon sx={{ fontSize: 18 }} />} text="By" boldText="Overdue" />
+                    <InfoLine icon={<PersonIcon sx={{ fontSize: 18 }} />} text={req.reason || "Post-surgery emergency"} />
                 </Stack>
 
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <Box sx={{ pt: 3, borderTop: '1px solid #F1F5F9', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                     <Box>
-                        <Typography variant="body2" sx={{ fontWeight: 800, color: '#1E293B' }}>Units: <span style={{ color: '#E11D48' }}>{req.units}</span></Typography>
-                        <Typography variant="caption" color="text.secondary" fontWeight={600}>Whole Blood</Typography>
+                        <Stack direction="row" spacing={0.5} alignItems="baseline">
+                            <Typography variant="h5" fontWeight={950} color="#0F172A">{req.units}</Typography>
+                            <Typography variant="caption" fontWeight={900} color="#E11D48">UNITS</Typography>
+                        </Stack>
+                        <Typography variant="caption" color="text.secondary" fontWeight={700}>Whole Blood</Typography>
                     </Box>
                     <Actions />
                 </Box>
