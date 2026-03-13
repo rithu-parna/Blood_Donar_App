@@ -1,68 +1,222 @@
-import React from 'react';
-import { Box, Typography, Button, Container, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, Button, Container, IconButton, Stack } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import HandshakeIcon from '@mui/icons-material/Handshake';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import { bloodTypes } from './constants';
+
+const images = [
+    {
+        url: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&q=80&w=1920',
+        title: 'Empowering Life Through Quick Blood Access',
+        subtitle: 'A real-time platform bridging the gap between donors and patients.'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1579154235602-3c227318728b?auto=format&fit=crop&q=80&w=1920',
+        title: 'Join the Network and Save Lives',
+        subtitle: 'Become a donor today and be a hero for someone in need.'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=1920',
+        title: 'Every Drop Counts, Every Second Matters',
+        subtitle: 'Fast and reliable connectivity for life-saving emergencies.'
+    }
+];
 
 const HeroSection = ({ onRegisterClick }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % images.length);
+        }, 2000); // User specifically asked for 2s
+        return () => clearInterval(interval);
+    }, []);
+
+    const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+    const prevSlide = () => setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+
     return (
-        <Container maxWidth="xl" sx={{ pt: { xs: 8, md: 10 }, pb: { xs: 10, md: 12 } }}>
-            <Grid container spacing={6} alignItems="center">
-                <Grid item xs={12} md={7}>
-                    <Box sx={{ display: 'inline-flex', alignItems: 'center', bgcolor: '#3E1825', px: 2, py: 0.75, borderRadius: 10, mb: 4 }}>
-                        <WaterDropIcon sx={{ color: '#E11D48', fontSize: 16, mr: 1 }} />
-                        <Typography variant="caption" fontWeight={700} sx={{ color: '#FDA4AF', letterSpacing: 1 }}>SAVE A LIFE TODAY</Typography>
-                    </Box>
+        <Box sx={{
+            position: 'relative',
+            height: { xs: '85vh', md: '95vh' },
+            overflow: 'hidden',
+            bgcolor: '#0f172a'
+        }}>
+            {/* Background Image Slider with improved overlay */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 0
+                    }}
+                >
+                    <Box sx={{
+                        width: '100%',
+                        height: '100%',
+                        backgroundImage: `linear-gradient(to right, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 100%), url(${images[currentIndex].url})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }} />
+                </motion.div>
+            </AnimatePresence>
 
-                    <Typography variant="h2" sx={{ fontWeight: 800, lineHeight: 1.1, mb: 3, maxWidth: 600 }}>
-                        Connect <Box component="span" sx={{ color: '#E11D48' }}>Blood Donors</Box> with Those in Need
-                    </Typography>
+            {/* Hero Content Area */}
+            <Container maxWidth="xl" sx={{ height: '100%', display: 'flex', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+                <Box sx={{
+                    maxWidth: { xs: '100%', md: 900 },
+                    textAlign: 'left',
+                    mt: { xs: 5, md: 0 }
+                }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                    >
+                        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+                            <Box sx={{ width: 50, height: 3, bgcolor: '#E11D48', borderRadius: 2 }} />
+                            <Typography variant="overline" sx={{ color: '#E11D48', fontWeight: 900, letterSpacing: 6, fontSize: '0.9rem' }}>
+                                SAVING LIVES TOGETHER
+                            </Typography>
+                        </Stack>
 
-                    <Typography variant="body1" sx={{ color: '#9CA3AF', fontSize: '1.1rem', lineHeight: 1.6, mb: 5, maxWidth: 550 }}>
-                        A real-time platform that bridges the gap between blood donors and patients in critical need. Fast, reliable, and life-saving.
-                    </Typography>
+                        <Typography variant="h1" sx={{
+                            fontWeight: 950,
+                            fontSize: { xs: '3.5rem', sm: '5rem', md: '6.5rem' },
+                            color: 'white',
+                            lineHeight: 0.95,
+                            mb: 4,
+                            letterSpacing: -3,
+                            textShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                        }}>
+                            {images[currentIndex].title.split(' ').map((word, i) => (
+                                word === 'Life' || word === 'Hero' || word === 'Counts' ?
+                                    <Box key={i} component="span" className="text-gradient" sx={{ display: 'inline-block', mr: 2 }}>{word}</Box> :
+                                    <Box key={i} component="span" sx={{ display: 'inline-block', mr: 2 }}>{word}</Box>
+                            ))}
+                        </Typography>
 
-                    <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
-                        <Button
-                            variant="contained"
-                            onClick={onRegisterClick}
-                            startIcon={<HandshakeIcon sx={{ color: '#FCD34D' }} />}
-                            sx={{ bgcolor: '#E11D48', px: 4, py: 1.5, borderRadius: 2, fontWeight: 700, textTransform: 'none', fontSize: '1rem', '&:hover': { bgcolor: '#BE123C' } }}
-                        >
-                            Register as Donor
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            startIcon={<IntegrationInstructionsIcon />}
-                            sx={{ borderColor: 'rgba(255,255,255,0.2)', color: 'white', px: 4, py: 1.5, borderRadius: 2, fontWeight: 700, textTransform: 'none', fontSize: '1rem', '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.05)' } }}
-                        >
-                            Request Blood
-                        </Button>
-                    </Box>
-                </Grid>
+                        <Typography variant="h5" sx={{
+                            color: 'rgba(255,255,255,0.7)',
+                            lineHeight: 1.5,
+                            mb: 6,
+                            maxWidth: 650,
+                            fontWeight: 500,
+                            fontSize: { xs: '1.1rem', md: '1.4rem' }
+                        }}>
+                            {images[currentIndex].subtitle}
+                        </Typography>
 
-                <Grid item xs={12} md={5}>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2, pl: { md: 8 } }}>
-                        {bloodTypes.map((type, i) => (
-                            <Box
-                                key={type + i}
+                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+                            <Button
+                                variant="contained"
+                                onClick={onRegisterClick}
+                                className="glow-btn"
                                 sx={{
-                                    aspectRatio: '1', bgcolor: '#4C1D2A', borderRadius: 3, display: 'flex', flexDirection: 'column',
-                                    alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(225,29,72,0.2)',
-                                    position: 'relative', transition: 'all 0.3s', cursor: 'pointer',
-                                    '&:hover': { transform: 'translateY(-5px)', borderColor: '#E11D48', boxShadow: '0 10px 25px rgba(225,29,72,0.2)' }
+                                    bgcolor: '#E11D48',
+                                    px: 6,
+                                    py: 2.2,
+                                    borderRadius: 4,
+                                    fontWeight: 900,
+                                    fontSize: '1.2rem',
+                                    textTransform: 'none',
+                                    boxShadow: '0 25px 50px -12px rgba(225, 29, 72, 0.5)',
+                                    '&:hover': { bgcolor: '#BE123C', transform: 'translateY(-5px) scale(1.02)' },
+                                    transition: 'all 0.4s'
                                 }}
                             >
-                                <Typography variant="h5" fontWeight={800} color="white">{type}</Typography>
-                                <Box sx={{ width: 4, height: 4, bgcolor: '#E11D48', borderRadius: '50%', position: 'absolute', bottom: '20%' }} />
-                            </Box>
-                        ))}
-                    </Box>
-                </Grid>
-            </Grid>
-        </Container>
+                                Register Now
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                sx={{
+                                    borderColor: 'rgba(255,255,255,0.3)',
+                                    color: 'white',
+                                    px: 6,
+                                    py: 2.2,
+                                    borderRadius: 4,
+                                    fontWeight: 900,
+                                    fontSize: '1.2rem',
+                                    textTransform: 'none',
+                                    backdropFilter: 'blur(10px)',
+                                    borderWidth: 2,
+                                    '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)', transform: 'translateY(-5px)' },
+                                    transition: 'all 0.4s'
+                                }}
+                            >
+                                How it Works
+                            </Button>
+                        </Stack>
+                    </motion.div>
+                </Box>
+            </Container>
+
+            {/* Slider Controls with improved design */}
+            <Box sx={{
+                position: 'absolute',
+                bottom: 80,
+                right: { xs: 20, md: 80 },
+                zIndex: 20,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 5
+            }}>
+                <Stack direction="row" spacing={2}>
+                    {images.map((_, i) => (
+                        <Box
+                            key={i}
+                            onClick={() => setCurrentIndex(i)}
+                            sx={{
+                                width: currentIndex === i ? 60 : 16,
+                                height: 8,
+                                borderRadius: 10,
+                                bgcolor: currentIndex === i ? '#E11D48' : 'rgba(255,255,255,0.2)',
+                                cursor: 'pointer',
+                                transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                                border: '1px solid rgba(255,255,255,0.1)'
+                            }}
+                        />
+                    ))}
+                </Stack>
+                <Stack direction="row" spacing={1.5}>
+                    <IconButton
+                        onClick={prevSlide}
+                        sx={{
+                            color: 'white',
+                            bgcolor: 'rgba(255,255,255,0.03)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            p: 2,
+                            '&:hover': { bgcolor: '#E11D48', borderColor: '#E11D48' }
+                        }}
+                    >
+                        <ArrowBackIosNewIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                        onClick={nextSlide}
+                        sx={{
+                            color: 'white',
+                            bgcolor: 'rgba(255,255,255,0.03)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            p: 2,
+                            '&:hover': { bgcolor: '#E11D48', borderColor: '#E11D48' }
+                        }}
+                    >
+                        <ArrowForwardIosIcon fontSize="small" />
+                    </IconButton>
+                </Stack>
+            </Box>
+        </Box>
     );
 };
+
 
 export default HeroSection;
