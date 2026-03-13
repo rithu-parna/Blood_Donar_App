@@ -23,7 +23,7 @@ const images = [
     }
 ];
 
-const HeroSection = ({ onRegisterClick }) => {
+const HeroSection = ({ onRegisterClick, onAboutClick }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
@@ -83,20 +83,19 @@ const HeroSection = ({ onRegisterClick }) => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
-                            <Box sx={{ width: 50, height: 3, bgcolor: '#E11D48', borderRadius: 2 }} />
-                            <Typography variant="overline" sx={{ color: '#E11D48', fontWeight: 900, letterSpacing: 6, fontSize: '0.9rem' }}>
+                            <Box sx={{ width: 40, height: 4, bgcolor: '#E11D48', borderRadius: 2 }} />
+                            <Typography variant="overline" sx={{ color: '#E11D48', fontWeight: 900, letterSpacing: 4, fontSize: '0.85rem' }}>
                                 SAVING LIVES TOGETHER
                             </Typography>
                         </Stack>
 
                         <Typography variant="h1" sx={{
                             fontWeight: 950,
-                            fontSize: { xs: '3.5rem', sm: '5rem', md: '6.5rem' },
+                            fontSize: { xs: '3rem', sm: '4.5rem', md: '5.5rem' },
                             color: 'white',
-                            lineHeight: 0.95,
-                            mb: 4,
-                            letterSpacing: -3,
-                            textShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                            lineHeight: 1.1,
+                            mb: 3,
+                            letterSpacing: -2,
                         }}>
                             {images[currentIndex].title.split(' ').map((word, i) => (
                                 word === 'Life' || word === 'Hero' || word === 'Counts' ?
@@ -107,50 +106,52 @@ const HeroSection = ({ onRegisterClick }) => {
 
                         <Typography variant="h5" sx={{
                             color: 'rgba(255,255,255,0.7)',
-                            lineHeight: 1.5,
+                            lineHeight: 1.6,
                             mb: 6,
-                            maxWidth: 650,
+                            maxWidth: 600,
                             fontWeight: 500,
-                            fontSize: { xs: '1.1rem', md: '1.4rem' }
+                            fontSize: { xs: '1rem', md: '1.25rem' },
+                            letterSpacing: 0.2
                         }}>
                             {images[currentIndex].subtitle}
                         </Typography>
 
-                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5}>
                             <Button
                                 variant="contained"
                                 onClick={onRegisterClick}
                                 className="glow-btn"
                                 sx={{
                                     bgcolor: '#E11D48',
-                                    px: 6,
-                                    py: 2.2,
-                                    borderRadius: 4,
-                                    fontWeight: 900,
-                                    fontSize: '1.2rem',
+                                    px: 5,
+                                    py: 1.8,
+                                    borderRadius: 2,
+                                    fontWeight: 800,
+                                    fontSize: '1rem',
                                     textTransform: 'none',
-                                    boxShadow: '0 25px 50px -12px rgba(225, 29, 72, 0.5)',
-                                    '&:hover': { bgcolor: '#BE123C', transform: 'translateY(-5px) scale(1.02)' },
-                                    transition: 'all 0.4s'
+                                    boxShadow: '0 10px 30px -5px rgba(225, 29, 72, 0.4)',
+                                    '&:hover': { bgcolor: '#BE123C', transform: 'translateY(-2px)' },
+                                    transition: 'all 0.3s'
                                 }}
                             >
                                 Register Now
                             </Button>
                             <Button
                                 variant="outlined"
+                                onClick={onAboutClick}
                                 sx={{
                                     borderColor: 'rgba(255,255,255,0.3)',
                                     color: 'white',
-                                    px: 6,
-                                    py: 2.2,
-                                    borderRadius: 4,
-                                    fontWeight: 900,
-                                    fontSize: '1.2rem',
+                                    px: 5,
+                                    py: 1.8,
+                                    borderRadius: 2,
+                                    fontWeight: 800,
+                                    fontSize: '1rem',
                                     textTransform: 'none',
                                     backdropFilter: 'blur(10px)',
                                     borderWidth: 2,
-                                    '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)', transform: 'translateY(-5px)' },
-                                    transition: 'all 0.4s'
+                                    '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)', transform: 'translateY(-2px)' },
+                                    transition: 'all 0.3s'
                                 }}
                             >
                                 How it Works

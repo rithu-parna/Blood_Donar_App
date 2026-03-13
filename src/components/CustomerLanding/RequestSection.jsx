@@ -10,11 +10,12 @@ import SortIcon from '@mui/icons-material/Sort';
 import RequestCard from './RequestCard';
 import { initialRequests } from './constants';
 
-const RequestSection = ({ selectedBloodType, searchQuery, onTypeFilterClear }) => {
-    const [viewMode, setViewMode] = useState('list');
+const RequestSection = ({ selectedBloodType, searchQuery, onTypeFilterClear, limit }) => {
+    const [viewMode, setViewMode] = useState('grid');
     const [filter, setFilter] = useState('All');
     const [sortBy, setSortBy] = useState('Urgency');
     const [requests] = useState(initialRequests);
+
 
     const filteredRequests = useMemo(() => {
         return requests.filter(req => {
@@ -30,7 +31,7 @@ const RequestSection = ({ selectedBloodType, searchQuery, onTypeFilterClear }) =
     }, [requests, filter, selectedBloodType, searchQuery]);
 
     const sortedRequests = useMemo(() => {
-        return [...filteredRequests].sort((a, b) => {
+        const sorted = [...filteredRequests].sort((a, b) => {
             if (sortBy === 'Units Needed') return b.units - a.units;
             if (sortBy === 'Urgency') {
                 const priority = { 'CRITICAL': 3, 'HIGH': 2, 'NORMAL': 1 };
@@ -38,7 +39,8 @@ const RequestSection = ({ selectedBloodType, searchQuery, onTypeFilterClear }) =
             }
             return 0;
         });
-    }, [filteredRequests, sortBy]);
+        return limit ? sorted.slice(0, limit) : sorted;
+    }, [filteredRequests, sortBy, limit]);
 
     return (
         <Box mb={10}>
@@ -47,79 +49,71 @@ const RequestSection = ({ selectedBloodType, searchQuery, onTypeFilterClear }) =
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
                 justifyContent: 'space-between',
-                alignItems: { xs: 'flex-start', md: 'flex-end' },
-                gap: 3,
-                mb: 6,
-                pb: 3,
-                borderBottom: '1px solid rgba(226, 232, 240, 0.4)'
+                alignItems: { xs: 'flex-start', md: 'center' },
+                gap: 2,
+                mb: 4
             }}>
-                <Box>
-                    <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
-                        <Box sx={{
-                            p: 0.8,
-                            bgcolor: 'rgba(225, 29, 72, 0.1)',
-                            color: '#E11D48',
-                            borderRadius: 1.5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <BoltIcon sx={{ fontSize: 24 }} />
-                        </Box>
-                        <Typography variant="h3" fontWeight={950} sx={{ color: '#0F172A', fontSize: { xs: '2rem', md: '2.8rem' }, letterSpacing: -1.5 }}>
-                            Active <Box component="span" sx={{ color: '#E11D48' }}>Requests</Box>
-                        </Typography>
-                        <Chip
-                            label={`${sortedRequests.length} Needs Found`}
-                            size="small"
-                            sx={{ bgcolor: '#F1F5F9', color: '#64748B', fontWeight: 800, borderRadius: 2, px: 1, border: '1px solid #E2E8F0' }}
-                        />
-                    </Stack>
-                    <Typography variant="h6" color="#64748B" fontWeight={600} sx={{ opacity: 0.8 }}>
-                        Live requirements from hospitals. Join and save a life today.
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Typography variant="h4" fontWeight={900} sx={{ color: '#0F172A', fontSize: '1.8rem', letterSpacing: -0.5 }}>
+                        Active <Box component="span" sx={{ color: '#E11D48' }}>Requests</Box>
                     </Typography>
+                    <Box sx={{
+                        bgcolor: '#E2E8F0',
+                        px: 1.5,
+                        py: 0.4,
+                        borderRadius: 5,
+                        color: '#64748B',
+                        fontSize: '0.8rem',
+                        fontWeight: 700
+                    }}>
+                        {sortedRequests.length} results
+                    </Box>
                 </Box>
 
-                <Stack direction="row" spacing={2} sx={{ alignSelf: { xs: 'stretch', md: 'auto' } }}>
+                <Stack direction="row" spacing={1.5} alignItems="center">
                     <Button
-                        variant="soft"
-                        startIcon={<RefreshIcon />}
+                        variant="outlined"
+                        startIcon={<RefreshIcon sx={{ fontSize: 18 }} />}
                         sx={{
-                            bgcolor: '#F1F5F9',
-                            color: '#0F172A',
+                            borderColor: '#E2E8F0',
+                            color: '#64748B',
                             textTransform: 'none',
-                            borderRadius: 4,
-                            fontWeight: 800,
-                            px: 3.5,
-                            py: 1.2,
-                            '&:hover': { bgcolor: '#E2E8F0' }
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '0.85rem',
+                            px: 2,
+                            py: 0.6,
+                            '&:hover': { borderColor: '#CBD5E1', bgcolor: 'transparent' }
                         }}
                     >
                         Refresh
                     </Button>
 
-                    <Box sx={{ display: 'flex', bgcolor: '#F1F5F9', p: 0.8, borderRadius: 4 }}>
-                        {[
-                            { id: 'grid', icon: <GridViewIcon fontSize="small" /> },
-                            { id: 'list', icon: <ViewListIcon fontSize="small" /> }
-                        ].map(mode => (
-                            <IconButton
-                                key={mode.id}
-                                onClick={() => setViewMode(mode.id)}
-                                sx={{
-                                    bgcolor: viewMode === mode.id ? 'white' : 'transparent',
-                                    color: viewMode === mode.id ? '#E11D48' : '#94A3B8',
-                                    borderRadius: 3.5,
-                                    width: 42,
-                                    height: 42,
-                                    boxShadow: viewMode === mode.id ? '0 8px 16px rgba(0,0,0,0.06)' : 'none',
-                                    '&:hover': { bgcolor: viewMode === mode.id ? 'white' : 'rgba(0,0,0,0.03)' },
-                                    transition: 'all 0.3s'
-                                }}
-                            >
-                                {mode.icon}
-                            </IconButton>
-                        ))}
+                    <Box sx={{ display: 'flex', border: '1px solid #E2E8F0', borderRadius: 2, p: 0.3 }}>
+                        <IconButton
+                            onClick={() => setViewMode('grid')}
+                            size="small"
+                            sx={{
+                                bgcolor: viewMode === 'grid' ? '#E11D48' : 'transparent',
+                                color: viewMode === 'grid' ? 'white' : '#94A3B8',
+                                borderRadius: 1.5,
+                                '&:hover': { bgcolor: viewMode === 'grid' ? '#E11D48' : 'rgba(0,0,0,0.02)' }
+                            }}
+                        >
+                            <GridViewIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                            onClick={() => setViewMode('list')}
+                            size="small"
+                            sx={{
+                                bgcolor: viewMode === 'list' ? '#E11D48' : 'transparent',
+                                color: viewMode === 'list' ? 'white' : '#94A3B8',
+                                borderRadius: 1.5,
+                                '&:hover': { bgcolor: viewMode === 'list' ? '#E11D48' : 'rgba(0,0,0,0.02)' }
+                            }}
+                        >
+                            <ViewListIcon fontSize="small" />
+                        </IconButton>
                     </Box>
                 </Stack>
             </Box>
@@ -127,104 +121,73 @@ const RequestSection = ({ selectedBloodType, searchQuery, onTypeFilterClear }) =
             {/* Filter and Sort Row */}
             <Box sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', lg: 'row' },
+                flexDirection: { xs: 'column', md: 'row' },
                 justifyContent: 'space-between',
-                alignItems: { xs: 'stretch', lg: 'center' },
-                gap: 4,
-                mb: 8
+                alignItems: { xs: 'stretch', md: 'center' },
+                gap: 2,
+                mb: 6
             }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center' }}>
-                    <Box sx={{
-                        display: 'flex',
-                        gap: 1.5,
-                        bgcolor: 'rgba(255, 255, 255, 0.6)',
-                        backdropFilter: 'blur(10px)',
-                        p: 1.5,
-                        borderRadius: 6,
-                        boxShadow: '0 15px 35px -10px rgba(0,0,0,0.05)',
-                        border: '1px solid rgba(255, 255, 255, 0.5)'
-                    }}>
-                        {['All', 'Critical', 'High', 'Normal'].map(f => (
-                            <Button
-                                key={f}
-                                onClick={() => setFilter(f)}
-                                sx={{
-                                    bgcolor: filter === f ? '#E11D48' : 'transparent',
-                                    color: filter === f ? 'white' : '#64748B',
-                                    borderRadius: 4.5,
-                                    textTransform: 'none',
-                                    px: 5,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    fontWeight: 900,
-                                    boxShadow: filter === f ? '0 12px 24px -6px rgba(225, 29, 72, 0.4)' : 'none',
-                                    '&:hover': {
-                                        bgcolor: filter === f ? '#BE123C' : 'rgba(255, 255, 255, 0.8)',
-                                        transform: filter === f ? 'translateY(-2px)' : 'none'
-                                    },
-                                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
-                                }}
-                            >
-                                {f}
-                            </Button>
-                        ))}
-                    </Box>
-
-                    {selectedBloodType !== 'All' && (
-                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                            <Chip
-                                label={selectedBloodType}
-                                onDelete={onTypeFilterClear}
-                                deleteIcon={<CloseIcon sx={{ fontSize: '1.2rem !important' }} />}
-                                sx={{
-                                    bgcolor: '#E11D48',
-                                    color: 'white',
-                                    fontWeight: 900,
-                                    borderRadius: 4,
-                                    fontSize: '1rem',
-                                    px: 2,
-                                    height: 60,
-                                    boxShadow: '0 12px 24px -6px rgba(225, 29, 72, 0.3)',
-                                    '& .MuiChip-deleteIcon': { color: 'white', '&:hover': { color: '#FEE2E2' } }
-                                }}
-                            />
-                        </motion.div>
-                    )}
-                </Box>
-
                 <Box sx={{
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: 3,
+                    gap: 1,
                     bgcolor: 'white',
-                    px: 4,
-                    py: 2,
-                    borderRadius: 6,
-                    border: '1px solid rgba(226, 232, 240, 0.8)',
-                    boxShadow: '0 15px 35px -10px rgba(0,0,0,0.05)'
+                    p: 0.6,
+                    borderRadius: 2,
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                    width: 'fit-content'
                 }}>
-                    <SortIcon sx={{ color: '#E11D48', fontSize: 28 }} />
-                    <Typography variant="subtitle1" color="#0F172A" fontWeight={900}>Sort By:</Typography>
+                    {['All', 'Critical', 'High', 'Normal'].map(f => (
+                        <Button
+                            key={f}
+                            onClick={() => setFilter(f)}
+                            startIcon={f !== 'All' ? <Box sx={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: '50%',
+                                bgcolor: f === 'Critical' ? '#E11D48' : f === 'High' ? '#F59E0B' : '#10B981'
+                            }} /> : null}
+                            sx={{
+                                bgcolor: filter === f ? '#E11D48' : 'transparent',
+                                color: filter === f ? 'white' : '#64748B',
+                                borderRadius: 1.5,
+                                textTransform: 'none',
+                                px: 2.5,
+                                py: 0.6,
+                                fontSize: '0.85rem',
+                                fontWeight: 600,
+                                '&:hover': {
+                                    bgcolor: filter === f ? '#E11D48' : 'rgba(0,0,0,0.02)'
+                                }
+                            }}
+                        >
+                            {f}
+                        </Button>
+                    ))}
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Sort by:</Typography>
                     <Select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
                         variant="standard"
                         disableUnderline
                         sx={{
-                            minWidth: 160,
-                            fontWeight: 900,
-                            color: '#E11D48',
-                            fontSize: '1.05rem',
-                            cursor: 'pointer',
-                            '& .MuiSelect-select': { py: 0 }
+                            fontWeight: 600,
+                            color: '#475569',
+                            fontSize: '0.85rem',
+                            bgcolor: '#F8FAFC',
+                            px: 1.5,
+                            py: 0.6,
+                            borderRadius: 1.5,
+                            minWidth: 120
                         }}
                     >
-                        <MenuItem value="Urgency">Immediate Need</MenuItem>
-                        <MenuItem value="Units Needed">Quantity Required</MenuItem>
+                        <MenuItem value="Urgency">Urgency</MenuItem>
+                        <MenuItem value="Units Needed">Units</MenuItem>
                     </Select>
                 </Box>
             </Box>
-
 
             <Box sx={{ minHeight: 400 }}>
                 <AnimatePresence mode="popLayout" initial={false}>
