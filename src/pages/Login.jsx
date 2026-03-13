@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, TextField, Button, Grid, Divider, Link } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid, Divider, Link, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -11,95 +11,6 @@ const Login = () => {
   const handleSignIn = () => {
     navigate('/admin');
   };
-
-  const loginFormContent = (
-    <>
-      <Typography variant="h4" fontWeight="800" sx={{ color: '#1a202c', mb: 1 }}>
-        Join Lifeline ❤️
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 4, maxWidth: 350 }}>
-        Every drop counts. Sign in to manage your donations, find donors, or request blood for emergencies.
-      </Typography>
-
-      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>Email Address</Typography>
-      <TextField
-        fullWidth
-        placeholder="donor@lifeline.com"
-        variant="outlined"
-        size="small"
-        sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#f8fafc' } }}
-      />
-
-      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>Password</Typography>
-      <TextField
-        fullWidth
-        type="password"
-        placeholder="••••••••"
-        variant="outlined"
-        size="small"
-        sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#f8fafc' } }}
-      />
-
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-        <Link href="#" underline="hover" sx={{ color: '#dc2626', fontSize: '13px', fontWeight: 500 }}>
-          Forgot Password?
-        </Link>
-      </Box>
-
-      <Button
-        fullWidth
-        variant="contained"
-        onClick={handleSignIn}
-        sx={{
-          bgcolor: '#dc2626',
-          color: 'white',
-          py: 1.5,
-          borderRadius: 2,
-          fontWeight: 600,
-          mb: 3,
-          '&:hover': { bgcolor: '#b91c1c' }
-        }}
-      >
-        Sign In
-      </Button>
-
-      <Divider sx={{ mb: 3, fontSize: '12px', color: '#94a3b8' }}>
-        Or sign in with
-      </Divider>
-
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<GoogleIcon sx={{ color: '#ea4335' }} />}
-            sx={{ borderRadius: 2, borderColor: '#e2e8f0', color: '#475569', textTransform: 'none', fontWeight: 600, bgcolor: '#f8fafc' }}
-          >
-            Google
-          </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<FacebookIcon sx={{ color: '#1877f2' }} />}
-            sx={{ borderRadius: 2, borderColor: '#e2e8f0', color: '#475569', textTransform: 'none', fontWeight: 600, bgcolor: '#f8fafc' }}
-          >
-            Facebook
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Box sx={{ mt: 5, textAlign: 'center' }}>
-        <Typography variant="body2" color="text.secondary">
-          New hero? <Link href="#" sx={{ color: '#dc2626', fontWeight: 600, cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); navigate('/customer'); }}>Register as Donor</Link>
-        </Typography>
-        <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 4 }}>
-          © 2026 LIFELINE BLOOD DONATION. ALL RIGHTS RESERVED
-        </Typography>
-      </Box>
-    </>
-  );
 
   return (
     <Box sx={{
@@ -123,7 +34,8 @@ const Login = () => {
           display: 'flex',
           width: '100%',
           boxShadow: '0 24px 48px rgba(220,38,38,0.15)',
-          minHeight: 650
+          minHeight: 650,
+          overflow: 'hidden'
         }}>
           {/* Left Side Form */}
           <Box sx={{
@@ -134,7 +46,88 @@ const Login = () => {
             justifyContent: 'center',
             zIndex: 1
           }}>
-            {loginFormContent}
+            <Typography variant="h4" fontWeight="900" sx={{ color: '#1E293B', mb: 1, letterSpacing: -1 }}>
+              Join <Box component="span" sx={{ color: '#E11D48' }}>BloodLink</Box> ❤️
+            </Typography>
+            <Typography variant="body2" color="#64748B" sx={{ mb: 4, fontWeight: 500, lineHeight: 1.6 }}>
+              Every drop counts. Sign in to manage your donations or find donors.
+            </Typography>
+
+            <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1.5, color: '#1E293B' }}>Email Address</Typography>
+            <TextField
+              fullWidth
+              placeholder="donor@bloodlink.org"
+              variant="outlined"
+              sx={{ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: '#F8FAFC' } }}
+            />
+
+            <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1.5, color: '#1E293B' }}>Password</Typography>
+            <TextField
+              fullWidth
+              type="password"
+              placeholder="••••••••"
+              variant="outlined"
+              sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: '#F8FAFC' } }}
+            />
+
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+              <Link href="#" underline="hover" sx={{ color: '#E11D48', fontSize: '14px', fontWeight: 800 }}>
+                Forgot Password?
+              </Link>
+            </Box>
+
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={handleSignIn}
+              sx={{
+                bgcolor: '#E11D48',
+                color: 'white',
+                py: 1.8,
+                borderRadius: 3,
+                fontWeight: 900,
+                fontSize: '1rem',
+                mb: 4,
+                boxShadow: '0 8px 16px rgba(225, 29, 72, 0.2)',
+                textTransform: 'none',
+                '&:hover': { bgcolor: '#BE123C' }
+              }}
+            >
+              Sign In
+            </Button>
+
+            <Divider sx={{ mb: 4, fontSize: '13px', color: '#94a3b8', fontWeight: 700 }}>
+              Or sign in with
+            </Divider>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  startIcon={<GoogleIcon sx={{ color: '#ea4335' }} />}
+                  sx={{ borderRadius: 3, borderColor: '#e2e8f0', color: '#475569', textTransform: 'none', fontWeight: 800, bgcolor: '#f8fafc', py: 1.2 }}
+                >
+                  Google
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  startIcon={<FacebookIcon sx={{ color: '#1877f2' }} />}
+                  sx={{ borderRadius: 3, borderColor: '#e2e8f0', color: '#475569', textTransform: 'none', fontWeight: 800, bgcolor: '#f8fafc', py: 1.2 }}
+                >
+                  Facebook
+                </Button>
+              </Grid>
+            </Grid>
+
+            <Box sx={{ mt: 5, textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                New hero? <Link href="#" sx={{ color: '#E11D48', fontWeight: 900, cursor: 'pointer', ml: 1 }} onClick={(e) => { e.preventDefault(); navigate('/customer'); }}>Register as Donor</Link>
+              </Typography>
+            </Box>
           </Box>
 
           {/* Right Side Image Area */}
@@ -148,46 +141,20 @@ const Login = () => {
               width: '100%',
               height: '100%',
               borderRadius: 5,
-              backgroundImage: 'url(https://images.unsplash.com/photo-1615461066841-6116e61058f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)',
+              backgroundImage: 'url(https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1000&q=80)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               position: 'relative'
             }}>
-              {/* Overlay to darken image slightly */}
-              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, bgcolor: 'rgba(220,38,38,0.2)', borderRadius: 5 }} />
+              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, bgcolor: 'rgba(225, 29, 72, 0.25)', borderRadius: 5 }} />
 
-              <motion.div
-                initial={{ opacity: 0, y: 50, x: 50 }}
-                animate={{ opacity: 1, y: 0, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                style={{
-                  position: 'absolute',
-                  top: '15%',
-                  right: '-10%',
-                  width: '320px',
-                  backgroundColor: 'white',
-                  borderRadius: '24px',
-                  padding: '24px',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                  transform: 'scale(0.85)',
-                  transformOrigin: 'top right'
-                }}
-              >
-                <Typography variant="h6" fontWeight="800" sx={{ color: '#1a202c', mb: 1 }}>
-                  Emergency Request �
+              <Box sx={{ position: 'absolute', bottom: 40, left: 40, right: 40, bgcolor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', p: 4, borderRadius: 5, border: '1px solid rgba(255,255,255,0.2)' }}>
+                <Typography variant="h5" fontWeight={900} color="white" sx={{ mb: 1 }}>Helping Hands</Typography>
+                <Typography variant="body2" color="rgba(255,255,255,0.9)" fontWeight={500} sx={{ lineHeight: 1.6 }}>
+                  "I needed blood for my father's surgery in Kozhikode. This app helped me find a donor in 15 minutes. Truly life saving!"
                 </Typography>
-                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2 }}>
-                  Need blood urgently? Register your request immediately without signing in.
-                </Typography>
-                <TextField placeholder="Patient Name" variant="outlined" size="small" fullWidth sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 2 } }} />
-                <Grid container spacing={1} mb={2}>
-                  <Grid item xs={6}><TextField placeholder="Blood Type" variant="outlined" size="small" fullWidth sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} /></Grid>
-                  <Grid item xs={6}><TextField placeholder="Units Required" variant="outlined" size="small" fullWidth sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} /></Grid>
-                </Grid>
-                <Button fullWidth variant="contained" sx={{ bgcolor: '#dc2626', color: 'white', py: 1, borderRadius: 2 }}>
-                  Submit Emergency
-                </Button>
-              </motion.div>
+                <Typography variant="caption" sx={{ color: 'white', display: 'block', mt: 2, fontWeight: 800 }}>- Muhammed Fayis</Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
