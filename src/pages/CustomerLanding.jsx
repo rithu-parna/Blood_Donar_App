@@ -4,6 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import LandingHeader from '../components/CustomerLanding/LandingHeader';
 import DonorFormDrawer from '../components/CustomerLanding/DonorFormDrawer';
+import RequestFormDrawer from '../components/CustomerLanding/RequestFormDrawer';
 import Footer from '../components/CustomerLanding/Footer';
 import HomeTab from '../components/CustomerLanding/tabs/HomeTab';
 import RequestsTab from '../components/CustomerLanding/tabs/RequestsTab';
@@ -14,6 +15,7 @@ const CustomerLanding = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [requestDrawerOpen, setRequestDrawerOpen] = useState(false);
     const [selectedBloodType, setSelectedBloodType] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(true);
@@ -38,6 +40,10 @@ const CustomerLanding = () => {
 
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
+    };
+
+    const toggleRequestDrawer = (open) => () => {
+        setRequestDrawerOpen(open);
     };
 
     const handleTypeClear = () => {
@@ -140,7 +146,8 @@ const CustomerLanding = () => {
                             <Routes>
                                 <Route path="/" element={
                                     <HomeTab
-                                        onRegisterClick={toggleDrawer(true)}
+                                        onDonorRegisterClick={toggleDrawer(true)}
+                                        onRequestCreateClick={toggleRequestDrawer(true)}
                                         onAboutClick={() => handlePageChange('about')}
                                         searchQuery={searchQuery}
                                         setSearchQuery={setSearchQuery}
@@ -154,7 +161,7 @@ const CustomerLanding = () => {
                                         setSearchQuery={setSearchQuery}
                                         selectedBloodType={selectedBloodType}
                                         handleTypeClear={handleTypeClear}
-                                        onRegisterClick={toggleDrawer(true)}
+                                        onNewRequestClick={toggleRequestDrawer(true)}
                                     />
                                 } />
                                 <Route path="donors" element={
@@ -178,6 +185,11 @@ const CustomerLanding = () => {
             <DonorFormDrawer
                 open={drawerOpen}
                 onClose={toggleDrawer(false)}
+            />
+
+            <RequestFormDrawer
+                open={requestDrawerOpen}
+                onClose={toggleRequestDrawer(false)}
             />
         </Box>
     );
