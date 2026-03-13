@@ -7,7 +7,8 @@ import RequestSection from "../RequestSection";
 import DonorSection from "../DonorSection";
 
 const HomeTab = ({
-  onRegisterClick,
+  onDonorRegisterClick,
+  onRequestCreateClick,
   onAboutClick,
   searchQuery,
   setSearchQuery,
@@ -17,13 +18,14 @@ const HomeTab = ({
   return (
     <>
       <HeroSection
-        onRegisterClick={onRegisterClick}
+        onRegisterClick={onDonorRegisterClick}
         onAboutClick={onAboutClick}
       />
       <Box sx={{ pt: 10 }}>
         <StatsBar />
         <Container maxWidth="xl" sx={{ py: 10 }}>
           <Box sx={{ mb: 10 }}>
+            {/* Title omitted for brevity */}
             <Typography
               variant="h3"
               fontWeight={900}
@@ -50,7 +52,7 @@ const HomeTab = ({
             <SearchBar
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onNewRequestClick={onRegisterClick}
+              onNewRequestClick={onRequestCreateClick}
             />
           </Box>
           <Box sx={{ maxWidth: "1200px", ml: 14 }}>
@@ -63,7 +65,7 @@ const HomeTab = ({
           </Box>
 
           <Box sx={{ maxWidth: "1200px", ml: 14, mt: 15 }}>
-            <DonorSection onRegisterClick={onRegisterClick} limit={4} />
+            <DonorSection onRegisterClick={onDonorRegisterClick} limit={4} />
           </Box>
         </Container>
       </Box>
