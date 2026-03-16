@@ -7,17 +7,17 @@ import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
 const images = [
     {
-        url: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&q=80&w=1920',
+        url: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&q=80&w=2000',
         title: 'Empowering Life Through Quick Blood Access',
         subtitle: 'A real-time platform bridging the gap between donors and patients.'
     },
     {
-        url: 'https://images.unsplash.com/photo-1579154235602-3c227318728b?auto=format&fit=crop&q=80&w=1920',
+        url: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=2000',
         title: 'Join the Network and Save Lives',
         subtitle: 'Become a donor today and be a hero for someone in need.'
     },
     {
-        url: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=1920',
+        url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=2000',
         title: 'Every Drop Counts, Every Second Matters',
         subtitle: 'Fast and reliable connectivity for life-saving emergencies.'
     }
@@ -29,7 +29,7 @@ const HeroSection = ({ onRegisterClick, onAboutClick }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 2000); // User specifically asked for 2s
+        }, 5000); // Increased interval to 5s for better readability
         return () => clearInterval(interval);
     }, []);
 
@@ -43,14 +43,14 @@ const HeroSection = ({ onRegisterClick, onAboutClick }) => {
             overflow: 'hidden',
             bgcolor: '#0f172a'
         }}>
-            {/* Background Image Slider with improved overlay */}
-            <AnimatePresence mode="wait">
+            {/* Background Image Slider with improved crossfade */}
+            <AnimatePresence>
                 <motion.div
                     key={currentIndex}
                     initial={{ opacity: 0, scale: 1.1 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 1.05 }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    transition={{ duration: 1.5, ease: "easeInOut" }}
                     style={{
                         position: 'absolute',
                         top: 0,
