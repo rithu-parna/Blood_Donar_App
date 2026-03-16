@@ -35,6 +35,7 @@ const LandingHeader = ({ onRegisterClick, activePage, onPageChange }) => {
     { label: "FIND DONOR", id: "donors" },
     { label: "REQUESTS", id: "requests" },
     { label: "ABOUT", id: "about" },
+    { label: "CONTACT", id: "contact" },
   ];
 
   console.log(activePage, "actssssivePage");

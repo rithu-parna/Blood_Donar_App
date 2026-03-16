@@ -10,6 +10,7 @@ import HomeTab from '../components/CustomerLanding/tabs/HomeTab';
 import RequestsTab from '../components/CustomerLanding/tabs/RequestsTab';
 import DonorsTab from '../components/CustomerLanding/tabs/DonorsTab';
 import AboutTab from '../components/CustomerLanding/tabs/AboutTab';
+import ContactTab from '../components/CustomerLanding/tabs/ContactTab';
 
 const CustomerLanding = () => {
     const navigate = useNavigate();
@@ -174,6 +175,7 @@ const CustomerLanding = () => {
                                 <Route path="about" element={
                                     <AboutTab onRegisterClick={toggleDrawer(true)} />
                                 } />
+                                <Route path="contact" element={<ContactTab />} />
                                 <Route path="*" element={<Navigate to="/customer" replace />} />
                             </Routes>
                         </Box>
