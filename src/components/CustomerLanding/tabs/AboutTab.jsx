@@ -32,9 +32,9 @@ const BentoCard = ({
         height: "100%",
         p: 4,
         borderRadius: 8,
-        bgcolor: "rgba(255, 255, 255, 0.03)",
-        backdropFilter: "blur(20px)",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
+        bgcolor: "white",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.03)",
+        border: "1px solid rgba(0,0,0,0.05)",
         position: "relative",
         overflow: "hidden",
         display: "flex",
@@ -42,13 +42,15 @@ const BentoCard = ({
         justifyContent: "flex-end",
         transition: "all 0.4s ease",
         "&:hover": {
-          borderColor: `${color}80`,
-          bgcolor: "rgba(255, 255, 255, 0.05)",
+          borderColor: `${color}40`,
+          bgcolor: "white",
           transform: "translateY(-8px)",
-          "& .card-bg": { transform: "scale(1.1)" },
+          boxShadow: `0 20px 40px ${color}15`,
+          "& .card-bg": { transform: "scale(1.1)", opacity: 0.15 },
           "& .icon-box": {
             transform: "scale(1.1) rotate(5deg)",
             bgcolor: color,
+            color: "white",
           },
         },
       }}
@@ -65,9 +67,9 @@ const BentoCard = ({
             backgroundImage: `url(${bgImg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            zIndex: -1,
-            opacity: 0.3,
-            transition: "transform 0.8s ease",
+            zIndex: 0,
+            opacity: 0.08,
+            transition: "all 0.8s ease",
             filter: "grayscale(100%)",
           }}
         />
@@ -78,32 +80,36 @@ const BentoCard = ({
         sx={{
           width: 50,
           height: 50,
-          borderRadius: 3,
-          bgcolor: "rgba(255,255,255,0.1)",
-          color: "white",
+          borderRadius: "50%",
+          bgcolor: "rgba(225, 29, 72, 0.05)",
+          color: color,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           mb: 3,
           transition: "all 0.4s ease",
+          position: "relative",
+          zIndex: 1,
         }}
       >
-        <Icon sx={{ fontSize: 28 }} />
+        <Icon sx={{ fontSize: 24 }} />
       </Box>
 
-      <Typography variant="h5" fontWeight={900} sx={{ color: "white", mb: 1 }}>
-        {title}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          color: "rgba(255,255,255,0.5)",
-          fontWeight: 500,
-          lineHeight: 1.6,
-        }}
-      >
-        {subtitle}
-      </Typography>
+      <Box sx={{ position: "relative", zIndex: 1 }}>
+        <Typography variant="h5" fontWeight={950} sx={{ color: "#0F172A", mb: 1, letterSpacing: -1 }}>
+          {title}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            color: "#64748B",
+            fontWeight: 500,
+            lineHeight: 1.6,
+          }}
+        >
+          {subtitle}
+        </Typography>
+      </Box>
     </Box>
   </motion.div>
 );
@@ -119,9 +125,9 @@ const AboutTab = ({ onRegisterClick }) => {
   return (
     <Box
       sx={{
-        bgcolor: "#050505", // Ultra dark background
-        color: "white",
-        pt: { xs: 15, md: 20 },
+        bgcolor: "#FFF5F5",
+        color: "#1E293B",
+        pt: { xs: 15, md: 25 },
         pb: 20,
         overflow: "hidden",
         position: "relative",
@@ -143,42 +149,9 @@ const AboutTab = ({ onRegisterClick }) => {
       />
 
       {/* Ambient Background Effects */}
-      <Box
-        sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 0,
-          pointerEvents: "none",
-          opacity: 0.4,
-        }}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "10%",
-            right: "-5%",
-            width: 800,
-            height: 800,
-            background:
-              "radial-gradient(circle, rgba(225, 29, 72, 0.15) 0%, transparent 70%)",
-            filter: "blur(100px)",
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: "10%",
-            left: "-10%",
-            width: 600,
-            height: 600,
-            background:
-              "radial-gradient(circle, rgba(15, 23, 42, 0.2) 0%, transparent 70%)",
-            filter: "blur(100px)",
-          }}
-        />
+      <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }}>
+        <Box sx={{ position: "absolute", top: "10%", right: "-5%", width: 800, height: 800, background: "radial-gradient(circle, rgba(225, 29, 72, 0.05) 0%, transparent 70%)", filter: "blur(100px)" }} />
+        <Box sx={{ position: "absolute", bottom: "10%", left: "-10%", width: 600, height: 600, background: "radial-gradient(circle, rgba(225, 29, 72, 0.03) 0%, transparent 70%)", filter: "blur(100px)" }} />
       </Box>
 
       <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
@@ -194,7 +167,7 @@ const AboutTab = ({ onRegisterClick }) => {
                 variant="overline"
                 sx={{
                   color: "#E11D48",
-                  fontWeight: 900,
+                  fontWeight: 950,
                   letterSpacing: 8,
                   mb: 3,
                   display: "block",
@@ -209,6 +182,7 @@ const AboutTab = ({ onRegisterClick }) => {
                   letterSpacing: -5,
                   lineHeight: 0.9,
                   fontSize: { xs: "3.5rem", md: "6rem", lg: "8rem" },
+                  color: "#0F172A",
                   mb: 6,
                 }}
               >
@@ -217,7 +191,7 @@ const AboutTab = ({ onRegisterClick }) => {
                   component="span"
                   sx={{
                     color: "transparent",
-                    WebkitTextStroke: "1px rgba(255,255,255,0.2)",
+                    WebkitTextStroke: "1px #E11D48",
                   }}
                 >
                   Human
@@ -228,7 +202,7 @@ const AboutTab = ({ onRegisterClick }) => {
               <Typography
                 variant="h5"
                 sx={{
-                  color: "rgba(255,255,255,0.5)",
+                  color: "#64748B",
                   fontWeight: 500,
                   lineHeight: 1.6,
                   maxWidth: 700,
@@ -248,12 +222,12 @@ const AboutTab = ({ onRegisterClick }) => {
                     color: "white",
                     px: 8,
                     py: 2.5,
-                    borderRadius: 0,
+                    borderRadius: 2,
                     fontWeight: 950,
                     fontSize: "1.2rem",
-                    clipPath: "polygon(10% 0, 100% 0, 90% 100%, 0% 100%)",
-                    "&:hover": { bgcolor: "white", color: "black" },
+                    "&:hover": { bgcolor: "#BE123C", transform: "translateY(-5px)" },
                     transition: "all 0.3s",
+                    boxShadow: "0 20px 40px rgba(225, 29, 72, 0.2)",
                   }}
                 >
                   ACTIVATE NOW
@@ -261,9 +235,10 @@ const AboutTab = ({ onRegisterClick }) => {
                 <Button
                   sx={{
                     fontWeight: 900,
-                    color: "white",
+                    color: "#0F172A",
                     px: 4,
                     letterSpacing: 2,
+                    "&:hover": { color: "#E11D48" }
                   }}
                 >
                   PROTOCOL SECURE →
@@ -282,10 +257,11 @@ const AboutTab = ({ onRegisterClick }) => {
                     width: "100%",
                     aspectRatio: "1/1",
                     borderRadius: "40% 60% 70% 30% / 40% 50% 60% 70%",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    border: "2px dashed rgba(225, 29, 72, 0.2)",
                     overflow: "hidden",
                     position: "relative",
-                    bgcolor: "rgba(255,255,255,0.02)",
+                    bgcolor: "white",
+                    boxShadow: "0 50px 100px -20px rgba(0,0,0,0.1)",
                   }}
                 >
                   <Box
@@ -298,7 +274,7 @@ const AboutTab = ({ onRegisterClick }) => {
                       backgroundImage: `url(${donation1})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
-                      opacity: 0.6,
+                      opacity: 0.1,
                       filter: "grayscale(100%)",
                     }}
                   />
@@ -314,7 +290,7 @@ const AboutTab = ({ onRegisterClick }) => {
                       sx={{
                         fontSize: 120,
                         color: "#E11D48",
-                        filter: "drop-shadow(0 0 30px #E11D48)",
+                        filter: "drop-shadow(0 0 30px rgba(225, 29, 72, 0.4))",
                       }}
                     />
                   </Box>
@@ -347,14 +323,12 @@ const AboutTab = ({ onRegisterClick }) => {
             subtitle="Zero latency alerts for critical emergencies."
             icon={BoltIcon}
             delay={0.2}
-            color="#F59E0B"
           />
           <BentoCard
             title="Absolute Privacy"
             subtitle="Military-grade encryption for donor data."
             icon={SecurityIcon}
             delay={0.3}
-            color="#10B981"
           />
           <BentoCard
             title="24/7 Monitoring"
@@ -368,7 +342,6 @@ const AboutTab = ({ onRegisterClick }) => {
             subtitle="Extending the reach of human kindness across national borders through specialized gRPC protocols."
             icon={PublicIcon}
             delay={0.5}
-            color="#3B82F6"
             bgImg={donation3}
           />
           <BentoCard
@@ -383,29 +356,18 @@ const AboutTab = ({ onRegisterClick }) => {
         <Box
           sx={{
             py: 15,
-            borderY: "1px solid rgba(255,255,255,0.05)",
+            borderY: "1px solid rgba(0,0,0,0.05)",
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             justifyContent: "space-around",
             gap: 10,
             mb: 30,
-            bgcolor: "rgba(255,255,255,0.01)",
+            bgcolor: "white",
+            borderRadius: 8,
+            boxShadow: "0 20px 50px rgba(0,0,0,0.03)",
             position: "relative",
           }}
         >
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              opacity: 0.1,
-              pointerEvents: "none",
-              background:
-                "linear-gradient(90deg, transparent, #E11D48, transparent)",
-            }}
-          />
           {[
             { val: "99.9", label: "Uptime Protocol", suffix: "%" },
             { val: "15", label: "Avg Response", suffix: "m" },
@@ -423,8 +385,8 @@ const AboutTab = ({ onRegisterClick }) => {
                   fontWeight={950}
                   sx={{
                     letterSpacing: -4,
-                    color: "white",
-                    textShadow: "0 0 30px rgba(225, 29, 72, 0.4)",
+                    color: "#0F172A",
+                    textShadow: "0 10px 20px rgba(0,0,0,0.05)",
                   }}
                 >
                   <Box component="span" sx={{ color: "#E11D48" }}>
@@ -437,7 +399,7 @@ const AboutTab = ({ onRegisterClick }) => {
                 <Typography
                   variant="overline"
                   sx={{
-                    color: "rgba(255,255,255,0.5)",
+                    color: "#64748B",
                     fontWeight: 800,
                     letterSpacing: 4,
                     display: "block",
@@ -455,11 +417,11 @@ const AboutTab = ({ onRegisterClick }) => {
         <Box
           sx={{
             position: "relative",
-            py: 10,
-            bgcolor: "rgba(225,29,72,0.02)",
+            py: 12,
+            bgcolor: "#0F172A", // Contrast dark card for CTA
             borderRadius: 12,
             textAlign: "center",
-            border: "1px solid rgba(225,29,72,0.1)",
+            boxShadow: "0 50px 100px -20px rgba(0,0,0,0.4)",
             overflow: "hidden",
           }}
         >
@@ -471,7 +433,7 @@ const AboutTab = ({ onRegisterClick }) => {
               width: "140%",
               height: "200%",
               background:
-                "radial-gradient(circle, rgba(225, 29, 72, 0.05) 0%, transparent 70%)",
+                "radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 70%)",
               zIndex: 0,
             }}
           />
@@ -480,7 +442,7 @@ const AboutTab = ({ onRegisterClick }) => {
             <Typography
               variant="h1"
               fontWeight={950}
-              sx={{ letterSpacing: -4, mb: 4, lineHeight: 1 }}
+              sx={{ letterSpacing: -4, mb: 4, color: "white", lineHeight: 1 }}
             >
               Become Infinite.
             </Typography>
@@ -506,17 +468,16 @@ const AboutTab = ({ onRegisterClick }) => {
                 color: "white",
                 px: 12,
                 py: 3.5,
-                borderRadius: 0,
+                borderRadius: 2,
                 fontWeight: 950,
                 fontSize: "1.4rem",
-                clipPath: "polygon(5% 0, 100% 0, 95% 100%, 0% 100%)",
-                boxShadow: "0 40px 80px rgba(225, 29, 72, 0.3)",
                 "&:hover": {
                   bgcolor: "white",
-                  color: "black",
-                  transform: "scale(1.02)",
+                  color: "#0F172A",
+                  transform: "scale(1.05)",
                 },
                 transition: "all 0.4s ease",
+                boxShadow: "0 30px 60px rgba(225, 29, 72, 0.4)",
               }}
             >
               INITIATE REGISTRATION

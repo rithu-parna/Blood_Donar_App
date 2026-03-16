@@ -39,7 +39,7 @@ const LandingHeader = ({ onRegisterClick, activePage, onPageChange }) => {
   ];
 
   console.log(activePage, "actssssivePage");
-  const isDarkPage = activePage === "about";
+  const isDarkPage = false;
   const isLightPage =
     activePage !== "home" && !isDarkPage && activePage !== "customer";
 

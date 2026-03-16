@@ -51,7 +51,7 @@ const CustomerLanding = () => {
         setSelectedBloodType('All');
     };
 
-    const isDarkPage = activePage === 'about';
+    const isDarkPage = false;
 
     return (
         <Box sx={{
