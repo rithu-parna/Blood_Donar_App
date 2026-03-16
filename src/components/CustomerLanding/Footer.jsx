@@ -9,7 +9,15 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SendIcon from '@mui/icons-material/Send';
 
-const Footer = () => {
+const Footer = ({ onPageChange }) => {
+    const quickLinks = [
+        { label: 'Home', id: 'home' },
+        { label: 'Find Donor', id: 'donors' },
+        { label: 'Requests', id: 'requests' },
+        { label: 'About Us', id: 'about' },
+        { label: 'Contact', id: 'contact' },
+    ];
+
     return (
         <Box sx={{ bgcolor: '#0F172A', color: 'white', pt: 10, pb: 4, position: 'relative', overflow: 'hidden' }}>
             {/* Background Decoration */}
@@ -28,7 +36,11 @@ const Footer = () => {
                 <Grid container spacing={8}>
                     {/* Brand Section */}
                     <Grid item xs={12} md={4}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                        <Box
+                            onClick={() => onPageChange && onPageChange('home')}
+                            sx={{ display: 'flex', alignItems: 'center', mb: 3, cursor: 'pointer' }}
+                            className="interactive"
+                        >
                             <Box sx={{
                                 width: 36,
                                 height: 36,
@@ -55,6 +67,7 @@ const Footer = () => {
                                 <IconButton
                                     key={idx}
                                     size="small"
+                                    className="interactive"
                                     sx={{
                                         bgcolor: 'rgba(255,255,255,0.03)',
                                         color: 'rgba(255,255,255,0.6)',
@@ -75,10 +88,12 @@ const Footer = () => {
                             Quick Links
                         </Typography>
                         <Stack spacing={2}>
-                            {['Home', 'Find Donor', 'Requests', 'About Us', 'Contact'].map((link) => (
+                            {quickLinks.map((link) => (
                                 <Typography
-                                    key={link}
+                                    key={link.id}
                                     variant="body2"
+                                    onClick={() => onPageChange && onPageChange(link.id)}
+                                    className="interactive"
                                     sx={{
                                         color: 'rgba(255,255,255,0.6)',
                                         cursor: 'pointer',
@@ -86,7 +101,7 @@ const Footer = () => {
                                         transition: '0.2s'
                                     }}
                                 >
-                                    {link}
+                                    {link.label}
                                 </Typography>
                             ))}
                         </Stack>

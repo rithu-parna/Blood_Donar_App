@@ -181,7 +181,7 @@ const CustomerLanding = () => {
                                 <Route path="*" element={<Navigate to="/customer" replace />} />
                             </Routes>
                         </Box>
-                        <Footer />
+                        <Footer onPageChange={handlePageChange} />
                     </motion.div>
                 )}
             </AnimatePresence>
