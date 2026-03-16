@@ -1,489 +1,367 @@
-import React, { useRef } from "react";
-import { Box, Container, Typography, Grid, Stack, Button } from "@mui/material";
-import { motion, useScroll, useSpring } from "framer-motion";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import BoltIcon from "@mui/icons-material/Bolt";
-import SecurityIcon from "@mui/icons-material/Security";
-import PublicIcon from "@mui/icons-material/Public";
-import SpeedIcon from "@mui/icons-material/Speed";
-import HubIcon from "@mui/icons-material/Hub";
-import donation1 from "../../../assets/about/donation1.png";
-import donation2 from "../../../assets/about/donation2.png";
-import donation3 from "../../../assets/about/donation3.png";
+import React, { useState, useEffect } from "react";
+import { Box, Container, Typography, Grid, Stack, Button, Avatar } from "@mui/material";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import BloodtypeIcon from '@mui/icons-material/Bloodtype';
+import PeopleIcon from '@mui/icons-material/People';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import SecurityIcon from '@mui/icons-material/Security';
+import HubIcon from '@mui/icons-material/Hub';
 
-const BentoCard = ({
-  title,
-  subtitle,
-  icon: Icon,
-  span = 1,
-  delay = 0,
-  color = "#E11D48",
-  bgImg,
-}) => (
+// Assets
+import donationHero from "../../../assets/about/donation1.png";
+import missionImg from "../../../assets/about/donation2.png";
+
+const CountingNumber = ({ value, suffix = "" }) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    const numericValue = parseInt(value);
+    const controls = animate(count, numericValue, {
+      duration: 2.5,
+      ease: "easeOut",
+    });
+    return controls.stop;
+  }, [value]);
+
+  useEffect(() => {
+    return rounded.onChange((latest) => setDisplay(latest));
+  }, [rounded]);
+
+  return <>{display}{suffix}</>;
+};
+
+const PillarCard = ({ icon: Icon, title, subtitle, delay = 0 }) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0.95 }}
-    whileInView={{ opacity: 1, scale: 1 }}
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    style={{ height: "100%", gridColumn: `span ${span}` }}
+    transition={{ duration: 0.6, delay }}
   >
     <Box
+      className="interactive"
       sx={{
+        p: 5,
         height: "100%",
-        p: 4,
-        borderRadius: 8,
         bgcolor: "white",
-        boxShadow: "0 10px 30px rgba(0,0,0,0.03)",
-        border: "1px solid rgba(0,0,0,0.05)",
-        position: "relative",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
+        borderRadius: 8,
+        boxShadow: "0 20px 60px rgba(0,0,0,0.03)",
+        textAlign: "center",
+        border: "1px solid rgba(0,0,0,0.02)",
         transition: "all 0.4s ease",
         "&:hover": {
-          borderColor: `${color}40`,
-          bgcolor: "white",
-          transform: "translateY(-8px)",
-          boxShadow: `0 20px 40px ${color}15`,
-          "& .card-bg": { transform: "scale(1.1)", opacity: 0.15 },
-          "& .icon-box": {
-            transform: "scale(1.1) rotate(5deg)",
-            bgcolor: color,
-            color: "white",
-          },
+          transform: "translateY(-10px)",
+          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.08)",
+          "& .icon-bg": { bgcolor: "#E11D48", color: "white" }
         },
       }}
     >
-      {bgImg && (
-        <Box
-          className="card-bg"
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundImage: `url(${bgImg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            zIndex: 0,
-            opacity: 0.08,
-            transition: "all 0.8s ease",
-            filter: "grayscale(100%)",
-          }}
-        />
-      )}
-
       <Box
-        className="icon-box"
+        className="icon-bg"
         sx={{
-          width: 50,
-          height: 50,
-          borderRadius: "50%",
+          width: 54,
+          height: 54,
+          borderRadius: 2.5,
           bgcolor: "rgba(225, 29, 72, 0.05)",
-          color: color,
+          color: "#E11D48",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          mb: 3,
-          transition: "all 0.4s ease",
-          position: "relative",
-          zIndex: 1,
+          mx: "auto",
+          mb: 4,
+          transition: "0.3s"
         }}
       >
-        <Icon sx={{ fontSize: 24 }} />
+        <Icon sx={{ fontSize: 26 }} />
       </Box>
-
-      <Box sx={{ position: "relative", zIndex: 1 }}>
-        <Typography variant="h5" fontWeight={950} sx={{ color: "#0F172A", mb: 1, letterSpacing: -1 }}>
-          {title}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            color: "#64748B",
-            fontWeight: 500,
-            lineHeight: 1.6,
-          }}
-        >
-          {subtitle}
-        </Typography>
-      </Box>
+      <Typography variant="h6" fontWeight={950} sx={{ color: "#0F172A", mb: 2, letterSpacing: -0.5 }}>
+        {title}
+      </Typography>
+      <Typography variant="body2" sx={{ color: "#64748B", lineHeight: 1.6, fontSize: "0.85rem" }}>
+        {subtitle}
+      </Typography>
     </Box>
   </motion.div>
 );
 
-const AboutTab = ({ onRegisterClick }) => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  return (
-    <Box
-      sx={{
-        bgcolor: "#FFF5F5",
-        color: "#1E293B",
-        pt: { xs: 15, md: 25 },
-        pb: 20,
-        overflow: "hidden",
-        position: "relative",
-      }}
-    >
-      {/* Scroll Progress Indicator */}
-      <motion.div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 4,
-          backgroundColor: "#E11D48",
-          scaleX,
-          transformOrigin: "0%",
-          zIndex: 2000,
+const TeamMember = ({ name, role, img, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay }}
+  >
+    <Box sx={{ textAlign: "center" }}>
+      <Box
+        className="interactive"
+        sx={{
+          width: "100%",
+          aspectRatio: "1/1.2",
+          overflow: "hidden",
+          borderRadius: 8,
+          mb: 3,
+          bgcolor: "#F1F5F9",
+          position: "relative",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.05)",
+          cursor: "none"
         }}
-      />
+      >
+        <Box
+          component="img"
+          src={img}
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            filter: "grayscale(100%)",
+            transition: "0.5s",
+            "&:hover": { filter: "grayscale(0%)", transform: "scale(1.05)" }
+          }}
+          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400"; }}
+        />
+      </Box>
+      <Typography variant="h6" fontWeight={950} sx={{ color: "#0F172A", mb: 0.5 }}>{name}</Typography>
+      <Typography variant="caption" sx={{ color: "#E11D48", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1 }}>{role}</Typography>
+    </Box>
+  </motion.div>
+);
 
-      {/* Ambient Background Effects */}
-      <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }}>
-        <Box sx={{ position: "absolute", top: "10%", right: "-5%", width: 800, height: 800, background: "radial-gradient(circle, rgba(225, 29, 72, 0.05) 0%, transparent 70%)", filter: "blur(100px)" }} />
-        <Box sx={{ position: "absolute", bottom: "10%", left: "-10%", width: 600, height: 600, background: "radial-gradient(circle, rgba(225, 29, 72, 0.03) 0%, transparent 70%)", filter: "blur(100px)" }} />
+const AboutTab = () => {
+  return (
+    <Box sx={{ bgcolor: "#FFF5F5", color: "#1E293B", overflow: "hidden" }}>
+
+      {/* 1. HERO BANNER */}
+      <Box
+        sx={{
+          height: { xs: "50vh", md: "75vh" },
+          width: "100%",
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${donationHero})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          px: 4
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <Box sx={{ textAlign: "center", maxWidth: 900 }}>
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: 950,
+                color: "white",
+                fontSize: { xs: "2.5rem", md: "5.5rem" },
+                letterSpacing: -2,
+                lineHeight: 1,
+                mb: 3
+              }}
+            >
+              The Nation's Most Trusted <br />
+              <Box component="span" sx={{ color: "#E11D48" }}>Blood Donor Network</Box>
+            </Typography>
+            <Typography variant="h6" sx={{ color: "rgba(255,255,255,0.7)", fontWeight: 400, fontSize: "1.1rem" }}>
+              Saving lives through rapid coordination, secure protocols, and a community of verified heroes.
+            </Typography>
+          </Box>
+        </motion.div>
       </Box>
 
-      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
-        {/* 1. THE VISION SECTION */}
-        <Grid container spacing={10} alignItems="center" sx={{ mb: 30 }}>
-          <Grid item xs={12} lg={7}>
+      {/* 2. STATS SECTION */}
+      <Box
+        sx={{
+          bgcolor: "#0F172A",
+          py: 0,
+          position: "relative",
+          overflow: "hidden",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: "25%",
+            width: "1px",
+            height: "100%",
+            bgcolor: "rgba(255,255,255,0.05)"
+          },
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            right: "25%",
+            width: "1px",
+            height: "100%",
+            bgcolor: "rgba(255,255,255,0.05)"
+          }
+        }}
+      >
+        <Box sx={{ position: "absolute", top: 0, left: "50%", width: "1px", height: "100%", bgcolor: "rgba(255,255,255,0.05)" }} />
+        <Container maxWidth="lg">
+          <Grid container spacing={0}>
+            {[
+              { val: "1000", suffix: "+", label: "SUCCESSFUL DONATIONS" },
+              { val: "2500", suffix: "+", label: "REGISTERED HEROES" },
+              { val: "120", suffix: "+", label: "HOSPITAL NODES" },
+              { val: "10", suffix: "+", label: "YEARS OF TRUST" }
+            ].map((stat, i) => (
+              <Grid item xs={12} sm={6} md={3} key={i}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ backgroundColor: "rgba(225, 29, 72, 0.08)" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: i * 0.1 }}
+                  className="interactive"
+                  style={{ padding: "80px 20px", textAlign: "center", transition: "all 0.4s ease" }}
+                >
+                  <Typography variant="h2" fontWeight={950} sx={{ color: "white", mb: 1, letterSpacing: -2 }}>
+                    <CountingNumber value={stat.val} suffix={stat.suffix} />
+                  </Typography>
+                  <Typography variant="overline" sx={{ color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: 2 }}>
+                    {stat.label}
+                  </Typography>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      <Container maxWidth="lg" sx={{ pt: 15, pb: 15 }}>
+
+        {/* 3. MISSION SECTION */}
+        <Grid container spacing={8} alignItems="center" sx={{ mb: 20 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
-              <Typography
-                variant="overline"
+              <Box
                 sx={{
-                  color: "#E11D48",
-                  fontWeight: 950,
-                  letterSpacing: 8,
-                  mb: 3,
-                  display: "block",
+                  width: "100%",
+                  aspectRatio: "4/3",
+                  borderRadius: 6,
+                  overflow: "hidden",
+                  boxShadow: "0 40px 80px rgba(0,0,0,0.1)",
+                  border: "4px solid white"
                 }}
               >
-                OUR MISSION
-              </Typography>
-              <Typography
-                variant="h1"
-                sx={{
-                  fontWeight: 950,
-                  letterSpacing: -5,
-                  lineHeight: 0.9,
-                  fontSize: { xs: "3.5rem", md: "6rem", lg: "8rem" },
-                  color: "#0F172A",
-                  mb: 6,
-                }}
-              >
-                Engineering <br />
                 <Box
-                  component="span"
-                  sx={{
-                    color: "transparent",
-                    WebkitTextStroke: "1px #E11D48",
-                  }}
-                >
-                  Human
-                </Box>{" "}
-                <br />
-                Resilience.
-              </Typography>
-              <Typography
-                variant="h5"
-                sx={{
-                  color: "#64748B",
-                  fontWeight: 500,
-                  lineHeight: 1.6,
-                  maxWidth: 700,
-                  mb: 10,
-                }}
-              >
-                BloodLink is a high-frequency coordinate network built to
-                eliminate wait times in medical logistics. We bridge the gap
-                between global altruism and local emergency.
-              </Typography>
-              <Stack direction="row" spacing={3}>
-                <Button
-                  variant="contained"
-                  onClick={onRegisterClick}
-                  sx={{
-                    bgcolor: "#E11D48",
-                    color: "white",
-                    px: 8,
-                    py: 2.5,
-                    borderRadius: 2,
-                    fontWeight: 950,
-                    fontSize: "1.2rem",
-                    "&:hover": { bgcolor: "#BE123C", transform: "translateY(-5px)" },
-                    transition: "all 0.3s",
-                    boxShadow: "0 20px 40px rgba(225, 29, 72, 0.2)",
-                  }}
-                >
-                  ACTIVATE NOW
-                </Button>
-                <Button
-                  sx={{
-                    fontWeight: 900,
-                    color: "#0F172A",
-                    px: 4,
-                    letterSpacing: 2,
-                    "&:hover": { color: "#E11D48" }
-                  }}
-                >
-                  PROTOCOL SECURE →
-                </Button>
-              </Stack>
+                  className="interactive"
+                  component="img"
+                  src={missionImg}
+                  sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1542884748-2b87b36c6b90?auto=format&fit=crop&q=80&w=1000"; }}
+                />
+              </Box>
             </motion.div>
           </Grid>
-          <Grid item xs={12} lg={5}>
-            <Box sx={{ position: "relative" }}>
-              <motion.div
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              >
-                <Box
-                  sx={{
-                    width: "100%",
-                    aspectRatio: "1/1",
-                    borderRadius: "40% 60% 70% 30% / 40% 50% 60% 70%",
-                    border: "2px dashed rgba(225, 29, 72, 0.2)",
-                    overflow: "hidden",
-                    position: "relative",
-                    bgcolor: "white",
-                    boxShadow: "0 50px 100px -20px rgba(0,0,0,0.1)",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      backgroundImage: `url(${donation1})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      opacity: 0.1,
-                      filter: "grayscale(100%)",
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  >
-                    <FavoriteIcon
-                      sx={{
-                        fontSize: 120,
-                        color: "#E11D48",
-                        filter: "drop-shadow(0 0 30px rgba(225, 29, 72, 0.4))",
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </motion.div>
-            </Box>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+            >
+              <Typography variant="subtitle2" sx={{ color: "#E11D48", fontWeight: 900, letterSpacing: 3, mb: 1.5, textTransform: "uppercase" }}>
+                OUR MISSION
+              </Typography>
+              <Typography variant="h3" fontWeight={950} sx={{ color: "#0F172A", mb: 4, letterSpacing: -1 }}>
+                Delivering Reliable <br />
+                Life-Saving Solutions in <br />
+                <Box component="span" sx={{ color: "#E11D48" }}>Every Second.</Box>
+              </Typography>
+              <Typography variant="body1" sx={{ color: "#64748B", mb: 6, lineHeight: 1.8, fontSize: "1rem" }}>
+                At BloodLink, our mission is to provide a seamless and secure platform that connects hospitals and individuals with a vast network of donors. We are committed to bridging the gap between life-saving requirements and voluntary contributions with integrity.
+              </Typography>
+
+              <Grid container spacing={3}>
+                {[
+                  "Donor-Centered Hub", "Verified Blood Packs", "Secure Data Privacy", "Real-Time Tracking", "Military-Grade Sync", "24/7 Rapid Response"
+                ].map((text, i) => (
+                  <Grid item xs={12} sm={6} key={i}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }} className="interactive">
+                      <CheckCircleOutlineIcon sx={{ color: "#E11D48", fontSize: 20 }} />
+                      <Typography variant="body2" fontWeight={800} sx={{ color: "#1E293B", fontSize: "0.85rem" }}>{text}</Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </motion.div>
           </Grid>
         </Grid>
 
-        {/* 2. THE BENTO GRID FEATURES */}
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "repeat(4, 1fr)" },
-            gridAutoRows: "minmax(250px, auto)",
-            gap: 3,
-            mb: 30,
-          }}
-        >
-          <BentoCard
-            span={2}
-            title="Neural Connectivity"
-            subtitle="Matches donors in milliseconds using advanced nearest-neighbor coordinate synthesis."
-            icon={HubIcon}
-            delay={0.1}
-            bgImg={donation2}
-          />
-          <BentoCard
-            title="Instant Sync"
-            subtitle="Zero latency alerts for critical emergencies."
-            icon={BoltIcon}
-            delay={0.2}
-          />
-          <BentoCard
-            title="Absolute Privacy"
-            subtitle="Military-grade encryption for donor data."
-            icon={SecurityIcon}
-            delay={0.3}
-          />
-          <BentoCard
-            title="24/7 Monitoring"
-            subtitle="Live tracking of hospital blood bank levels."
-            icon={SpeedIcon}
-            delay={0.4}
-          />
-          <BentoCard
-            span={2}
-            title="Global Ecosystem"
-            subtitle="Extending the reach of human kindness across national borders through specialized gRPC protocols."
-            icon={PublicIcon}
-            delay={0.5}
-            bgImg={donation3}
-          />
-          <BentoCard
-            title="Verified Hubs"
-            subtitle="Rigorous auditing for every facility."
-            icon={SpeedIcon}
-            delay={0.6}
-          />
-        </Box>
-
-        {/* 3. SCROLL-DRIVEN STATS (Animated Counters) */}
-        <Box
-          sx={{
-            py: 15,
-            borderY: "1px solid rgba(0,0,0,0.05)",
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-around",
-            gap: 10,
-            mb: 30,
-            bgcolor: "white",
-            borderRadius: 8,
-            boxShadow: "0 20px 50px rgba(0,0,0,0.03)",
-            position: "relative",
-          }}
-        >
-          {[
-            { val: "99.9", label: "Uptime Protocol", suffix: "%" },
-            { val: "15", label: "Avg Response", suffix: "m" },
-            { val: "10", label: "Verified Heroes", suffix: "K+" },
-            { val: "24", label: "Global Node Live", suffix: "/7" },
-          ].map((stat, i) => (
-            <Box key={i} sx={{ textAlign: "center", position: "relative" }}>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: i * 0.1 }}
-              >
-                <Typography
-                  variant="h2"
-                  fontWeight={950}
-                  sx={{
-                    letterSpacing: -4,
-                    color: "#0F172A",
-                    textShadow: "0 10px 20px rgba(0,0,0,0.05)",
-                  }}
-                >
-                  <Box component="span" sx={{ color: "#E11D48" }}>
-                    {stat.val}
-                  </Box>
-                  <Box component="span" sx={{ fontSize: "2rem", ml: 0.5 }}>
-                    {stat.suffix}
-                  </Box>
-                </Typography>
-                <Typography
-                  variant="overline"
-                  sx={{
-                    color: "#64748B",
-                    fontWeight: 800,
-                    letterSpacing: 4,
-                    display: "block",
-                    mt: 1,
-                  }}
-                >
-                  {stat.label}
-                </Typography>
-              </motion.div>
-            </Box>
-          ))}
-        </Box>
-
-        {/* 5. THE ULTIMATE CTA */}
-        <Box
-          sx={{
-            position: "relative",
-            py: 12,
-            bgcolor: "#0F172A", // Contrast dark card for CTA
-            borderRadius: 12,
-            textAlign: "center",
-            boxShadow: "0 50px 100px -20px rgba(0,0,0,0.4)",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              top: "-100%",
-              left: "-20%",
-              width: "140%",
-              height: "200%",
-              background:
-                "radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 70%)",
-              zIndex: 0,
-            }}
-          />
-
-          <Box sx={{ position: "relative", zIndex: 1 }}>
-            <Typography
-              variant="h1"
-              fontWeight={950}
-              sx={{ letterSpacing: -4, mb: 4, color: "white", lineHeight: 1 }}
-            >
-              Become Infinite.
+        {/* 4. PILLARS OF EXCELLENCE */}
+        <Box sx={{ mb: 20 }}>
+          <Box sx={{ textAlign: "center", mb: 10 }}>
+            <Typography variant="subtitle2" sx={{ color: "#E11D48", fontWeight: 900, mb: 1.5, letterSpacing: 4, textTransform: "uppercase" }}>
+              OUR VALUES
             </Typography>
-            <Typography
-              variant="h5"
-              sx={{
-                color: "rgba(255,255,255,0.5)",
-                mb: 10,
-                maxWidth: 600,
-                mx: "auto",
-                fontWeight: 500,
-              }}
-            >
-              Join 10,000+ elite lifesavers and start your journey as a hero
-              today. Seconds count. Hearts wait.
+            <Typography variant="h2" fontWeight={950} sx={{ color: "#0F172A", letterSpacing: -2 }}>
+              The Pillars of Excellence
             </Typography>
-
-            <Button
-              variant="contained"
-              onClick={onRegisterClick}
-              sx={{
-                bgcolor: "#E11D48",
-                color: "white",
-                px: 12,
-                py: 3.5,
-                borderRadius: 2,
-                fontWeight: 950,
-                fontSize: "1.4rem",
-                "&:hover": {
-                  bgcolor: "white",
-                  color: "#0F172A",
-                  transform: "scale(1.05)",
-                },
-                transition: "all 0.4s ease",
-                boxShadow: "0 30px 60px rgba(225, 29, 72, 0.4)",
-              }}
-            >
-              INITIATE REGISTRATION
-            </Button>
           </Box>
+          <Grid container spacing={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
+              <PillarCard
+                icon={BloodtypeIcon}
+                title="Verified Donor Pool"
+                subtitle="Every donor goes through a rigorous vetting process to ensure medical standards and reliability are consistently met."
+                delay={0.1}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 4 }}>
+              <PillarCard
+                icon={SecurityIcon}
+                title="Absolute Privacy"
+                subtitle="We leverage end-to-end encryption to protect sensitive donor and recipient data from unauthorized access."
+                delay={0.2}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 4 }}>
+              <PillarCard
+                icon={TrendingUpIcon}
+                title="Result-Driven Matching"
+                subtitle="Our platform tracks donor locations and blood types in real-time to ensure the fastest matching possible."
+                delay={0.3}
+              />
+            </Grid>
+          </Grid>
         </Box>
+
+        {/* 5. MEET THE ELITE */}
+        <Box>
+          <Box sx={{ textAlign: "center", mb: 10 }}>
+            <Typography variant="subtitle2" sx={{ color: "#E11D48", fontWeight: 900, mb: 1.5, letterSpacing: 4, textTransform: "uppercase" }}>
+              OUR TEAM
+            </Typography>
+            <Typography variant="h2" fontWeight={950} sx={{ color: "#0F172A", letterSpacing: -2 }}>
+              Meet The Elite
+            </Typography>
+          </Box>
+          <Grid container spacing={4}>
+            {[
+              { name: "Ashik Usman", role: "National Founder", img: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?auto=format&fit=crop&q=80&w=400" },
+              { name: "Abdul Rahman", role: "Network Director", img: "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&q=80&w=400" },
+              { name: "Mohammed Ali", role: "Medical Consultant", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400" },
+              { name: "Fatima Hassan", role: "Communications Lead", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400" }
+            ].map((member, i) => (
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
+                <TeamMember {...member} delay={i * 0.1} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
       </Container>
     </Box>
   );

@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-
 import { Box, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import LandingHeader from '../components/CustomerLanding/LandingHeader';
+import CustomCursor from '../components/CustomerLanding/CustomCursor';
 import DonorFormDrawer from '../components/CustomerLanding/DonorFormDrawer';
 import RequestFormDrawer from '../components/CustomerLanding/RequestFormDrawer';
 import Footer from '../components/CustomerLanding/Footer';
@@ -65,6 +66,7 @@ const CustomerLanding = () => {
                 : 'radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.05) 0%, transparent 70%)',
             transition: 'background-color 0.5s ease'
         }}>
+            <CustomCursor />
             <LandingHeader
                 activePage={activePage}
                 onPageChange={handlePageChange}
