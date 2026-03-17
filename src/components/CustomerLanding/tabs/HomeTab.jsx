@@ -1,74 +1,498 @@
-import React from "react";
-import { Box, Container, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Container, Typography, Grid, Button, Stack} from "@mui/material";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import HeroSection from "../HeroSection";
 import StatsBar from "../StatsBar";
-import SearchBar from "../SearchBar";
-import RequestSection from "../RequestSection";
-import DonorSection from "../DonorSection";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import BloodtypeIcon from '@mui/icons-material/Bloodtype';
+import ShieldIcon from '@mui/icons-material/Shield';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import HubIcon from '@mui/icons-material/Hub';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+
+const CountingNumber = ({ value, suffix = "" }) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    const numericValue = parseInt(value);
+    const controls = animate(count, numericValue, {
+      duration: 2,
+      ease: "easeOut",
+    });
+    return controls.stop;
+  }, [value]);
+
+  useEffect(() => {
+    return rounded.on("change", (latest) => setDisplay(latest));
+  }, [rounded]);
+
+  return <>{display}{suffix}</>;
+};
+
+const PremiumRequestCard = ({ req, index }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+    whileHover={{ y: -10 }}
+  >
+    <Box
+      className="interactive"
+      sx={{
+        bgcolor: "white",
+        borderRadius: "32px",
+        p: 2.5,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        boxShadow: "0 20px 50px rgba(0,0,0,0.04)",
+        border: "1px solid rgba(0,0,0,0.02)",
+        transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        "&:hover": {
+          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.12)",
+          "& .explore-link": { color: "#E11D48" }
+        }
+      }}
+    >
+      {/* Visual Header / Image Area */}
+      <Box sx={{
+        position: "relative",
+        width: "100%",
+        height: 180,
+        borderRadius: "24px",
+        overflow: "hidden",
+        mb: 3,
+        bgcolor: "#F8FAFC"
+      }}>
+        <Box sx={{
+          width: "100%",
+          height: "100%",
+          background: `linear-gradient(45deg, rgba(225,29,72,0.05) 0%, rgba(225,29,72,0.15) 100%)`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}>
+          <LocalHospitalIcon sx={{ fontSize: 60, color: "rgba(225,29,72,0.2)" }} />
+        </Box>
+
+        <Box sx={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+          bgcolor: req.urgency === "CRITICAL" ? "#E11D48" : "#F59E0B",
+          color: "white",
+          px: 2,
+          py: 0.8,
+          borderRadius: "12px",
+          fontWeight: 900,
+          fontSize: "0.7rem",
+          letterSpacing: 1,
+          boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
+        }}>
+          {req.urgency}
+        </Box>
+
+        <Box sx={{
+          position: "absolute",
+          bottom: 16,
+          left: 16,
+          bgcolor: "white",
+          px: 2,
+          py: 1,
+          borderRadius: "12px",
+          fontWeight: 950,
+          color: "#0F172A",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          boxShadow: "0 10px 20px rgba(0,0,0,0.05)"
+        }}>
+          <BloodtypeIcon sx={{ color: "#E11D48", fontSize: 20 }} />
+          {req.type}
+        </Box>
+      </Box>
+
+      {/* Content */}
+      <Box sx={{ px: 1, pb: 2, flex: 1, display: "flex", flexDirection: "column" }}>
+        <Typography variant="h6" fontWeight={900} sx={{ color: "#0F172A", mb: 1, letterSpacing: -0.5 }}>
+          {req.hospital}
+        </Typography>
+
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 3 }}>
+          <LocationOnIcon sx={{ color: "#94A3B8", fontSize: 18 }} />
+          <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 700 }}>
+            {req.location}
+          </Typography>
+        </Stack>
+
+        <Box sx={{
+          display: "flex",
+          gap: 3,
+          py: 2,
+          borderTop: "1px solid #F1F5F9",
+          mt: "auto"
+        }}>
+          <Box>
+            <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 800, letterSpacing: 1, display: "block", mb: 0.5 }}>UNITS</Typography>
+            <Typography variant="body1" fontWeight={950} sx={{ color: "#0F172A" }}>{req.units} Required</Typography>
+          </Box>
+          <Box sx={{ borderLeft: "1px solid #F1F5F9", pl: 3 }}>
+            <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 800, letterSpacing: 1, display: "block", mb: 0.5 }}>STATUS</Typography>
+            <Typography variant="body1" fontWeight={950} sx={{ color: "#E11D48" }}>Open</Typography>
+          </Box>
+        </Box>
+
+        <Box
+          className="explore-link"
+          sx={{
+            pt: 2,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            color: "#0F172A",
+            fontWeight: 900,
+            fontSize: "0.9rem",
+            cursor: "pointer",
+            transition: "0.3s"
+          }}
+        >
+          Explore Request <ArrowForwardIcon sx={{ fontSize: 16 }} />
+        </Box>
+      </Box>
+    </Box>
+  </motion.div>
+);
+
+const PremiumDonorCard = ({ donor, index }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+    whileHover={{ y: -10 }}
+  >
+    <Box
+      className="interactive"
+      sx={{
+        bgcolor: "white",
+        borderRadius: "32px",
+        p: 5,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        boxShadow: "0 20px 50px rgba(0,0,0,0.04)",
+        border: "1px solid rgba(0,0,0,0.02)",
+        transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        "&:hover": {
+          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.12)",
+          "& .donor-icon": { scale: 1.1 }
+        }
+      }}
+    >
+      <Box
+        className="donor-icon"
+        sx={{
+          width: 70,
+          height: 70,
+          borderRadius: "20px",
+          bgcolor: index === 0 ? "#FFF9EB" : index === 1 ? "#F5F0FF" : "#EDFFF4",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          mb: 4,
+          transition: "0.3s"
+        }}
+      >
+        {index === 0 && <VerifiedIcon sx={{ fontSize: 32, color: "#F59E0B" }} />}
+        {index === 1 && <ShieldIcon sx={{ fontSize: 32, color: "#8B5CF6" }} />}
+        {index === 2 && <StarIcon sx={{ fontSize: 32, color: "#10B981" }} />}
+        {index > 2 && <WaterDropIcon sx={{ fontSize: 32, color: "#E11D48" }} />}
+      </Box>
+
+      <Typography variant="h5" fontWeight={950} sx={{ color: "#0F172A", mb: 1.5, letterSpacing: -0.5 }}>
+        {donor.name}
+      </Typography>
+
+      <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 700, mb: 4, lineHeight: 1.6 }}>
+        Verified elite donor from {donor.location}, actively contributing to the humanitarian cause.
+      </Typography>
+
+      <Box sx={{ mt: "auto", pt: 3, borderTop: "1px solid #F1F5F9", width: "100%" }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="h4" fontWeight={950} sx={{ color: "#E11D48" }}>
+              <CountingNumber value={donor.count} />
+            </Typography>
+            <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 800, letterSpacing: 1 }}>DONATIONS</Typography>
+          </Box>
+          <Box sx={{
+            px: 2,
+            py: 1,
+            bgcolor: "#F8FAFC",
+            borderRadius: "12px",
+            color: "#0F172A",
+            fontWeight: 900,
+            fontSize: "0.75rem",
+            border: "1px solid #F1F5F9"
+          }}>
+            {donor.type}
+          </Box>
+        </Stack>
+      </Box>
+    </Box>
+  </motion.div>
+);
+
+const StarIcon = ({ sx }) => (
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={sx}>
+    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor" />
+  </svg>
+);
 
 const HomeTab = ({
   onDonorRegisterClick,
   onRequestCreateClick,
   onAboutClick,
-  searchQuery,
-  setSearchQuery,
-  selectedBloodType,
-  handleTypeClear,
+  onRequestsClick,
+  requests,
 }) => {
+  const featuredDonors = [
+    { name: 'Rahul Sharma', type: 'O+', location: 'Kozhikode', count: 115 },
+    { name: 'Sneha Krishna', type: 'O-', location: 'Trivandrum', count: 98 },
+    { name: 'Muhammed Fayis', type: 'A-', location: 'Malappuram', count: 82 },
+  ];
+
   return (
     <>
       <HeroSection
         onRegisterClick={onDonorRegisterClick}
         onAboutClick={onAboutClick}
       />
-      <Box sx={{ pt: 10 }}>
+
+      <Box sx={{ pt: 10, pb: 20, bgcolor: "white" }}>
         <StatsBar />
-        <Container maxWidth="xl" sx={{ py: 10 }}>
-          <Box sx={{ mb: 10 }}>
-            {/* Title omitted for brevity */}
-            <Typography
-              variant="h3"
-              fontWeight={900}
-              sx={{ mb: 2, textAlign: "center", color: "#0F172A" }}
-            >
-              Find{" "}
-              <Box component="span" sx={{ color: "#E11D48" }}>
-                Quick
-              </Box>{" "}
-              Assistance
+
+        {/* Why Choose Section (Screenshot Style) */}
+        <Container maxWidth="lg" sx={{ py: 15 }}>
+          <Box sx={{ textAlign: "center", mb: 10 }}>
+            <Box sx={{
+              display: "inline-block",
+              px: 2, py: 0.8,
+              bgcolor: "#FFF9EB",
+              borderRadius: "10px",
+              color: "#F59E0B",
+              fontWeight: 950,
+              fontSize: "0.75rem",
+              letterSpacing: 2,
+              mb: 3
+            }}>
+              WHY US
+            </Box>
+            <Typography variant="h2" fontWeight={950} sx={{ color: "#0F172A", mb: 3, letterSpacing: -2 }}>
+              Why Choose <Box component="span" sx={{ color: "#E11D48" }}>Donor App?</Box>
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: "#64748B",
-                textAlign: "center",
-                mb: 6,
-                fontSize: "1.1rem",
-              }}
-            >
-              Search our real-time database to connect with donors and active
-              requests near you.
+            <Typography variant="h6" sx={{ color: "#64748B", fontWeight: 500, fontSize: "1.1rem", maxWidth: 650, mx: "auto", lineHeight: 1.6 }}>
+              We provide the best service to help you find your perfect donor with ease and confidence.
             </Typography>
-            <SearchBar
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onNewRequestClick={onRequestCreateClick}
-            />
-          </Box>
-          <Box sx={{ maxWidth: "1200px", ml: 14 }}>
-            <RequestSection
-              selectedBloodType={selectedBloodType}
-              searchQuery={searchQuery}
-              onTypeFilterClear={handleTypeClear}
-              limit={4}
-            />
           </Box>
 
-          <Box sx={{ maxWidth: "1200px", ml: 14, mt: 15 }}>
-            <DonorSection onRegisterClick={onDonorRegisterClick} limit={4} />
+          <Grid container spacing={4}>
+            {[
+              { title: "Verified Network", icon: <VerifiedIcon sx={{ color: "#F59E0B" }} />, bg: "#FFF9EB", desc: "Every donor is thoroughly checked and verified for your peace of mind." },
+              { title: "Premium Speed", icon: <WaterDropIcon sx={{ color: "#E11D48" }} />, bg: "#FEF2F2", desc: "Access the fastest selection of blood donors in your pinpoint locations." },
+              { title: "Expert Support", icon: <HubIcon sx={{ color: "#10B981" }} />, bg: "#F0FDF4", desc: "Our dedicated team is here to guide you 24/7 through emergencies." },
+              { title: "Network Insights", icon: <ArrowForwardIcon sx={{ color: "#3B82F6" }} />, bg: "#EFF6FF", desc: "Get valuable real-time data to make informed life-saving decisions." }
+            ].map((item, i) => (
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                >
+                  <Box sx={{
+                    bgcolor: "white",
+                    borderRadius: "32px",
+                    p: 4,
+                    textAlign: "center",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.03)",
+                    border: "1px solid #F1F5F9",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                  }}>
+                    <Box sx={{ width: 64, height: 64, borderRadius: "20px", bgcolor: item.bg, display: "flex", alignItems: "center", justifyContent: "center", mb: 3 }}>
+                      {item.icon}
+                    </Box>
+                    <Typography variant="h6" fontWeight={900} sx={{ color: "#0F172A", mb: 2 }}>{item.title}</Typography>
+                    <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 600, lineHeight: 1.6 }}>{item.desc}</Typography>
+                  </Box>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+
+        {/* Featured Properties Style - REQUESTS PREVIEW */}
+        <Box sx={{ py: 20, bgcolor: "#F8FAFC" }}>
+          <Container maxWidth="lg">
+            <Stack direction="row" justifyContent="space-between" alignItems="flex-end" sx={{ mb: 8 }}>
+              <Box>
+                <Typography variant="h3" fontWeight={950} sx={{ color: "#0F172A", letterSpacing: -2, mb: 1 }}>
+                  Featured <Box component="span" sx={{ color: "#E11D48" }}>Requests</Box>
+                </Typography>
+                <Typography variant="h6" sx={{ color: "#64748B", fontWeight: 500 }}>
+                  Handpicked urgent requirements just for you
+                </Typography>
+              </Box>
+              <Button
+                onClick={onRequestsClick}
+                sx={{
+                  color: "#E11D48",
+                  fontWeight: 950,
+                  textTransform: "uppercase",
+                  fontSize: "0.75rem",
+                  letterSpacing: 1.5,
+                  "&:hover": { bgcolor: "transparent", transform: "translateX(5px)" },
+                  transition: "0.3s"
+                }}
+              >
+                VIEW ALL REQUESTS
+              </Button>
+            </Stack>
+
+            <Grid container spacing={4}>
+              {(requests || []).slice(0, 3).map((req, i) => (
+                <Grid size={{ xs: 12, md: 4 }} key={req.id}>
+                  <PremiumRequestCard req={req} index={i} />
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
+
+        {/* TOP DONORS SECTION */}
+        <Container maxWidth="lg" sx={{ py: 20 }}>
+          <Box sx={{ textAlign: "center", mb: 10 }}>
+            <Typography variant="h3" fontWeight={950} sx={{ color: "#0F172A", letterSpacing: -2, mb: 2 }}>
+              Our <Box component="span" sx={{ color: "#E11D48" }}>Hero Donors</Box>
+            </Typography>
+            <Typography variant="h6" sx={{ color: "#64748B", fontWeight: 500 }}>
+              Meet the champions who save lives every day
+            </Typography>
           </Box>
+
+          <Grid container spacing={4}>
+            {featuredDonors.map((donor, i) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
+                <PremiumDonorCard donor={donor} index={i} />
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       </Box>
+
+      {/* PREMIUM CTA (MATCHING SCREENSHOT 4) */}
+      <Container maxWidth="lg" sx={{ mb: 15 }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          <Box sx={{
+            bgcolor: "#0F172A",
+            borderRadius: "48px",
+            p: { xs: 8, md: 15 },
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+            boxShadow: "0 60px 120px rgba(0,0,0,0.18)",
+            backgroundImage: "radial-gradient(circle at 10% 10%, rgba(225, 29, 72, 0.1) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.1) 0%, transparent 40%)"
+          }}>
+            <Box sx={{
+              display: "inline-block",
+              px: 2, py: 0.8,
+              bgcolor: "rgba(225, 29, 72, 0.08)",
+              borderRadius: "10px",
+              color: "#E11D48",
+              fontWeight: 950,
+              fontSize: "0.75rem",
+              letterSpacing: 2,
+              mb: 4
+            }}>
+              SAVE A LIFE TODAY
+            </Box>
+
+            <Typography variant="h1" fontWeight={950} sx={{ color: "white", mb: 3, letterSpacing: -4, fontSize: { xs: "2.5rem", md: "4.5rem" } }}>
+              Every Drop of <Box component="span" sx={{ color: "#E11D48" }}>Blood Matters</Box>
+            </Typography>
+            <Typography variant="h6" sx={{ color: "rgba(255,255,255,0.5)", mb: 10, maxWidth: 700, mx: "auto", lineHeight: 1.8, fontSize: "1.1rem" }}>
+              Don't just search for a donor — become part of a life-saving community where <Box component="span" sx={{ color: "#E11D48" }}>heroes</Box> unite. Register today and make a difference.
+            </Typography>
+
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={4} justifyContent="center">
+              <Button
+                onClick={onDonorRegisterClick}
+                variant="contained"
+                className="interactive"
+                sx={{
+                  bgcolor: "#E11D48",
+                  color: "white",
+                  px: 8, py: 2.5,
+                  borderRadius: "16px",
+                  fontWeight: 950,
+                  fontSize: "1rem",
+                  boxShadow: "0 20px 40px rgba(225, 29, 72, 0.3)",
+                  "&:hover": { bgcolor: "#BE123C", transform: "translateY(-5px)" },
+                  transition: "0.4s"
+                }}
+              >
+                Become a Donor
+              </Button>
+              <Button
+                onClick={onRequestCreateClick}
+                variant="contained"
+                className="interactive"
+                sx={{
+                  bgcolor: "#1E293B",
+                  color: "white",
+                  px: 8, py: 2.5,
+                  borderRadius: "16px",
+                  fontWeight: 950,
+                  fontSize: "1rem",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  "&:hover": { bgcolor: "rgba(255,255,255,0.1)", transform: "translateY(-5px)" },
+                  transition: "0.4s"
+                }}
+              >
+                Request Blood
+              </Button>
+            </Stack>
+
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={4} justifyContent="center" sx={{ mt: 8 }}>
+              {[
+                { label: "Free Service", color: "#E11D48" },
+                { label: "Verified Donors", color: "#E11D48" },
+                { label: "24/7 Support", color: "#E11D48" }
+              ].map((item, i) => (
+                <Stack key={i} direction="row" spacing={1} alignItems="center">
+                  <VerifiedIcon sx={{ color: item.color, fontSize: 18 }} />
+                  <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.6)", fontWeight: 800 }}>{item.label}</Typography>
+                </Stack>
+              ))}
+            </Stack>
+          </Box>
+        </motion.div>
+      </Container>
+
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Box, Typography, Button, Grid, CardContent, Card, Stack, Avatar, IconButton } from '@mui/material';
 import { motion } from 'framer-motion';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -7,6 +7,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import PhoneIcon from '@mui/icons-material/Phone';
 import MessageIcon from '@mui/icons-material/Message';
+import DonorProfileDrawer from './DonorProfileDrawer';
 
 const dummyDonors = [
     { name: 'Rahul Sharma', type: 'O+', location: 'Kozhikode', count: 5, avatar: null, id: 'DON-001', joined: 'Jan 2024' },
@@ -15,8 +16,32 @@ const dummyDonors = [
     { name: 'Sneha Krishna', type: 'O-', location: 'Trivandrum', count: 12, avatar: null, id: 'DON-004', joined: 'Dec 2023' },
 ];
 
-const DonorSection = ({ onRegisterClick, limit }) => {
-    const displayedDonors = limit ? dummyDonors.slice(0, limit) : dummyDonors;
+
+const DonorSection = ({ onRegisterClick, limit, searchQuery = "", bloodType = "All Blood Types", district = "All Districts", onDistrictChange, donors: donorsProp }) => {
+    const [selectedDonor, setSelectedDonor] = useState(null);
+    const [profileOpen, setProfileOpen] = useState(false);
+
+    const sourceDonors = donorsProp && donorsProp.length > 0 ? donorsProp : dummyDonors;
+
+    const filteredDonors = useMemo(() => {
+        return sourceDonors.filter(donor => {
+            const matchesSearch = donor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                donor.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                donor.type.toLowerCase().includes(searchQuery.toLowerCase());
+
+            const matchesBloodType = bloodType === "All Blood Types" || donor.type === bloodType;
+            const matchesDistrict = district === "All Districts" || donor.location === district;
+
+            return matchesSearch && matchesBloodType && matchesDistrict;
+        });
+    }, [sourceDonors, searchQuery, bloodType, district]);
+
+    const displayedDonors = limit ? filteredDonors.slice(0, limit) : filteredDonors;
+
+    const handleViewProfile = (donor) => {
+        setSelectedDonor(donor);
+        setProfileOpen(true);
+    };
 
     return (
         <Box sx={{ mb: 10 }}>
@@ -42,7 +67,7 @@ const DonorSection = ({ onRegisterClick, limit }) => {
                         fontSize: '0.8rem',
                         fontWeight: 700
                     }}>
-                        {dummyDonors.length} results
+                        {filteredDonors.length} results
                     </Box>
                 </Box>
 
@@ -64,24 +89,29 @@ const DonorSection = ({ onRegisterClick, limit }) => {
                     >
                         Refresh
                     </Button>
-                    <Box sx={{
-                        px: 2,
-                        py: 0.6,
-                        bgcolor: '#F8FAFC',
-                        borderRadius: 2,
-                        border: '1px solid #E2E8F0',
-                        color: '#64748B',
-                        fontSize: '0.85rem',
-                        fontWeight: 600
-                    }}>
-                        All Districts
+                    <Box
+                        onClick={() => {/* District selector logic could go here */ }}
+                        sx={{
+                            px: 2,
+                            py: 0.6,
+                            bgcolor: '#F8FAFC',
+                            borderRadius: 2,
+                            border: '1px solid #E2E8F0',
+                            color: '#64748B',
+                            fontSize: '0.85rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            '&:hover': { bgcolor: '#F1F5F9' }
+                        }}
+                    >
+                        {district}
                     </Box>
                 </Stack>
             </Box>
 
             <Grid container spacing={3}>
                 {displayedDonors.map((donor, i) => (
-                    <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={donor.name}>
+                    <Grid item xs={12} sm={6} lg={3} key={donor.id}>
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -146,6 +176,7 @@ const DonorSection = ({ onRegisterClick, limit }) => {
                                         </Stack>
                                         <Button
                                             size="small"
+                                            onClick={() => handleViewProfile(donor)}
                                             sx={{
                                                 color: '#E11D48',
                                                 fontWeight: 800,
@@ -163,6 +194,12 @@ const DonorSection = ({ onRegisterClick, limit }) => {
                     </Grid>
                 ))}
             </Grid>
+
+            <DonorProfileDrawer
+                open={profileOpen}
+                onClose={() => setProfileOpen(false)}
+                donor={selectedDonor}
+            />
         </Box>
     );
 };

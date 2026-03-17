@@ -13,14 +13,26 @@ import DonorsTab from '../components/CustomerLanding/tabs/DonorsTab';
 import AboutTab from '../components/CustomerLanding/tabs/AboutTab';
 import ContactTab from '../components/CustomerLanding/tabs/ContactTab';
 
+import { initialRequests, initialDonors } from '../components/CustomerLanding/constants';
+
 const CustomerLanding = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [requestDrawerOpen, setRequestDrawerOpen] = useState(false);
+    const [requests, setRequests] = useState(initialRequests);
+    const [donors, setDonors] = useState(initialDonors);
     const [selectedBloodType, setSelectedBloodType] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(true);
+
+    const handleAddRequest = (newRequest) => {
+        setRequests(prev => [newRequest, ...prev]);
+    };
+
+    const handleAddDonor = (newDonor) => {
+        setDonors(prev => [newDonor, ...prev]);
+    };
     const activePage = location.pathname.split('/').pop() || 'home';
 
     useEffect(() => {
@@ -152,10 +164,14 @@ const CustomerLanding = () => {
                                         onDonorRegisterClick={toggleDrawer(true)}
                                         onRequestCreateClick={toggleRequestDrawer(true)}
                                         onAboutClick={() => handlePageChange('about')}
+                                        onRequestsClick={() => handlePageChange('requests')}
+                                        onDonorsClick={() => handlePageChange('donors')}
                                         searchQuery={searchQuery}
                                         setSearchQuery={setSearchQuery}
                                         selectedBloodType={selectedBloodType}
                                         handleTypeClear={handleTypeClear}
+                                        requests={requests}
+                                        donors={donors}
                                     />
                                 } />
                                 <Route path="requests" element={
@@ -165,6 +181,7 @@ const CustomerLanding = () => {
                                         selectedBloodType={selectedBloodType}
                                         handleTypeClear={handleTypeClear}
                                         onNewRequestClick={toggleRequestDrawer(true)}
+                                        requests={requests}
                                     />
                                 } />
                                 <Route path="donors" element={
@@ -172,6 +189,7 @@ const CustomerLanding = () => {
                                         searchQuery={searchQuery}
                                         setSearchQuery={setSearchQuery}
                                         onRegisterClick={toggleDrawer(true)}
+                                        donors={donors}
                                     />
                                 } />
                                 <Route path="about" element={
@@ -189,11 +207,13 @@ const CustomerLanding = () => {
             <DonorFormDrawer
                 open={drawerOpen}
                 onClose={toggleDrawer(false)}
+                onAddDonor={handleAddDonor}
             />
 
             <RequestFormDrawer
                 open={requestDrawerOpen}
                 onClose={toggleRequestDrawer(false)}
+                onAddRequest={handleAddRequest}
             />
         </Box>
     );

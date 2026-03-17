@@ -6,3 +6,10 @@ export const initialRequests = [
     { id: 'REQ-002', type: "A+", hospital: "Baby Memorial Hospital", location: "Kozhikode, Kerala", units: 2, bloodProduct: "Whole Blood", urgency: "HIGH", reason: "Planned surgery", color: "#F59E0B" },
     { id: 'REQ-003', type: "B+", hospital: "Govt. Medical College", location: "Kochi, Kerala", units: 1, bloodProduct: "Whole Blood", urgency: "NORMAL", reason: "Dialysis patient", color: "#10B981" },
 ];
+
+export const initialDonors = [
+    { name: 'Rahul Sharma', type: 'O+', location: 'Kozhikode', count: 5, avatar: null, id: 'DON-001', joined: 'Jan 2024' },
+    { name: 'Anjali Nair', type: 'B+', location: 'Kochi', count: 3, avatar: null, id: 'DON-002', joined: 'Mar 2024' },
+    { name: 'Muhammed Fayis', type: 'A-', location: 'Malappuram', count: 8, avatar: null, id: 'DON-003', joined: 'Feb 2024' },
+    { name: 'Sneha Krishna', type: 'O-', location: 'Trivandrum', count: 12, avatar: null, id: 'DON-004', joined: 'Dec 2023' },
+];

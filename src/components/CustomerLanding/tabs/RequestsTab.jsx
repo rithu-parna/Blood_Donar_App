@@ -9,6 +9,7 @@ const RequestsTab = ({
   selectedBloodType,
   handleTypeClear,
   onNewRequestClick,
+  requests,
 }) => {
   return (
     <Container maxWidth="xl" sx={{ pt: 20, pb: 10 }}>
@@ -35,7 +36,7 @@ const RequestsTab = ({
         <SearchBar
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onNewRequestClick={onNewRequestClick}
+          onButtonClick={onNewRequestClick}
         />
       </Box>
       <Box sx={{ maxWidth: "1200px", ml: 14 }}>
@@ -43,6 +44,7 @@ const RequestsTab = ({
           selectedBloodType={selectedBloodType}
           searchQuery={searchQuery}
           onTypeFilterClear={handleTypeClear}
+          requests={requests}
         />
       </Box>
     </Container>

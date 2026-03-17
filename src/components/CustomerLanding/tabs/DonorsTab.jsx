@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import SearchBar from "../SearchBar";
 import DonorSection from "../DonorSection";
 
-const DonorsTab = ({ searchQuery, setSearchQuery, onRegisterClick }) => {
+const DonorsTab = ({ searchQuery, setSearchQuery, onRegisterClick, donors }) => {
+  const [bloodType, setBloodType] = useState("All Blood Types");
+  const [urgency, setUrgency] = useState("All Urgency");
+  const [district, setDistrict] = useState("All Districts");
+
   return (
     <Container maxWidth="xl" sx={{ pt: 20, pb: 10 }}>
       <Box sx={{ mb: 6, maxWidth: "1200px", ml: 14 }}>
@@ -29,11 +33,23 @@ const DonorsTab = ({ searchQuery, setSearchQuery, onRegisterClick }) => {
         <SearchBar
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onNewRequestClick={onRegisterClick}
+          onButtonClick={onRegisterClick}
+          buttonLabel="+ Register as Donor"
+          bloodType={bloodType}
+          onBloodTypeChange={setBloodType}
+          urgency={urgency}
+          onUrgencyChange={setUrgency}
         />
       </Box>
       <Box sx={{ maxWidth: "1200px", ml: 14 }}>
-        <DonorSection onRegisterClick={onRegisterClick} />
+        <DonorSection
+          onRegisterClick={onRegisterClick}
+          searchQuery={searchQuery}
+          bloodType={bloodType}
+          district={district}
+          onDistrictChange={setDistrict}
+          donors={donors}
+        />
       </Box>
     </Container>
   );

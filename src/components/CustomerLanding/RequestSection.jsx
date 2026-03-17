@@ -22,11 +22,11 @@ const RequestSection = ({
   searchQuery,
   onTypeFilterClear,
   limit,
+  requests = [],
 }) => {
   const [viewMode, setViewMode] = useState("grid");
   const [filter, setFilter] = useState("All");
   const [sortBy, setSortBy] = useState("Urgency");
-  const [requests] = useState(initialRequests);
 
   const filteredRequests = useMemo(() => {
     return requests.filter((req) => {

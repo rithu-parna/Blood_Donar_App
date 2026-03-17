@@ -1,7 +1,16 @@
 import { Box, InputBase, Button, Select, MenuItem, Stack, Divider } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = ({ value, onChange, onNewRequestClick }) => {
+const SearchBar = ({
+    value,
+    onChange,
+    onButtonClick,
+    bloodType = "All Blood Types",
+    onBloodTypeChange,
+    urgency = "All Urgency",
+    onUrgencyChange,
+    buttonLabel = "+ New Request"
+}) => {
     return (
         <Box
             sx={{
@@ -37,7 +46,8 @@ const SearchBar = ({ value, onChange, onNewRequestClick }) => {
 
             <Box sx={{ display: 'flex', gap: 1, width: { xs: '100%', md: 'auto' }, alignItems: 'center' }}>
                 <Select
-                    value="All Blood Types"
+                    value={bloodType}
+                    onChange={(e) => onBloodTypeChange(e.target.value)}
                     variant="standard"
                     disableUnderline
                     sx={{
@@ -52,10 +62,14 @@ const SearchBar = ({ value, onChange, onNewRequestClick }) => {
                     }}
                 >
                     <MenuItem value="All Blood Types">All Blood Types</MenuItem>
+                    {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(type => (
+                        <MenuItem key={type} value={type}>{type}</MenuItem>
+                    ))}
                 </Select>
 
                 <Select
-                    value="All Urgency"
+                    value={urgency}
+                    onChange={(e) => onUrgencyChange(e.target.value)}
                     variant="standard"
                     disableUnderline
                     sx={{
@@ -70,6 +84,9 @@ const SearchBar = ({ value, onChange, onNewRequestClick }) => {
                     }}
                 >
                     <MenuItem value="All Urgency">All Urgency</MenuItem>
+                    <MenuItem value="Normal">Normal</MenuItem>
+                    <MenuItem value="Urgent">Urgent</MenuItem>
+                    <MenuItem value="Emergency">Emergency</MenuItem>
                 </Select>
 
                 <Button
@@ -91,7 +108,7 @@ const SearchBar = ({ value, onChange, onNewRequestClick }) => {
 
                 <Button
                     variant="contained"
-                    onClick={onNewRequestClick}
+                    onClick={onButtonClick}
                     sx={{
                         borderRadius: 2,
                         px: 3,
@@ -105,7 +122,7 @@ const SearchBar = ({ value, onChange, onNewRequestClick }) => {
                         boxShadow: 'none'
                     }}
                 >
-                    + New Request
+                    {buttonLabel}
                 </Button>
             </Box>
         </Box>

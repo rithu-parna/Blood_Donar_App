@@ -100,7 +100,7 @@ const ContactTab = () => {
             <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
                 <Grid container spacing={6} alignItems="flex-start">
                     {/* Left Side: 6/12 basis */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Box sx={{ mb: 4 }}>
                             <Typography variant="h4" fontWeight={900} sx={{ color: "#0F172A", mb: 1.5, letterSpacing: -1.5 }}>
                                 Get in <Box component="span" sx={{ color: "#E11D48" }}>Touch</Box>
@@ -166,7 +166,7 @@ const ContactTab = () => {
                     </Grid>
 
                     {/* Right Side: 6/12 basis */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.98 }}
                             whileInView={{ opacity: 1, scale: 1 }}
@@ -202,7 +202,7 @@ const ContactTab = () => {
 
                                 <Stack spacing={3}>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid size={{ xs: 12, sm: 6 }}>
                                             <Typography variant="caption" sx={{ color: "#E11D48", fontWeight: 800, mb: 1, display: "block", fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: 1 }}>
                                                 Full Name
                                             </Typography>
@@ -216,7 +216,7 @@ const ContactTab = () => {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid size={{ xs: 12, sm: 6 }}>
                                             <Typography variant="caption" sx={{ color: "#E11D48", fontWeight: 800, mb: 1, display: "block", fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: 1 }}>
                                                 Email Address
                                             </Typography>
@@ -299,7 +299,7 @@ const ContactTab = () => {
                             { q: "How soon will I receive a response?", a: "Emergency requests are broadcast instantly, and responses typically arrive within 15-30 minutes." },
                             { q: "Can I cancel an appointment?", a: "Yes, you can manage your appointments through your dashboard or contact our support line." }
                         ].map((item, idx) => (
-                            <Grid item xs={12} md={6} key={idx}>
+                            <Grid size={{ xs: 12, md: 6 }} key={idx}>
                                 <Accordion sx={{ bgcolor: "white", border: "1px solid #E2E8F0", borderRadius: "12px !important", overflow: "hidden", mb: 1.5, boxShadow: "none", "&:hover": { borderColor: "#E11D4850" } }}>
                                     <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: "#E11D48" }} />}>
                                         <Typography variant="body2" fontWeight={800} sx={{ color: "#1E293B", fontSize: "0.82rem" }}>

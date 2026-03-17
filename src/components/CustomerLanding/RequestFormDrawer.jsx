@@ -10,8 +10,48 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EmergencyIcon from '@mui/icons-material/ReportProblem';
 import { bloodTypes } from './constants';
 
-const RequestFormDrawer = ({ open, onClose }) => {
-    const [selectedType, setSelectedType] = useState('O-');
+const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
+    const [formData, setFormData] = useState({
+        hospital: '',
+        location: '',
+        type: 'O-',
+        units: '',
+        urgency: 'NORMAL',
+        reason: '',
+        contactName: '',
+        contactNumber: ''
+    });
+
+    const handleInputChange = (field) => (e) => {
+        setFormData(prev => ({ ...prev, [field]: e.target.value }));
+    };
+
+    const handleSubmit = () => {
+        if (!formData.hospital || !formData.location || !formData.units) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        const newRequest = {
+            id: `REQ-${Math.floor(Math.random() * 1000)}`,
+            ...formData,
+            units: parseInt(formData.units),
+            color: formData.urgency === 'CRITICAL' ? '#EF4444' : formData.urgency === 'HIGH' ? '#F59E0B' : '#10B981'
+        };
+
+        onAddRequest(newRequest);
+        setFormData({
+            hospital: '',
+            location: '',
+            type: 'O-',
+            units: '',
+            urgency: 'NORMAL',
+            reason: '',
+            contactName: '',
+            contactNumber: ''
+        });
+        onClose();
+    };
 
     return (
         <Drawer
@@ -21,7 +61,6 @@ const RequestFormDrawer = ({ open, onClose }) => {
             PaperProps={{
                 sx: {
                     width: { xs: '100%', sm: 550 },
-                    borderRadius: { xs: 0, sm: '24px 0 0 24px' },
                     boxShadow: '-10px 0 30px rgba(0,0,0,0.1)',
                     overflow: 'hidden'
                 }
@@ -68,6 +107,8 @@ const RequestFormDrawer = ({ open, onClose }) => {
                                     fullWidth
                                     placeholder="e.g. MIMS Hospital"
                                     variant="outlined"
+                                    value={formData.hospital}
+                                    onChange={handleInputChange('hospital')}
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start"><LocalHospitalIcon sx={{ color: '#94A3B8', fontSize: 20 }} /></InputAdornment>,
                                     }}
@@ -76,7 +117,14 @@ const RequestFormDrawer = ({ open, onClose }) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Hospital Location / City <span style={{ color: '#E11D48' }}>*</span></Typography>
-                                <TextField fullWidth placeholder="Kozhikode, Kerala" variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }} />
+                                <TextField
+                                    fullWidth
+                                    placeholder="Kozhikode, Kerala"
+                                    variant="outlined"
+                                    value={formData.location}
+                                    onChange={handleInputChange('location')}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                />
                             </Grid>
                         </Grid>
                     </Box>
@@ -93,22 +141,22 @@ const RequestFormDrawer = ({ open, onClose }) => {
                                 {bloodTypes.map(type => (
                                     <Button
                                         key={type}
-                                        onClick={() => setSelectedType(type)}
-                                        variant={selectedType === type ? "contained" : "outlined"}
+                                        onClick={() => setFormData(p => ({ ...p, type }))}
+                                        variant={formData.type === type ? "contained" : "outlined"}
                                         sx={{
                                             aspectRatio: '1',
                                             borderRadius: 3.5,
-                                            borderColor: selectedType === type ? '#E11D48' : '#E2E8F0',
-                                            bgcolor: selectedType === type ? '#E11D48' : 'white',
-                                            color: selectedType === type ? 'white' : '#475569',
+                                            borderColor: formData.type === type ? '#E11D48' : '#E2E8F0',
+                                            bgcolor: formData.type === type ? '#E11D48' : 'white',
+                                            color: formData.type === type ? 'white' : '#475569',
                                             fontWeight: 800,
                                             fontSize: '1rem',
                                             minWidth: 0,
                                             transition: 'all 0.2s',
                                             '&:hover': {
                                                 borderColor: '#E11D48',
-                                                bgcolor: selectedType === type ? '#BE123C' : 'rgba(225, 29, 72, 0.05)',
-                                                color: selectedType === type ? 'white' : '#E11D48'
+                                                bgcolor: formData.type === type ? '#BE123C' : 'rgba(225, 29, 72, 0.05)',
+                                                color: formData.type === type ? 'white' : '#E11D48'
                                             }
                                         }}
                                     >
@@ -126,6 +174,8 @@ const RequestFormDrawer = ({ open, onClose }) => {
                                     type="number"
                                     placeholder="e.g. 3"
                                     variant="outlined"
+                                    value={formData.units}
+                                    onChange={handleInputChange('units')}
                                     sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
                                 />
                             </Grid>
@@ -133,7 +183,8 @@ const RequestFormDrawer = ({ open, onClose }) => {
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Urgency Level <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <Select
                                     fullWidth
-                                    defaultValue="NORMAL"
+                                    value={formData.urgency}
+                                    onChange={handleInputChange('urgency')}
                                     sx={{ borderRadius: 3, bgcolor: 'white' }}
                                     //@ts-ignore
                                     renderValue={(value) => (
@@ -169,16 +220,32 @@ const RequestFormDrawer = ({ open, onClose }) => {
                                     rows={3}
                                     placeholder="e.g. Post-surgery emergency, Dialysis requirement..."
                                     variant="outlined"
+                                    value={formData.reason}
+                                    onChange={handleInputChange('reason')}
                                     sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4, bgcolor: 'white' } }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Contact Person</Typography>
-                                <TextField fullWidth placeholder="Attender's Name" variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }} />
+                                <TextField
+                                    fullWidth
+                                    placeholder="Attender's Name"
+                                    variant="outlined"
+                                    value={formData.contactName}
+                                    onChange={handleInputChange('contactName')}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Contact Number</Typography>
-                                <TextField fullWidth placeholder="+91 XXXXXXXXXX" variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }} />
+                                <TextField
+                                    fullWidth
+                                    placeholder="+91 XXXXXXXXXX"
+                                    variant="outlined"
+                                    value={formData.contactNumber}
+                                    onChange={handleInputChange('contactNumber')}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                />
                             </Grid>
                         </Grid>
                     </Box>
@@ -210,13 +277,14 @@ const RequestFormDrawer = ({ open, onClose }) => {
                     </Button>
                     <Button
                         variant="contained"
+                        onClick={handleSubmit}
                         sx={{
                             flex: 2,
                             bgcolor: '#E11D48',
                             color: 'white',
                             fontWeight: 900,
                             textTransform: 'none',
-                            borderRadius: 3.5,
+                            borderRadius: 1.5,
                             py: 1.5,
                             boxShadow: '0 8px 16px rgba(225, 29, 72, 0.25)',
                             '&:hover': { bgcolor: '#BE123C', boxShadow: '0 12px 24px rgba(225, 29, 72, 0.35)' }

@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Typography, Grid, Stack, Button, Avatar } from "@mui/material";
+import { Box, Container, Typography, Grid } from "@mui/material";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import BloodtypeIcon from '@mui/icons-material/Bloodtype';
-import PeopleIcon from '@mui/icons-material/People';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import SecurityIcon from '@mui/icons-material/Security';
-import HubIcon from '@mui/icons-material/Hub';
-
-// Assets
 import donationHero from "../../../assets/about/donation1.png";
 import missionImg from "../../../assets/about/donation2.png";
 
@@ -155,11 +150,11 @@ const AboutTab = () => {
         >
           <Box sx={{ textAlign: "center", maxWidth: 900 }}>
             <Typography
-              variant="h1"
+              variant="h6"
               sx={{
                 fontWeight: 950,
                 color: "white",
-                fontSize: { xs: "2.5rem", md: "5.5rem" },
+                fontSize: { xs: "2.5rem", md: "3.5rem" },
                 letterSpacing: -2,
                 lineHeight: 1,
                 mb: 3
@@ -211,7 +206,7 @@ const AboutTab = () => {
               { val: "120", suffix: "+", label: "HOSPITAL NODES" },
               { val: "10", suffix: "+", label: "YEARS OF TRUST" }
             ].map((stat, i) => (
-              <Grid item xs={12} sm={6} md={3} key={i}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -219,9 +214,9 @@ const AboutTab = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: i * 0.1 }}
                   className="interactive"
-                  style={{ padding: "80px 20px", textAlign: "center", transition: "all 0.4s ease" }}
+                  style={{ padding: "50px 20px", textAlign: "center", transition: "all 0.4s ease" }}
                 >
-                  <Typography variant="h2" fontWeight={950} sx={{ color: "white", mb: 1, letterSpacing: -2 }}>
+                  <Typography variant="h3" fontWeight={850} sx={{ color: "white", mb: 1, letterSpacing: -2 }}>
                     <CountingNumber value={stat.val} suffix={stat.suffix} />
                   </Typography>
                   <Typography variant="overline" sx={{ color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: 2 }}>
@@ -288,7 +283,7 @@ const AboutTab = () => {
                 {[
                   "Donor-Centered Hub", "Verified Blood Packs", "Secure Data Privacy", "Real-Time Tracking", "Military-Grade Sync", "24/7 Rapid Response"
                 ].map((text, i) => (
-                  <Grid item xs={12} sm={6} key={i}>
+                  <Grid size={{ xs: 12, sm: 6 }} key={i}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }} className="interactive">
                       <CheckCircleOutlineIcon sx={{ color: "#E11D48", fontSize: 20 }} />
                       <Typography variant="body2" fontWeight={800} sx={{ color: "#1E293B", fontSize: "0.85rem" }}>{text}</Typography>
