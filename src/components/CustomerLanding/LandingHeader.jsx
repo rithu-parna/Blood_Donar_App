@@ -40,16 +40,16 @@ const LandingHeader = ({ onRegisterClick, activePage, onPageChange }) => {
 
   console.log(activePage, "actssssivePage");
   const isDarkPage = false;
-  const isLightPage =
-    activePage !== "home" && !isDarkPage && activePage !== "customer";
+  const isHome = activePage === "home" || activePage === "customer";
 
-  const textColor = isDarkPage ? "white" : isLightPage ? "#0F172A" : "white";
-  const bgColor = isDarkPage
-    ? "rgba(5, 5, 5, 0.8)"
-    : isLightPage
-      ? "rgba(255, 255, 255, 0.9)"
-      : "transparent";
-  const blur = isLightPage || isDarkPage ? "20px" : "none";
+  const isScrolledMode = scrolled || !isHome;
+
+  const textColor = isScrolledMode ? "#0F172A" : "white";
+  const bgColor = isScrolledMode
+    ? "rgba(255, 255, 255, 0.9)"
+    : "transparent";
+  const blur = isScrolledMode ? "20px" : "none";
+  const borderBottomColor = isScrolledMode ? "1px solid rgba(0,0,0,0.05)" : "none";
 
   return (
     <Box
@@ -60,7 +60,7 @@ const LandingHeader = ({ onRegisterClick, activePage, onPageChange }) => {
         zIndex: 1200,
         bgcolor: bgColor,
         backdropFilter: `blur(${blur})`,
-        borderBottom: isLightPage ? "1px solid rgba(0,0,0,0.05)" : "none",
+        borderBottom: borderBottomColor,
         transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         py: scrolled ? 1.5 : 2.5,
       }}

@@ -302,7 +302,7 @@ const HomeTab = ({
         <StatsBar />
 
         {/* Why Choose Section (Screenshot Style) */}
-        <Container maxWidth="lg" sx={{ py: 15 }}>
+        <Container maxWidth="lg" sx={{ py: 15 }} mb={-15}>
           <Box sx={{ textAlign: "center", mb: 10 }}>
             <Box sx={{
               display: "inline-block",
@@ -369,7 +369,7 @@ const HomeTab = ({
 
         {/* Featured Properties Style - REQUESTS PREVIEW */}
         <Box sx={{
-          py: 20,
+          py: 5,
           bgcolor: "transparent",
           position: 'relative',
           backgroundImage: 'linear-gradient(135deg, rgba(225, 29, 72, 0.02) 0%, rgba(15, 23, 42, 0.03) 100%)',
@@ -420,12 +420,12 @@ const HomeTab = ({
         </Box>
 
         {/* ADVANCED BIOLOGICAL INSIGHTS SECTION */}
-        <Box sx={{ py: 20, bgcolor: "rgba(15, 23, 42, 0.02)" }}>
+        <Box sx={{ py: 5, bgcolor: "rgba(15, 23, 42, 0.02)" }}>
           <AdvancedInsights />
         </Box>
 
         {/* TOP DONORS SECTION */}
-        <Container maxWidth="lg" sx={{ py: 20 }}>
+        <Container maxWidth="lg" sx={{ py: 5 }}>
           <Box sx={{ textAlign: "center", mb: 10 }}>
             <Typography variant="h3" fontWeight={950} sx={{ color: "#0F172A", letterSpacing: -2, mb: 2 }}>
               Our <Box component="span" sx={{ color: "#E11D48" }}>Hero Donors</Box>
@@ -445,7 +445,6 @@ const HomeTab = ({
         </Container>
       </Box>
 
-      {/* LIVE NETWORK MONITORING (ADVANCED) */}
       <LivePulseMap />
 
       {/* PREMIUM CTA (MATCHING SCREENSHOT 4) */}

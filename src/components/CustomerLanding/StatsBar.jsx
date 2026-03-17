@@ -1,10 +1,7 @@
 import React from 'react';
-import { Box, Typography, Container, Grid, Stack } from '@mui/material';
+import { Box, Typography, Container, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import SecurityIcon from '@mui/icons-material/Security';
+
 
 const StatsBar = () => {
     const stats = [
