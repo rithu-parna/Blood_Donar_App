@@ -111,7 +111,7 @@ const DonorSection = ({ onRegisterClick, limit, searchQuery = "", bloodType = "A
 
             <Grid container spacing={3}>
                 {displayedDonors.map((donor, i) => (
-                    <Grid item xs={12} sm={6} lg={3} key={donor.id}>
+                    <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={donor.id}>
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}

@@ -129,7 +129,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                         </Typography>
 
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={8}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Full Name <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -140,10 +140,10 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     helperText={errors.name}
                                     placeholder="e.g. Rahul Sharma"
                                     variant="outlined"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid size={{ xs: 12, sm: 4 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Age <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -153,10 +153,10 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     error={!!errors.age}
                                     placeholder="18-65"
                                     variant="outlined"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 8 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Primary Phone <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -166,10 +166,10 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     error={!!errors.phone}
                                     placeholder="+91 XXXXXXXXXX"
                                     variant="outlined"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">City / Location <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -179,7 +179,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     error={!!errors.location}
                                     placeholder="Kozhikode, Kerala"
                                     variant="outlined"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
                         </Grid>
@@ -196,7 +196,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                 Select Blood Group <span style={{ color: '#E11D48' }}>*</span>
                                 {errors.bloodType && <span style={{ color: '#d32f2f', marginLeft: '10px' }}> - {errors.bloodType}</span>}
                             </Typography>
-                            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1.5 }}>
+                            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1 }}>
                                 {bloodTypes.map(type => (
                                     <Button
                                         key={type}
@@ -210,6 +210,8 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                             bgcolor: formData.bloodType === type ? '#E11D48' : 'white',
                                             fontWeight: 800,
                                             fontSize: '1rem',
+                                            height: '79px',
+                                            width: '81px',
                                             minWidth: 0,
                                             transition: 'all 0.2s',
                                             '&:hover': {
@@ -226,7 +228,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                         </Box>
 
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Last Donation Date</Typography>
                                 <TextField
                                     fullWidth
@@ -236,17 +238,17 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     onChange={handleChange}
                                     variant="outlined"
                                     InputLabelProps={{ shrink: true }}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Availability Preference</Typography>
                                 <Select
                                     fullWidth
                                     name="availability"
                                     value={formData.availability}
                                     onChange={handleChange}
-                                    sx={{ borderRadius: 3, bgcolor: 'white' }}
+                                    sx={{ borderRadius: 1, bgcolor: 'white' }}
                                 >
                                     <MenuItem value="Anywhere">Any Hospital</MenuItem>
                                     <MenuItem value="Specific">Specific Radius Only</MenuItem>
@@ -263,7 +265,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                         </Typography>
 
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Weight (kg)</Typography>
                                 <TextField
                                     fullWidth
@@ -272,24 +274,24 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     onChange={handleChange}
                                     placeholder="Min 50kg"
                                     variant="outlined"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Biological Gender</Typography>
                                 <Select
                                     fullWidth
                                     name="gender"
                                     value={formData.gender}
                                     onChange={handleChange}
-                                    sx={{ borderRadius: 3, bgcolor: 'white' }}
+                                    sx={{ borderRadius: 1, bgcolor: 'white' }}
                                 >
                                     <MenuItem value="Male">Male</MenuItem>
                                     <MenuItem value="Female">Female</MenuItem>
                                     <MenuItem value="Other">Rather not say</MenuItem>
                                 </Select>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Important Health Notes</Typography>
                                 <TextField
                                     fullWidth
@@ -300,7 +302,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                                     onChange={handleChange}
                                     placeholder="Any medical conditions or medications we should know about?"
                                     variant="outlined"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
                         </Grid>
@@ -324,7 +326,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                             color: '#64748B',
                             fontWeight: 800,
                             textTransform: 'none',
-                            borderRadius: 3.5,
+                            borderRadius: 1,
                             py: 1.5,
                             '&:hover': { borderColor: '#CBD5E1', bgcolor: 'white' }
                         }}
@@ -341,7 +343,7 @@ const DonorFormDrawer = ({ open, onClose, onAddDonor }) => {
                             color: 'white',
                             fontWeight: 900,
                             textTransform: 'none',
-                            borderRadius: 3.5,
+                            borderRadius: 1,
                             py: 1.5,
                             boxShadow: '0 8px 16px rgba(16, 185, 129, 0.25)',
                             '&:hover': { bgcolor: '#059669', boxShadow: '0 12px 24px rgba(16, 185, 129, 0.35)' }

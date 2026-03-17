@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
     Box, Typography, Button, IconButton, Drawer,
-    TextField, Grid, Select, MenuItem, Divider,
+    TextField, Grid, Select, MenuItem,
     Stack, InputAdornment
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import EmergencyIcon from '@mui/icons-material/ReportProblem';
 import { bloodTypes } from './constants';
 
 const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
@@ -101,7 +100,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                         </Typography>
 
                         <Grid container spacing={3}>
-                            <Grid item xs={12}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Hospital Name <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -112,10 +111,10 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start"><LocalHospitalIcon sx={{ color: '#94A3B8', fontSize: 20 }} /></InputAdornment>,
                                     }}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Hospital Location / City <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -123,7 +122,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                     variant="outlined"
                                     value={formData.location}
                                     onChange={handleInputChange('location')}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
                         </Grid>
@@ -151,6 +150,8 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                             color: formData.type === type ? 'white' : '#475569',
                                             fontWeight: 800,
                                             fontSize: '1rem',
+                                            height:'79px',
+                                            width:'81px',
                                             minWidth: 0,
                                             transition: 'all 0.2s',
                                             '&:hover': {
@@ -167,7 +168,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                         </Box>
 
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6}}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Units Needed <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <TextField
                                     fullWidth
@@ -176,16 +177,16 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                     variant="outlined"
                                     value={formData.units}
                                     onChange={handleInputChange('units')}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6}}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Urgency Level <span style={{ color: '#E11D48' }}>*</span></Typography>
                                 <Select
                                     fullWidth
                                     value={formData.urgency}
                                     onChange={handleInputChange('urgency')}
-                                    sx={{ borderRadius: 3, bgcolor: 'white' }}
+                                    sx={{ borderRadius: 1, bgcolor: 'white' }}
                                     //@ts-ignore
                                     renderValue={(value) => (
                                         <Stack direction="row" spacing={1} alignItems="center">
@@ -212,7 +213,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                         </Typography>
 
                         <Grid container spacing={3}>
-                            <Grid item xs={12}>
+                            <Grid size={{ xs: 12, sm: 12}}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Reason for Request</Typography>
                                 <TextField
                                     fullWidth
@@ -222,10 +223,10 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                     variant="outlined"
                                     value={formData.reason}
                                     onChange={handleInputChange('reason')}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6}}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Contact Person</Typography>
                                 <TextField
                                     fullWidth
@@ -233,10 +234,10 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                     variant="outlined"
                                     value={formData.contactName}
                                     onChange={handleInputChange('contactName')}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6}}>
                                 <Typography variant="caption" fontWeight={700} color="#475569" mb={1} display="block">Contact Number</Typography>
                                 <TextField
                                     fullWidth
@@ -244,7 +245,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                                     variant="outlined"
                                     value={formData.contactNumber}
                                     onChange={handleInputChange('contactNumber')}
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'white' } }}
+                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1, bgcolor: 'white' } }}
                                 />
                             </Grid>
                         </Grid>
@@ -268,7 +269,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                             color: '#64748B',
                             fontWeight: 800,
                             textTransform: 'none',
-                            borderRadius: 3.5,
+                            borderRadius: 1,
                             py: 1.5,
                             '&:hover': { borderColor: '#CBD5E1', bgcolor: 'white' }
                         }}
@@ -284,7 +285,7 @@ const RequestFormDrawer = ({ open, onClose, onAddRequest }) => {
                             color: 'white',
                             fontWeight: 900,
                             textTransform: 'none',
-                            borderRadius: 1.5,
+                            borderRadius: 1,
                             py: 1.5,
                             boxShadow: '0 8px 16px rgba(225, 29, 72, 0.25)',
                             '&:hover': { bgcolor: '#BE123C', boxShadow: '0 12px 24px rgba(225, 29, 72, 0.35)' }

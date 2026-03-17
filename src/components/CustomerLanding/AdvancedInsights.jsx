@@ -74,7 +74,7 @@ const AdvancedInsights = () => {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             cursor: 'pointer',
-                                            borderRadius: 4,
+                                            borderRadius: 2,
                                             transition: 'all 0.4s ease',
                                             fontSize: '1.5rem',
                                             fontWeight: 900,

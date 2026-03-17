@@ -177,7 +177,7 @@ const ContactTab = () => {
                                 sx={{
                                     bgcolor: "#0F172A",
                                     p: { xs: 4, md: 5 },
-                                    borderRadius: 6,
+                                    borderRadius: 3,
                                     boxShadow: "0 30px 60px -15px rgba(225, 29, 72, 0.2)",
                                     position: "relative",
                                     overflow: "hidden",
