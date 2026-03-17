@@ -91,7 +91,7 @@ const ContactCard = ({ icon: Icon, title, value, subtitle, delay }) => (
 
 const ContactTab = () => {
     return (
-        <Box sx={{ bgcolor: "#FFF5F5", pt: { xs: 12, md: 18 }, pb: 10 }}>
+        <Box sx={{ bgcolor: "transparent", pt: { xs: 12, md: 18 }, pb: 10 }}>
             {/* Background Glow */}
             <Box sx={{ position: "absolute", top: 0, right: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
                 <Box sx={{ position: "absolute", top: "10%", right: "-5%", width: 500, height: 500, background: "radial-gradient(circle, rgba(225, 29, 72, 0.04) 0%, transparent 70%)", filter: "blur(100px)" }} />

@@ -126,7 +126,8 @@ const TeamMember = ({ name, role, img, delay = 0 }) => (
 
 const AboutTab = () => {
   return (
-    <Box sx={{ bgcolor: "#FFF5F5", color: "#1E293B", overflow: "hidden" }}>
+    <Box sx={{ bgcolor: "transparent", color: "#1E293B", overflow: "hidden" }}>
+
 
       {/* 1. HERO BANNER */}
       <Box

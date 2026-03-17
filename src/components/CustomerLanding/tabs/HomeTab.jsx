@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Typography, Grid, Button, Stack} from "@mui/material";
+import { Box, Container, Typography, Grid, Button, Stack } from "@mui/material";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import HeroSection from "../HeroSection";
 import StatsBar from "../StatsBar";
@@ -11,6 +11,12 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import HubIcon from '@mui/icons-material/Hub';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import AdvancedInsights from "../AdvancedInsights";
+import LivePulseMap from "../LivePulseMap";
+import DonationTrends from "../DonationTrends";
+
+
+
 
 const CountingNumber = ({ value, suffix = "" }) => {
   const count = useMotionValue(0);
@@ -44,16 +50,18 @@ const PremiumRequestCard = ({ req, index }) => (
     <Box
       className="interactive"
       sx={{
-        bgcolor: "white",
+        bgcolor: "rgba(255, 255, 255, 0.7)",
+        backdropFilter: "blur(10px)",
         borderRadius: "32px",
         p: 2.5,
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        boxShadow: "0 20px 50px rgba(0,0,0,0.04)",
-        border: "1px solid rgba(0,0,0,0.02)",
+        boxShadow: "0 20px 50px rgba(15, 23, 42, 0.05)",
+        border: "1px solid rgba(15, 23, 42, 0.08)",
         transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
         "&:hover": {
+          bgcolor: "rgba(255, 255, 255, 0.9)",
           boxShadow: "0 40px 80px rgba(225, 29, 72, 0.12)",
           "& .explore-link": { color: "#E11D48" }
         }
@@ -179,17 +187,19 @@ const PremiumDonorCard = ({ donor, index }) => (
     <Box
       className="interactive"
       sx={{
-        bgcolor: "white",
+        bgcolor: "rgba(255, 255, 255, 0.7)",
+        backdropFilter: "blur(10px)",
         borderRadius: "32px",
         p: 5,
         height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        boxShadow: "0 20px 50px rgba(0,0,0,0.04)",
-        border: "1px solid rgba(0,0,0,0.02)",
+        boxShadow: "0 20px 50px rgba(15, 23, 42, 0.05)",
+        border: "1px solid rgba(15, 23, 42, 0.08)",
         transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
         "&:hover": {
+          bgcolor: "rgba(255, 255, 255, 0.9)",
           boxShadow: "0 40px 80px rgba(225, 29, 72, 0.12)",
           "& .donor-icon": { scale: 1.1 }
         }
@@ -275,7 +285,20 @@ const HomeTab = ({
         onAboutClick={onAboutClick}
       />
 
-      <Box sx={{ pt: 10, pb: 20, bgcolor: "white" }}>
+      <Box sx={{ pt: 10, pb: 20, position: 'relative' }}>
+        {/* Subtle background decoration */}
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          opacity: 0.4,
+          backgroundImage: `radial-gradient(#0F172A 0.5px, transparent 0.5px)`,
+          backgroundSize: '24px 24px',
+          zIndex: -1
+        }} />
+
         <StatsBar />
 
         {/* Why Choose Section (Screenshot Style) */}
@@ -317,12 +340,13 @@ const HomeTab = ({
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                 >
                   <Box sx={{
-                    bgcolor: "white",
+                    bgcolor: "rgba(255, 255, 255, 0.8)",
+                    backdropFilter: "blur(5px)",
                     borderRadius: "32px",
                     p: 4,
                     textAlign: "center",
-                    boxShadow: "0 10px 30px rgba(0,0,0,0.03)",
-                    border: "1px solid #F1F5F9",
+                    boxShadow: "0 10px 30px rgba(15, 23, 42, 0.04)",
+                    border: "1px solid rgba(15, 23, 42, 0.08)",
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
@@ -340,8 +364,25 @@ const HomeTab = ({
           </Grid>
         </Container>
 
+        {/* DONATION TRENDS (ADVANCED ANALYTICS) */}
+        <DonationTrends />
+
         {/* Featured Properties Style - REQUESTS PREVIEW */}
-        <Box sx={{ py: 20, bgcolor: "#F8FAFC" }}>
+        <Box sx={{
+          py: 20,
+          bgcolor: "transparent",
+          position: 'relative',
+          backgroundImage: 'linear-gradient(135deg, rgba(225, 29, 72, 0.02) 0%, rgba(15, 23, 42, 0.03) 100%)',
+        }}>
+          <Box sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.1), transparent)'
+          }} />
+
           <Container maxWidth="lg">
             <Stack direction="row" justifyContent="space-between" alignItems="flex-end" sx={{ mb: 8 }}>
               <Box>
@@ -378,6 +419,11 @@ const HomeTab = ({
           </Container>
         </Box>
 
+        {/* ADVANCED BIOLOGICAL INSIGHTS SECTION */}
+        <Box sx={{ py: 20, bgcolor: "rgba(15, 23, 42, 0.02)" }}>
+          <AdvancedInsights />
+        </Box>
+
         {/* TOP DONORS SECTION */}
         <Container maxWidth="lg" sx={{ py: 20 }}>
           <Box sx={{ textAlign: "center", mb: 10 }}>
@@ -399,8 +445,11 @@ const HomeTab = ({
         </Container>
       </Box>
 
+      {/* LIVE NETWORK MONITORING (ADVANCED) */}
+      <LivePulseMap />
+
       {/* PREMIUM CTA (MATCHING SCREENSHOT 4) */}
-      <Container maxWidth="lg" sx={{ mb: 15 }}>
+      <Container maxWidth="lg" sx={{ mb: 15, mt: 20 }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}

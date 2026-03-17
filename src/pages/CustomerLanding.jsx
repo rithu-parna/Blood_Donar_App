@@ -14,6 +14,8 @@ import AboutTab from '../components/CustomerLanding/tabs/AboutTab';
 import ContactTab from '../components/CustomerLanding/tabs/ContactTab';
 
 import { initialRequests, initialDonors } from '../components/CustomerLanding/constants';
+import medicalBg from '../assets/backgrounds/medical_bg.png';
+
 
 const CustomerLanding = () => {
     const navigate = useNavigate();
@@ -71,11 +73,14 @@ const CustomerLanding = () => {
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
-            bgcolor: isDarkPage ? '#050505' : '#FFF5F5',
+            bgcolor: isDarkPage ? '#050505' : '#F1F5F9',
             color: isDarkPage ? 'white' : '#1E293B',
             backgroundImage: isDarkPage
-                ? 'radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.15) 0%, transparent 70%)'
-                : 'radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.05) 0%, transparent 70%)',
+                ? 'radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.2) 0%, transparent 70%)'
+                : `linear-gradient(135deg, rgba(225, 29, 72, 0.04) 0%, rgba(15, 23, 42, 0.04) 100%), url(${medicalBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
             transition: 'background-color 0.5s ease'
         }}>
             <CustomCursor />
