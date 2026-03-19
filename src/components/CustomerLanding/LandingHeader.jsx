@@ -185,7 +185,7 @@ const LandingHeader = ({ onRegisterClick, activePage, onPageChange }) => {
                 boxShadow: "0 8px 25px -5px rgba(225, 29, 72, 0.4)",
               }}
             >
-              REGISTER / REQUEST
+              REGISTER / L0GIN
             </Button>
           </Stack>
         </Box>

@@ -87,7 +87,7 @@ const CustomerLanding = () => {
             <LandingHeader
                 activePage={activePage}
                 onPageChange={handlePageChange}
-                onRegisterClick={toggleDrawer(true)}
+                onRegisterClick={() => navigate('/login')}
             />
 
             <AnimatePresence mode="wait">
@@ -166,8 +166,8 @@ const CustomerLanding = () => {
                             <Routes>
                                 <Route path="/" element={
                                     <HomeTab
-                                        onDonorRegisterClick={toggleDrawer(true)}
-                                        onRequestCreateClick={toggleRequestDrawer(true)}
+                                        onDonorRegisterClick={() => navigate('/login')}
+                                        onRequestCreateClick={() => navigate('/login')}
                                         onAboutClick={() => handlePageChange('about')}
                                         onRequestsClick={() => handlePageChange('requests')}
                                         onDonorsClick={() => handlePageChange('donors')}
@@ -185,7 +185,7 @@ const CustomerLanding = () => {
                                         setSearchQuery={setSearchQuery}
                                         selectedBloodType={selectedBloodType}
                                         handleTypeClear={handleTypeClear}
-                                        onNewRequestClick={toggleRequestDrawer(true)}
+                                        onNewRequestClick={() => navigate('/login')}
                                         requests={requests}
                                     />
                                 } />
@@ -193,12 +193,12 @@ const CustomerLanding = () => {
                                     <DonorsTab
                                         searchQuery={searchQuery}
                                         setSearchQuery={setSearchQuery}
-                                        onRegisterClick={toggleDrawer(true)}
+                                        onRegisterClick={() => navigate('/login')}
                                         donors={donors}
                                     />
                                 } />
                                 <Route path="about" element={
-                                    <AboutTab onRegisterClick={toggleDrawer(true)} />
+                                    <AboutTab onRegisterClick={() => navigate('/login')} />
                                 } />
                                 <Route path="contact" element={<ContactTab />} />
                                 <Route path="*" element={<Navigate to="/customer" replace />} />
