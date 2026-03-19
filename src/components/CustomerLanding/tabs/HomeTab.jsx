@@ -278,6 +278,8 @@ const HomeTab = ({
     { name: 'Muhammed Fayis', type: 'A-', location: 'Malappuram', count: 82 },
   ];
 
+  const [hoveredWhyUs, setHoveredWhyUs] = useState(1); // Default to second card like in screenshot
+
   return (
     <>
       <HeroSection
@@ -325,43 +327,137 @@ const HomeTab = ({
             </Typography>
           </Box>
 
-          <Grid container spacing={4}>
-            {[
-              { title: "Verified Network", icon: <VerifiedIcon sx={{ color: "#F59E0B" }} />, bg: "#FFF9EB", desc: "Every donor is thoroughly checked and verified for your peace of mind." },
-              { title: "Premium Speed", icon: <WaterDropIcon sx={{ color: "#E11D48" }} />, bg: "#FEF2F2", desc: "Access the fastest selection of blood donors in your pinpoint locations." },
-              { title: "Expert Support", icon: <HubIcon sx={{ color: "#10B981" }} />, bg: "#F0FDF4", desc: "Our dedicated team is here to guide you 24/7 through emergencies." },
-              { title: "Network Insights", icon: <ArrowForwardIcon sx={{ color: "#3B82F6" }} />, bg: "#EFF6FF", desc: "Get valuable real-time data to make informed life-saving decisions." }
-            ].map((item, i) => (
-              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                >
-                  <Box sx={{
-                    bgcolor: "rgba(255, 255, 255, 0.8)",
-                    backdropFilter: "blur(5px)",
-                    borderRadius: "32px",
-                    p: 4,
-                    textAlign: "center",
-                    boxShadow: "0 10px 30px rgba(15, 23, 42, 0.04)",
-                    border: "1px solid rgba(15, 23, 42, 0.08)",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-                  }}>
-                    <Box sx={{ width: 64, height: 64, borderRadius: "20px", bgcolor: item.bg, display: "flex", alignItems: "center", justifyContent: "center", mb: 3 }}>
-                      {item.icon}
+          <Box sx={{ position: 'relative' }}>
+            {/* Active Dot Indicators Row */}
+            {/* <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              width: '100%',
+              position: 'absolute',
+              top: -40,
+              zIndex: 10
+            }}>
+              {[0, 1, 2, 3].map((i) => (
+                <Box key={i} sx={{ width: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <motion.div
+                    animate={{
+                      scale: hoveredWhyUs === i ? 1.2 : 1,
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <Box sx={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: '50%',
+                      border: `1px solid ${hoveredWhyUs === i ? 'rgba(225, 29, 72, 0.4)' : 'rgba(15, 23, 42, 0.05)'}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'border-color 0.3s ease'
+                    }}>
+                      <Box sx={{
+                        width: 8,
+                        height: 8,
+                        bgcolor: hoveredWhyUs === i ? '#E11D48' : '#cbd5e1',
+                        borderRadius: '50%',
+                        transition: 'all 0.3s ease',
+                        boxShadow: hoveredWhyUs === i ? '0 0 10px rgba(225, 29, 72, 0.4)' : 'none'
+                      }} />
                     </Box>
-                    <Typography variant="h6" fontWeight={900} sx={{ color: "#0F172A", mb: 2 }}>{item.title}</Typography>
-                    <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 600, lineHeight: 1.6 }}>{item.desc}</Typography>
-                  </Box>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
+                  </motion.div>
+                </Box>
+              ))}
+            </Box> */}
+
+            <Grid container spacing={4}>
+              {[
+                { title: "Verified Network", icon: <VerifiedIcon sx={{ color: "#F59E0B" }} />, bg: "#FFF9EB", glow: "rgba(245, 158, 11, 0.2)", desc: "Every donor is thoroughly checked and verified for your peace of mind." },
+                { title: "Premium Speed", icon: <WaterDropIcon sx={{ color: "#E11D48" }} />, bg: "#FEF2F2", glow: "rgba(225, 29, 72, 0.2)", desc: "Access the fastest selection of blood donors in your pinpoint locations." },
+                { title: "Expert Support", icon: <HubIcon sx={{ color: "#10B981" }} />, bg: "#F0FDF4", glow: "rgba(16, 185, 129, 0.2)", desc: "Our dedicated team is here to guide you 24/7 through emergencies." },
+                { title: "Network Insights", icon: <ArrowForwardIcon sx={{ color: "#3B82F6" }} />, bg: "#EFF6FF", glow: "rgba(59, 130, 246, 0.2)", desc: "Get valuable real-time data to make informed life-saving decisions." }
+              ].map((item, i) => (
+                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                    style={{ height: '100%' }}
+                    onMouseEnter={() => setHoveredWhyUs(i)}
+                  >
+                    <Box sx={{
+                      bgcolor: "rgba(255, 255, 255, 0.7)",
+                      backdropFilter: "blur(12px)",
+                      borderRadius: "40px",
+                      p: 5,
+                      textAlign: "center",
+                      boxShadow: hoveredWhyUs === i
+                        ? `0 40px 80px ${item.glow}`
+                        : "0 10px 30px rgba(15, 23, 42, 0.04)",
+                      border: "1px solid",
+                      borderColor: hoveredWhyUs === i ? item.glow : "rgba(15, 23, 42, 0.08)",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                      position: 'relative',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      transform: hoveredWhyUs === i ? 'translateY(-12px)' : 'none',
+                      "&:hover": {
+                        bgcolor: "rgba(255, 255, 255, 0.95)",
+                        "& .gradient-bg": {
+                          opacity: 0.6,
+                          transform: 'scale(1.5)'
+                        },
+                        "& .icon-box": {
+                          transform: 'scale(1.1) rotate(5deg)',
+                          boxShadow: `0 20px 40px ${item.glow}`
+                        }
+                      }
+                    }}>
+                      {/* Hover Gradient Background */}
+                      <Box
+                        className="gradient-bg"
+                        sx={{
+                          position: 'absolute',
+                          top: '-50%',
+                          left: '-50%',
+                          right: '-50%',
+                          bottom: '-50%',
+                          background: `radial-gradient(circle at center, ${item.glow} 0%, transparent 60%)`,
+                          opacity: 0,
+                          zIndex: -1,
+                          transition: 'all 0.8s ease',
+                          transform: 'scale(0.5)'
+                        }}
+                      />
+
+                      <Box
+                        className="icon-box"
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          borderRadius: "24px",
+                          bgcolor: item.bg,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          mb: 4,
+                          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+                        }}
+                      >
+                        {React.cloneElement(item.icon, { sx: { fontSize: 32, color: item.icon.props.sx.color } })}
+                      </Box>
+                      <Typography variant="h5" fontWeight={950} sx={{ color: "#0F172A", mb: 2, letterSpacing: -0.5 }}>{item.title}</Typography>
+                      <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 600, lineHeight: 1.7, fontSize: '0.95rem' }}>{item.desc}</Typography>
+                    </Box>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </Container>
 
         {/* DONATION TRENDS (ADVANCED ANALYTICS) */}
