@@ -41,12 +41,12 @@ const CountingNumber = ({ value, suffix = "" }) => {
 
 const PremiumRequestCard = ({ req, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
     whileHover={{
-      scale: 1.02,
+      scale: 1.05,
       transition: { duration: 0.4 }
     }}
   >
@@ -205,10 +205,10 @@ const PremiumRequestCard = ({ req, index }) => (
 
 const PremiumDonorCard = ({ donor, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
     whileHover={{
       y: -15,
       rotateZ: index % 2 === 0 ? 1 : -1,
@@ -457,10 +457,10 @@ const HomeTab = ({
               ].map((item, i) => (
                 <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                    initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40, rotateY: i % 2 === 0 ? -15 : 15 }}
+                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, delay: i * 0.15, ease: "easeOut" }}
                     style={{ height: '100%', perspective: '1000px' }}
                     onMouseEnter={() => setHoveredWhyUs(i)}
                     {...item.motion}
