@@ -1,9 +1,14 @@
 import React from 'react';
-import { Box, Typography, TextField, Button, Grid, Divider, Link, Container } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid, Divider, Link, InputAdornment } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { motion } from 'framer-motion';
+
+import bgImage from '../assets/login-bg.png';
+import loginCardImg from '../assets/login-card-img.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,11 +20,14 @@ const Login = () => {
   return (
     <Box sx={{
       minHeight: '100vh',
-      bgcolor: '#fef2f2',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      p: 2
+      p: 2,
+      position: 'relative',
+      backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)), url(${bgImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     }}>
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -28,12 +36,14 @@ const Login = () => {
         style={{ width: '100%', maxWidth: 1000 }}
       >
         <Box sx={{
-          bgcolor: '#ffffff',
-          borderRadius: 6,
+          bgcolor: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(25px)',
+          borderRadius: "48px",
           position: 'relative',
           display: 'flex',
           width: '100%',
-          boxShadow: '0 24px 48px rgba(220,38,38,0.15)',
+          boxShadow: '0 40px 80px rgba(0, 0, 0, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.4)',
           minHeight: 650,
           overflow: 'hidden'
         }}>
@@ -53,25 +63,61 @@ const Login = () => {
               Every drop counts. Sign in to manage your donations or find donors.
             </Typography>
 
-            <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1.5, color: '#1E293B' }}>Email Address</Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: 900, mb: 1, color: '#0F172A', fontSize: '0.85rem' }}>Email Address</Typography>
             <TextField
               fullWidth
               placeholder="donor@bloodlink.org"
               variant="outlined"
-              sx={{ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: '#F8FAFC' } }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailOutlinedIcon sx={{ color: '#E11D48', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              sx={{
+                mb: 3,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: "16px",
+                  bgcolor: '#F8FAFC',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { bgcolor: '#F1F5F9' },
+                  '&.Mui-focused': { bgcolor: '#fff', boxShadow: '0 0 0 4px rgba(225, 29, 72, 0.1)' }
+                }
+              }}
             />
 
-            <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1.5, color: '#1E293B' }}>Password</Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: 900, mb: 1, color: '#0F172A', fontSize: '0.85rem' }}>Password</Typography>
             <TextField
               fullWidth
               type="password"
               placeholder="••••••••"
               variant="outlined"
-              sx={{ mb: 1, '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: '#F8FAFC' } }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockOutlinedIcon sx={{ color: '#E11D48', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              sx={{
+                mb: 1.5,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: "16px",
+                  bgcolor: '#F8FAFC',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { bgcolor: '#F1F5F9' },
+                  '&.Mui-focused': { bgcolor: '#fff', boxShadow: '0 0 0 4px rgba(225, 29, 72, 0.1)' }
+                }
+              }}
             />
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-              <Link href="#" underline="hover" sx={{ color: '#E11D48', fontSize: '14px', fontWeight: 800 }}>
+              <Link href="#" underline="none" sx={{ color: '#E11D48', fontSize: '13px', fontWeight: 950, '&:hover': { textDecoration: 'underline' } }}>
                 Forgot Password?
               </Link>
             </Box>
@@ -83,14 +129,19 @@ const Login = () => {
               sx={{
                 bgcolor: '#E11D48',
                 color: 'white',
-                py: 1.8,
-                borderRadius: 3,
-                fontWeight: 900,
+                py: 2,
+                borderRadius: "16px",
+                fontWeight: 950,
                 fontSize: '1rem',
                 mb: 4,
-                boxShadow: '0 8px 16px rgba(225, 29, 72, 0.2)',
+                boxShadow: '0 10px 20px -5px rgba(225, 29, 72, 0.4)',
                 textTransform: 'none',
-                '&:hover': { bgcolor: '#BE123C' }
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                '&:hover': {
+                  bgcolor: '#BE123C',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 15px 30px -5px rgba(225, 29, 72, 0.5)'
+                }
               }}
             >
               Sign In
@@ -106,7 +157,17 @@ const Login = () => {
                   fullWidth
                   variant="outlined"
                   startIcon={<GoogleIcon sx={{ color: '#ea4335' }} />}
-                  sx={{ borderRadius: 3, borderColor: '#e2e8f0', color: '#475569', textTransform: 'none', fontWeight: 800, bgcolor: '#f8fafc', py: 1.2 }}
+                  sx={{
+                    borderRadius: "16px",
+                    borderColor: '#E2E8F0',
+                    color: '#475569',
+                    textTransform: 'none',
+                    fontWeight: 900,
+                    bgcolor: '#fff',
+                    py: 1.5,
+                    transition: '0.3s',
+                    '&:hover': { bgcolor: '#F8FAFC', borderColor: '#CBD5E1', transform: 'translateY(-1px)' }
+                  }}
                 >
                   Google
                 </Button>
@@ -116,7 +177,17 @@ const Login = () => {
                   fullWidth
                   variant="outlined"
                   startIcon={<FacebookIcon sx={{ color: '#1877f2' }} />}
-                  sx={{ borderRadius: 3, borderColor: '#e2e8f0', color: '#475569', textTransform: 'none', fontWeight: 800, bgcolor: '#f8fafc', py: 1.2 }}
+                  sx={{
+                    borderRadius: "16px",
+                    borderColor: '#E2E8F0',
+                    color: '#475569',
+                    textTransform: 'none',
+                    fontWeight: 900,
+                    bgcolor: '#fff',
+                    py: 1.5,
+                    transition: '0.3s',
+                    '&:hover': { bgcolor: '#F8FAFC', borderColor: '#CBD5E1', transform: 'translateY(-1px)' }
+                  }}
                 >
                   Facebook
                 </Button>
@@ -134,19 +205,20 @@ const Login = () => {
           <Box sx={{
             flex: 1,
             display: { xs: 'none', md: 'block' },
-            p: 2,
+            p: 0,
             position: 'relative'
           }}>
             <Box sx={{
               width: '100%',
               height: '100%',
-              borderRadius: 5,
-              backgroundImage: 'url(https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1000&q=80)',
+              borderRadius: 0,
+              backgroundImage: `url(${loginCardImg})`,
               backgroundSize: 'cover',
+              opacity: 1,
               backgroundPosition: 'center',
               position: 'relative'
             }}>
-              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, bgcolor: 'rgba(225, 29, 72, 0.25)', borderRadius: 5 }} />
+              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, bgcolor: 'rgba(225, 29, 72, 0.15)', borderRadius: 5 }} />
 
               <Box sx={{ position: 'absolute', bottom: 40, left: 40, right: 40, bgcolor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', p: 4, borderRadius: 5, border: '1px solid rgba(255,255,255,0.2)' }}>
                 <Typography variant="h5" fontWeight={900} color="white" sx={{ mb: 1 }}>Helping Hands</Typography>
