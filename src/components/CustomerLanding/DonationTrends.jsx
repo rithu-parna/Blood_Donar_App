@@ -74,40 +74,71 @@ const DonationTrends = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: i * 0.1 }}
+                            whileHover={{ y: -12 }}
+                            style={{ height: '100%' }}
                         >
                             <Box sx={{
                                 p: 4,
-                                bgcolor: 'white',
-                                borderRadius: 3,
-                                border: '1px solid #F1F5F9',
+                                bgcolor: 'rgba(255, 255, 255, 0.7)',
+                                backdropFilter: 'blur(12px)',
+                                borderRadius: "32px",
+                                border: '1px solid rgba(15, 23, 42, 0.08)',
                                 position: 'relative',
-                                transition: '0.4s',
+                                transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                                overflow: 'hidden',
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                cursor: 'pointer',
                                 '&:hover': {
-                                    boxShadow: '0 40px 80px rgba(15, 23, 42, 0.08)',
-                                    borderColor: '#E11D48',
-                                    '& .type-badge': { bgcolor: '#E11D48', color: 'white' }
+                                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                                    boxShadow: `0 40px 80px ${item.status === 'Critical' ? 'rgba(225, 29, 72, 0.15)' : 'rgba(59, 130, 246, 0.15)'}`,
+                                    borderColor: item.status === 'Critical' ? 'rgba(225, 29, 72, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+                                    '& .type-badge': {
+                                        bgcolor: item.status === 'Critical' ? '#E11D48' : '#3B82F6',
+                                        color: 'white',
+                                        transform: 'scale(1.1) rotate(5deg)'
+                                    },
+                                    '& .gradient-bg': { opacity: 0.6, transform: 'scale(1.5)' }
                                 }
                             }}>
+                                {/* Hover Gradient Background */}
+                                <Box
+                                    className="gradient-bg"
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '-50%',
+                                        left: '-50%',
+                                        right: '-50%',
+                                        bottom: '-50%',
+                                        background: `radial-gradient(circle at center, ${item.status === 'Critical' ? 'rgba(225, 29, 72, 0.1)' : 'rgba(59, 130, 246, 0.1)'} 0%, transparent 60%)`,
+                                        opacity: 0,
+                                        zIndex: -1,
+                                        transition: 'all 0.8s ease',
+                                        transform: 'scale(0.5)'
+                                    }}
+                                />
+
                                 <Box
                                     className="type-badge"
                                     sx={{
-                                        width: 48, height: 48, borderRadius: 2, bgcolor: '#F8FAFC', color: '#0F172A',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 950, fontSize: '1.2rem', mb: 3, transition: '0.4s'
+                                        width: 56, height: 56, borderRadius: "16px", bgcolor: '#F8FAFC', color: '#0F172A',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 950, fontSize: '1.4rem', mb: 3, transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
                                     }}
                                 >
                                     {item.type}
                                 </Box>
 
-                                <Typography variant="h6" fontWeight={900} sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    Inventory <Box component="span" sx={{ fontSize: '0.9rem', color: item.status === 'Critical' ? '#E11D48' : '#F59E0B' }}>{item.status}</Box>
+                                <Typography variant="h6" fontWeight={900} sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', letterSpacing: -0.5 }}>
+                                    Inventory <Box component="span" sx={{ fontSize: '0.8rem', fontWeight: 900, px: 1.5, py: 0.5, borderRadius: '8px', bgcolor: item.status === 'Critical' ? '#FEF2F2' : '#EFF6FF', color: item.status === 'Critical' ? '#E11D48' : '#3B82F6' }}>{item.status}</Box>
                                 </Typography>
 
-                                <Box sx={{ width: '100%', mb: 4 }}>
+                                <Box sx={{ width: '100%', mb: 4, mt: 2 }}>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
-                                        <Typography variant="caption" fontWeight={800} color="#64748B">HAVE: {item.have}%</Typography>
-                                        <Typography variant="caption" fontWeight={800} color="#E11D48">NEED: {item.need}%</Typography>
+                                        <Typography variant="caption" fontWeight={800} color="#64748B" sx={{ letterSpacing: 1 }}>HAVE: {item.have}%</Typography>
+                                        <Typography variant="caption" fontWeight={800} color="#E11D48" sx={{ letterSpacing: 1 }}>NEED: {item.need}%</Typography>
                                     </Box>
-                                    <Box sx={{ position: 'relative', height: 10, bgcolor: '#F1F5F9', borderRadius: 5 }}>
+                                    <Box sx={{ position: 'relative', height: 10, bgcolor: '#F1F5F9', borderRadius: 5, overflow: 'hidden' }}>
                                         <motion.div
                                             initial={{ width: 0 }}
                                             whileInView={{ width: `${item.have}%` }}
@@ -117,7 +148,7 @@ const DonationTrends = () => {
                                     </Box>
                                 </Box>
 
-                                <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.5, fontWeight: 600 }}>
+                                <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.6, fontWeight: 600, fontSize: '0.9rem' }}>
                                     Current stocks are below target levels. Rare donors are encouraged to participate.
                                 </Typography>
                             </Box>

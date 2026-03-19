@@ -63,8 +63,9 @@ const AdvancedInsights = () => {
                             return (
                                 <motion.div
                                     key={type}
-                                    whileHover={{ scale: 1.05 }}
+                                    whileHover={{ scale: 1.08, y: -5 }}
                                     whileTap={{ scale: 0.95 }}
+                                    style={{ height: '100%' }}
                                 >
                                     <Paper
                                         onClick={() => setSelectedType(isSelected ? null : type)}
@@ -74,32 +75,47 @@ const AdvancedInsights = () => {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             cursor: 'pointer',
-                                            borderRadius: 2,
-                                            transition: 'all 0.4s ease',
+                                            borderRadius: "24px",
+                                            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                                             fontSize: '1.5rem',
                                             fontWeight: 900,
                                             position: 'relative',
                                             overflow: 'hidden',
-                                            bgcolor: isSelected ? '#E11D48' : 'white',
+                                            bgcolor: isSelected ? '#E11D48' : 'rgba(255, 255, 255, 0.7)',
+                                            backdropFilter: 'blur(10px)',
                                             color: isSelected ? 'white' : '#1E293B',
-                                            border: '2px solid',
-                                            borderColor: isGiving ? '#E11D48' : isReceiving ? '#3B82F6' : 'transparent',
+                                            border: '1px solid',
+                                            borderColor: isGiving ? '#E11D48' : isReceiving ? '#3B82F6' : 'rgba(15, 23, 42, 0.08)',
                                             boxShadow: isSelected
                                                 ? '0 20px 40px rgba(225, 29, 72, 0.3)'
-                                                : '0 10px 20px rgba(0,0,0,0.03)',
-                                            '&::after': isGiving || isReceiving ? {
-                                                content: `"${isGiving ? 'GIVE' : 'GET'}"`,
-                                                position: 'absolute',
-                                                top: 4,
-                                                right: 4,
-                                                fontSize: '0.5rem',
-                                                fontWeight: 900,
-                                                color: isGiving ? '#E11D48' : '#3B82F6',
-                                                opacity: isSelected ? 0 : 1
-                                            } : {}
+                                                : '0 10px 30px rgba(0,0,0,0.03)',
+                                            '&:hover': {
+                                                bgcolor: isSelected ? '#BE123C' : 'rgba(255, 255, 255, 0.95)',
+                                                boxShadow: isSelected
+                                                    ? '0 25px 50px rgba(225, 29, 72, 0.4)'
+                                                    : '0 20px 40px rgba(0,0,0,0.08)',
+                                                "& .glow-effect": { opacity: 0.6, scale: 1.5 }
+                                            }
                                         }}
                                     >
-                                        {type}
+                                        <Box className="glow-effect" sx={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            background: isGiving
+                                                ? 'radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 70%)'
+                                                : isReceiving
+                                                    ? 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)'
+                                                    : 'radial-gradient(circle, rgba(15, 23, 42, 0.05) 0%, transparent 70%)',
+                                            opacity: 0,
+                                            transition: 'all 0.6s ease',
+                                            zIndex: 0,
+                                            pointerEvents: 'none'
+                                        }} />
+
+                                        <Typography variant="h5" sx={{ position: 'relative', zIndex: 1, fontWeight: 950 }}>
+                                            {type}
+                                        </Typography>
+
                                         {(isGiving || isReceiving) && !isSelected && (
                                             <motion.div
                                                 layoutId="highlight"
@@ -107,10 +123,31 @@ const AdvancedInsights = () => {
                                                     position: 'absolute',
                                                     inset: 0,
                                                     background: isGiving
-                                                        ? 'linear-gradient(135deg, rgba(225, 29, 72, 0.05) 0%, transparent 100%)'
-                                                        : 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%)'
+                                                        ? 'linear-gradient(135deg, rgba(225, 29, 72, 0.1) 0%, transparent 100%)'
+                                                        : 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%)',
+                                                    zIndex: -1
                                                 }}
                                             />
+                                        )}
+
+                                        {(isGiving || isReceiving) && (
+                                            <Box sx={{
+                                                position: 'absolute',
+                                                top: 8,
+                                                right: 8,
+                                                bgcolor: isGiving ? '#FFF1F2' : '#EFF6FF',
+                                                color: isGiving ? '#E11D48' : '#3B82F6',
+                                                px: 1,
+                                                py: 0.2,
+                                                borderRadius: '6px',
+                                                fontSize: '0.6rem',
+                                                fontWeight: 900,
+                                                letterSpacing: 0.5,
+                                                opacity: isSelected ? 0 : 1,
+                                                transition: '0.3s'
+                                            }}>
+                                                {isGiving ? 'GIVE' : 'GET'}
+                                            </Box>
                                         )}
                                     </Paper>
                                 </motion.div>

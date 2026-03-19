@@ -45,38 +45,65 @@ const PremiumRequestCard = ({ req, index }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-    whileHover={{ y: -10 }}
+    whileHover={{
+      scale: 1.02,
+      transition: { duration: 0.4 }
+    }}
   >
     <Box
       className="interactive"
       sx={{
         bgcolor: "rgba(255, 255, 255, 0.7)",
-        backdropFilter: "blur(10px)",
-        borderRadius: "32px",
-        p: 2.5,
+        backdropFilter: "blur(12px)",
+        borderRadius: "40px",
+        p: 3,
         height: "100%",
         display: "flex",
         flexDirection: "column",
         boxShadow: "0 20px 50px rgba(15, 23, 42, 0.05)",
         border: "1px solid rgba(15, 23, 42, 0.08)",
         transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        position: 'relative',
+        overflow: 'hidden',
         "&:hover": {
-          bgcolor: "rgba(255, 255, 255, 0.9)",
-          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.12)",
-          "& .explore-link": { color: "#E11D48" }
+          bgcolor: "rgba(255, 255, 255, 0.95)",
+          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.15)",
+          "& .explore-link": { color: "#E11D48", transform: "translateX(5px)" },
+          "& .gradient-bg": { opacity: 0.6, transform: 'scale(1.5)' },
+          "& .card-image-box": { transform: 'scale(1.05)' }
         }
       }}
     >
+      {/* Hover Gradient Background */}
+      <Box
+        className="gradient-bg"
+        sx={{
+          position: 'absolute',
+          top: '-50%',
+          left: '-50%',
+          right: '-50%',
+          bottom: '-50%',
+          background: `radial-gradient(circle at center, rgba(225, 29, 72, 0.1) 0%, transparent 60%)`,
+          opacity: 0,
+          zIndex: -1,
+          transition: 'all 0.8s ease',
+          transform: 'scale(0.5)'
+        }}
+      />
+
       {/* Visual Header / Image Area */}
-      <Box sx={{
-        position: "relative",
-        width: "100%",
-        height: 180,
-        borderRadius: "24px",
-        overflow: "hidden",
-        mb: 3,
-        bgcolor: "#F8FAFC"
-      }}>
+      <Box
+        className="card-image-box"
+        sx={{
+          position: "relative",
+          width: "100%",
+          height: 200,
+          borderRadius: "30px",
+          overflow: "hidden",
+          mb: 3,
+          bgcolor: "#F8FAFC",
+          transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)"
+        }}>
         <Box sx={{
           width: "100%",
           height: "100%",
@@ -182,14 +209,18 @@ const PremiumDonorCard = ({ donor, index }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-    whileHover={{ y: -10 }}
+    whileHover={{
+      y: -15,
+      rotateZ: index % 2 === 0 ? 1 : -1,
+      transition: { duration: 0.5, type: "spring" }
+    }}
   >
     <Box
       className="interactive"
       sx={{
         bgcolor: "rgba(255, 255, 255, 0.7)",
-        backdropFilter: "blur(10px)",
-        borderRadius: "32px",
+        backdropFilter: "blur(12px)",
+        borderRadius: "40px",
         p: 5,
         height: "100%",
         display: "flex",
@@ -198,13 +229,33 @@ const PremiumDonorCard = ({ donor, index }) => (
         boxShadow: "0 20px 50px rgba(15, 23, 42, 0.05)",
         border: "1px solid rgba(15, 23, 42, 0.08)",
         transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        position: 'relative',
+        overflow: 'hidden',
         "&:hover": {
-          bgcolor: "rgba(255, 255, 255, 0.9)",
-          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.12)",
-          "& .donor-icon": { scale: 1.1 }
+          bgcolor: "rgba(255, 255, 255, 0.95)",
+          boxShadow: "0 40px 80px rgba(225, 29, 72, 0.15)",
+          "& .donor-icon": { transform: "scale(1.1) rotate(5deg)", boxShadow: "0 20px 40px rgba(15, 23, 42, 0.08)" },
+          "& .gradient-bg": { opacity: 0.6, transform: 'scale(1.5)' }
         }
       }}
     >
+      {/* Hover Gradient Background */}
+      <Box
+        className="gradient-bg"
+        sx={{
+          position: 'absolute',
+          top: '-50%',
+          left: '-50%',
+          right: '-50%',
+          bottom: '-50%',
+          background: `radial-gradient(circle at center, rgba(15, 23, 42, 0.08) 0%, transparent 60%)`,
+          opacity: 0,
+          zIndex: -1,
+          transition: 'all 0.8s ease',
+          transform: 'scale(0.5)'
+        }}
+      />
+
       <Box
         className="donor-icon"
         sx={{
@@ -216,7 +267,7 @@ const PremiumDonorCard = ({ donor, index }) => (
           alignItems: "center",
           justifyContent: "center",
           mb: 4,
-          transition: "0.3s"
+          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
         }}
       >
         {index === 0 && <VerifiedIcon sx={{ fontSize: 32, color: "#F59E0B" }} />}
@@ -371,10 +422,38 @@ const HomeTab = ({
 
             <Grid container spacing={4}>
               {[
-                { title: "Verified Network", icon: <VerifiedIcon sx={{ color: "#F59E0B" }} />, bg: "#FFF9EB", glow: "rgba(245, 158, 11, 0.2)", desc: "Every donor is thoroughly checked and verified for your peace of mind." },
-                { title: "Premium Speed", icon: <WaterDropIcon sx={{ color: "#E11D48" }} />, bg: "#FEF2F2", glow: "rgba(225, 29, 72, 0.2)", desc: "Access the fastest selection of blood donors in your pinpoint locations." },
-                { title: "Expert Support", icon: <HubIcon sx={{ color: "#10B981" }} />, bg: "#F0FDF4", glow: "rgba(16, 185, 129, 0.2)", desc: "Our dedicated team is here to guide you 24/7 through emergencies." },
-                { title: "Network Insights", icon: <ArrowForwardIcon sx={{ color: "#3B82F6" }} />, bg: "#EFF6FF", glow: "rgba(59, 130, 246, 0.2)", desc: "Get valuable real-time data to make informed life-saving decisions." }
+                {
+                  title: "Verified Network",
+                  icon: <VerifiedIcon sx={{ color: "#F59E0B" }} />,
+                  bg: "#FFF9EB",
+                  glow: "rgba(245, 158, 11, 0.2)",
+                  desc: "Every donor is thoroughly checked and verified for your peace of mind.",
+                  motion: { whileHover: { scale: 1.05, rotateY: 10 } }
+                },
+                {
+                  title: "Premium Speed",
+                  icon: <WaterDropIcon sx={{ color: "#E11D48" }} />,
+                  bg: "#FEF2F2",
+                  glow: "rgba(225, 29, 72, 0.2)",
+                  desc: "Access the fastest selection of blood donors in your pinpoint locations.",
+                  motion: { whileHover: { y: -20, scale: 1.02 } }
+                },
+                {
+                  title: "Expert Support",
+                  icon: <HubIcon sx={{ color: "#10B981" }} />,
+                  bg: "#F0FDF4",
+                  glow: "rgba(16, 185, 129, 0.2)",
+                  desc: "Our dedicated team is here to guide you 24/7 through emergencies.",
+                  motion: { whileHover: { rotateZ: -2, y: -10 } }
+                },
+                {
+                  title: "Network Insights",
+                  icon: <ArrowForwardIcon sx={{ color: "#3B82F6" }} />,
+                  bg: "#EFF6FF",
+                  glow: "rgba(59, 130, 246, 0.2)",
+                  desc: "Get valuable real-time data to make informed life-saving decisions.",
+                  motion: { whileHover: { rotateY: -10, scale: 1.05 } }
+                }
               ].map((item, i) => (
                 <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
                   <motion.div
@@ -382,8 +461,9 @@ const HomeTab = ({
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: i * 0.1 }}
-                    style={{ height: '100%' }}
+                    style={{ height: '100%', perspective: '1000px' }}
                     onMouseEnter={() => setHoveredWhyUs(i)}
+                    {...item.motion}
                   >
                     <Box sx={{
                       bgcolor: "rgba(255, 255, 255, 0.7)",
@@ -404,7 +484,6 @@ const HomeTab = ({
                       position: 'relative',
                       overflow: 'hidden',
                       cursor: 'pointer',
-                      transform: hoveredWhyUs === i ? 'translateY(-12px)' : 'none',
                       "&:hover": {
                         bgcolor: "rgba(255, 255, 255, 0.95)",
                         "& .gradient-bg": {
@@ -412,7 +491,7 @@ const HomeTab = ({
                           transform: 'scale(1.5)'
                         },
                         "& .icon-box": {
-                          transform: 'scale(1.1) rotate(5deg)',
+                          transform: i === 1 ? 'translateY(-10px)' : 'scale(1.1) rotate(5deg)',
                           boxShadow: `0 20px 40px ${item.glow}`
                         }
                       }
