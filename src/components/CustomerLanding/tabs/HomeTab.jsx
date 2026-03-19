@@ -379,47 +379,7 @@ const HomeTab = ({
           </Box>
 
           <Box sx={{ position: 'relative' }}>
-            {/* Active Dot Indicators Row */}
-            {/* <Box sx={{
-              display: 'flex',
-              justifyContent: 'space-around',
-              width: '100%',
-              position: 'absolute',
-              top: -40,
-              zIndex: 10
-            }}>
-              {[0, 1, 2, 3].map((i) => (
-                <Box key={i} sx={{ width: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <motion.div
-                    animate={{
-                      scale: hoveredWhyUs === i ? 1.2 : 1,
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    <Box sx={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: '50%',
-                      border: `1px solid ${hoveredWhyUs === i ? 'rgba(225, 29, 72, 0.4)' : 'rgba(15, 23, 42, 0.05)'}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'border-color 0.3s ease'
-                    }}>
-                      <Box sx={{
-                        width: 8,
-                        height: 8,
-                        bgcolor: hoveredWhyUs === i ? '#E11D48' : '#cbd5e1',
-                        borderRadius: '50%',
-                        transition: 'all 0.3s ease',
-                        boxShadow: hoveredWhyUs === i ? '0 0 10px rgba(225, 29, 72, 0.4)' : 'none'
-                      }} />
-                    </Box>
-                  </motion.div>
-                </Box>
-              ))}
-            </Box> */}
-
+         
             <Grid container spacing={4}>
               {[
                 {
