@@ -110,7 +110,7 @@ const Header = ({ searchQuery, setSearchQuery }) => {
             </motion.div>
 
             {/* Notification Drawer */}
-            <Drawer anchor="right" open={notiOpen} onClose={() => setNotiOpen(false)} PaperProps={{ sx: { width: 360, borderRadius: '24px 0 0 24px', p: 3 } }}>
+            <Drawer anchor="right" open={notiOpen} onClose={() => setNotiOpen(false)} PaperProps={{ sx: { width: 560, p: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 800 }}>Notifications</Typography>
                     <Box sx={{ display: 'flex', gap: 1 }}>
@@ -159,7 +159,7 @@ const Header = ({ searchQuery, setSearchQuery }) => {
             </Drawer>
 
             {/* Settings Drawer */}
-            <Drawer anchor="right" open={settingsOpen} onClose={() => setSettingsOpen(false)} PaperProps={{ sx: { width: 360, borderRadius: '24px 0 0 24px', p: 3 } }}>
+            <Drawer anchor="right" open={settingsOpen} onClose={() => setSettingsOpen(false)} PaperProps={{ sx: { width: 400, borderRadius: '0px', p: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                     <Typography variant="h6" sx={{ fontWeight: 800 }}>Admin Settings</Typography>
                     <IconButton onClick={() => setSettingsOpen(false)} size="small" sx={{ bgcolor: '#f8fafc' }}>
