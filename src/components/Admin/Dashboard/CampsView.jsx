@@ -108,8 +108,7 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                 {/* Premium Banner Header */}
                 <Box sx={{
                     borderRadius: 5,
-                    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-                    color: 'white',
+                    bgcolor: '#ffffff',
                     p: { xs: 4, md: 5 },
                     mb: 4,
                     display: 'flex',
@@ -119,16 +118,22 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                     gap: 3,
                     position: 'relative',
                     overflow: 'hidden',
-                    boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.4)'
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
                 }}>
                     <Box sx={{ position: 'relative', zIndex: 2 }}>
-                        <Typography sx={{ fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, color: '#38bdf8', mb: 1 }}>
-                            Event Orchestrator
-                        </Typography>
-                        <Typography sx={{ fontSize: 36, fontWeight: 900, mb: 1.5, lineHeight: 1.1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
+                            <Box sx={{ width: 40, height: 40, borderRadius: 3, bgcolor: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <FestivalIcon sx={{ color: '#dc2626', fontSize: 20 }} />
+                            </Box>
+                            <Typography sx={{ fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, color: '#dc2626' }}>
+                                Event Orchestrator
+                            </Typography>
+                        </Box>
+                        <Typography sx={{ fontSize: 32, fontWeight: 900, mb: 1.5, lineHeight: 1.1, color: '#0f172a', letterSpacing: -1 }}>
                             Donation Camps
                         </Typography>
-                        <Typography sx={{ fontSize: 15, color: '#cbd5e1', fontWeight: 500, maxWidth: 500, lineHeight: 1.6 }}>
+                        <Typography sx={{ fontSize: 15, color: '#64748b', fontWeight: 500, maxWidth: 500, lineHeight: 1.6 }}>
                             Transform community spaces into life-saving hubs. Manage active blood drives, schedule future events, and process donor registrations efficiently.
                         </Typography>
                     </Box>
@@ -139,18 +144,18 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                             startIcon={<AddCircleOutlineIcon />}
                             onClick={handleOpenAdd}
                             sx={{
-                                bgcolor: '#dc2626', color: 'white', borderRadius: 100, fontWeight: 900, textTransform: 'none', px: 4, py: 1.8, fontSize: 15,
-                                boxShadow: '0 12px 30px rgba(220, 38, 36, 0.4)',
-                                '&:hover': { bgcolor: '#ef4444', boxShadow: '0 15px 40px rgba(239, 68, 68, 0.5)' }
+                                bgcolor: '#dc2626', color: 'white', borderRadius: 100, fontWeight: 900, textTransform: 'none', px: 4, py: 1.8, fontSize: 14,
+                                boxShadow: '0 12px 30px rgba(220, 38, 36, 0.25)',
+                                '&:hover': { bgcolor: '#ef4444', boxShadow: '0 15px 40px rgba(239, 68, 68, 0.4)' }
                             }}
                         >
                             Schedule Camp
                         </Button>
                     </motion.div>
 
-                    {/* Abstract water drop / festival icon floating in background */}
-                    <Box sx={{ position: 'absolute', right: -40, bottom: -60, opacity: 0.05, transform: 'rotate(-15deg)' }}>
-                        <FestivalIcon sx={{ fontSize: 320 }} />
+                    {/* Abstract icon floating in background */}
+                    <Box sx={{ position: 'absolute', right: -20, bottom: -40, opacity: 0.03, transform: 'rotate(-15deg)' }}>
+                        <FestivalIcon sx={{ fontSize: 240 }} />
                     </Box>
                 </Box>
 
@@ -163,11 +168,11 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                             sx={{
                                 px: 3, py: 1, fontWeight: 800, fontSize: 13, textTransform: 'none',
                                 borderRadius: 100,
-                                bgcolor: filter === type ? '#dc2626' : 'transparent',
+                                bgcolor: filter === type ? '#0f172a' : 'transparent',
                                 color: filter === type ? 'white' : '#64748b',
                                 border: '2px solid',
-                                borderColor: filter === type ? '#dc2626' : '#e2e8f0',
-                                '&:hover': { bgcolor: filter === type ? '#ef4444' : '#f1f5f9', borderColor: filter === type ? '#ef4444' : '#cbd5e1' },
+                                borderColor: filter === type ? '#0f172a' : '#e2e8f0',
+                                '&:hover': { bgcolor: filter === type ? '#1e293b' : '#f8fafc', borderColor: filter === type ? '#1e293b' : '#cbd5e1' },
                                 transition: 'all 0.2s ease-in-out'
                             }}
                         >
