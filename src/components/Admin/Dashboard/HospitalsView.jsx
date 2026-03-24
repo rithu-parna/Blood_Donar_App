@@ -135,7 +135,7 @@ const HospitalsView = ({ hospitals, setHospitals }) => {
 
                 <Grid container spacing={4}>
                     {filteredHospitals.map((hospital, i) => (
-                        <Grid item xs={12} lg={4} key={hospital.name}>
+                        <Grid size={{ xs: 12, lg: 4 }} key={hospital.name}>
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -272,7 +272,7 @@ const HospitalDialog = ({ open, onClose, onSave, onDelete, title, formData, setF
             </Box>
 
             <Grid container spacing={4}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                     <Typography sx={{ fontSize: 12, fontWeight: 900, color: '#0f172a', mb: 1, textTransform: 'uppercase' }}>Hospital Identity</Typography>
                     <TextField
                         placeholder="e.g. Mayo Clinic Logistics Center" fullWidth
@@ -285,7 +285,7 @@ const HospitalDialog = ({ open, onClose, onSave, onDelete, title, formData, setF
                     />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                     <Typography sx={{ fontSize: 12, fontWeight: 900, color: '#0f172a', mb: 1, textTransform: 'uppercase' }}>Logistics Location</Typography>
                     <TextField
                         placeholder="Global Positioning or City Address" fullWidth
@@ -298,7 +298,7 @@ const HospitalDialog = ({ open, onClose, onSave, onDelete, title, formData, setF
                     />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                     <Typography sx={{ fontSize: 12, fontWeight: 900, color: '#0f172a', mb: 1, textTransform: 'uppercase' }}>Contact Hotline</Typography>
                     <TextField
                         placeholder="+1 (555) 000-0000" fullWidth
@@ -311,7 +311,7 @@ const HospitalDialog = ({ open, onClose, onSave, onDelete, title, formData, setF
                     />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                     <Typography sx={{ fontSize: 12, fontWeight: 900, color: '#0f172a', mb: 1, textTransform: 'uppercase' }}>Emergency Group</Typography>
                     <TextField
                         select fullWidth
