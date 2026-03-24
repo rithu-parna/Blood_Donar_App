@@ -16,7 +16,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import SecurityIcon from '@mui/icons-material/Security';
 import { motion } from 'framer-motion';
 
-const Header = ({ searchQuery, setSearchQuery }) => {
+const Header = ({ searchQuery, setSearchQuery, setActiveTab }) => {
     const [searchFocused, setSearchFocused] = useState(false);
     const [notiOpen, setNotiOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -68,13 +68,15 @@ const Header = ({ searchQuery, setSearchQuery }) => {
 
                     {/* Right icons */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                        {[LanguageIcon].map((Icon, i) => (
-                            <motion.div key={i} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                <IconButton size="small" sx={{ bgcolor: '#f8fafc', color: '#64748b', '&:hover': { bgcolor: '#f1f5f9' } }}>
-                                    <Icon sx={{ fontSize: 18 }} />
-                                </IconButton>
-                            </motion.div>
-                        ))}
+                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                            <IconButton
+                                size="small"
+                                sx={{ bgcolor: '#f8fafc', color: '#64748b', '&:hover': { bgcolor: '#f1f5f9' } }}
+                                onClick={() => setActiveTab('language')}
+                            >
+                                <LanguageIcon sx={{ fontSize: 18 }} />
+                            </IconButton>
+                        </motion.div>
                         <motion.div whileHover={{ scale: 1.1, rotate: 20 }} whileTap={{ scale: 0.9 }}>
                             <IconButton
                                 size="small"
@@ -96,7 +98,11 @@ const Header = ({ searchQuery, setSearchQuery }) => {
                             </IconButton>
                         </motion.div>
                         <Divider orientation="vertical" flexItem sx={{ mx: 1, height: 28, my: 'auto' }} />
-                        <motion.div whileHover={{ scale: 1.03 }} style={{ cursor: 'pointer' }}>
+                        <motion.div
+                            whileHover={{ scale: 1.03 }}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setActiveTab('profile')}
+                        >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                                 <Avatar sx={{ width: 38, height: 38, bgcolor: '#0f172a', fontWeight: 900, fontSize: 14, boxShadow: '0 4px 12px rgba(15,23,42,0.3)' }}>A</Avatar>
                                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>

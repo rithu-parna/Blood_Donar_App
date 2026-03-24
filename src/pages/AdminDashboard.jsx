@@ -12,7 +12,8 @@ import DashboardView from '../components/Admin/Dashboard/DashboardView';
 import DonorsView from '../components/Admin/Dashboard/DonorsView';
 import HospitalsView from '../components/Admin/Dashboard/HospitalsView';
 import RequestsView from '../components/Admin/Dashboard/RequestsView';
-import CampsView from '../components/Admin/Dashboard/CampsView';
+import ProfileView from '../components/Admin/Dashboard/ProfileView';
+import LanguageView from '../components/Admin/Dashboard/LanguageView';
 
 // Hooks
 import { useDashboardData } from '../components/Admin/Dashboard/useDashboardData';
@@ -60,7 +61,7 @@ const AdminDashboard = () => {
             {/* Main Content Area */}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
                 {/* Header */}
-                <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} setActiveTab={setActiveTab} />
 
                 {/* Page Content */}
                 <Box sx={{ p: 4, overflowY: 'auto', flex: 1 }}>
@@ -82,6 +83,10 @@ const AdminDashboard = () => {
                         {activeTab === 'requests' && <RequestsView requests={filteredRequests} setRequests={setRequests} />}
 
                         {activeTab === 'camps' && <CampsView camps={camps} setCamps={setCamps} />}
+
+                        {activeTab === 'profile' && <ProfileView />}
+
+                        {activeTab === 'language' && <LanguageView />}
                     </AnimatePresence>
 
                 </Box>
