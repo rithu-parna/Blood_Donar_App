@@ -57,7 +57,7 @@ export const loginStyles = {
     inputField: {
         mb: 3,
         '& .MuiOutlinedInput-root': {
-            borderRadius: "16px",
+            borderRadius: "12px",
             bgcolor: '#F8FAFC',
             transition: 'all 0.3s ease',
             '&:hover': { bgcolor: '#F1F5F9' },
@@ -67,7 +67,7 @@ export const loginStyles = {
     passwordField: {
         mb: 1.5,
         '& .MuiOutlinedInput-root': {
-            borderRadius: "16px",
+            borderRadius: "12px",
             bgcolor: '#F8FAFC',
             transition: 'all 0.3s ease',
             '&:hover': { bgcolor: '#F1F5F9' },
