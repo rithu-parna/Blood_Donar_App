@@ -254,7 +254,7 @@ const HospitalDialog = ({ open, onClose, onSave, onDelete, title, formData, setF
         open={open} onClose={onClose}
         TransitionComponent={Fade}
         PaperProps={{
-            sx: { borderRadius: 4, p: 1, maxWidth: 520, width: '100%', boxShadow: '0 50px 100px -20px rgba(0,0,0,0.25)', overflow: 'hidden' }
+            sx: { borderRadius: 2, p: 1, maxWidth: 520, width: '100%', boxShadow: '0 50px 100px -20px rgba(0,0,0,0.25)', overflow: 'hidden' }
         }}
     >
         <Box sx={{ p: 4 }}>

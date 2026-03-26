@@ -252,7 +252,7 @@ const DonorDialog = ({ open, onClose, onSave, title, formData, setFormData, mode
         transitionDuration={400}
         PaperProps={{
             sx: {
-                borderRadius: 8,
+                borderRadius: 2,
                 p: 2,
                 width: 440,
                 boxShadow: '0 40px 100px rgba(0,0,0,0.2)',
