@@ -25,10 +25,7 @@ const defaultRequests = [
 
 const RequestsView = ({ requests: propRequests, setRequests: propSetRequests }) => {
     const [localRequests, setLocalRequests] = useState(defaultRequests);
-    // Sync with props if available, otherwise use local
     const baseRequests = propRequests && propRequests.length > 0 ? propRequests : localRequests;
-
-    // Ensure all requests have a 'filled' and 'date' field internally for UI display
     const requests = baseRequests.map(r => ({
         ...r,
         filled: r.filled !== undefined ? r.filled : (r.status === 'Fulfilled' ? r.units : 0),
@@ -36,13 +33,9 @@ const RequestsView = ({ requests: propRequests, setRequests: propSetRequests }) 
     }));
 
     const setRequests = propSetRequests || setLocalRequests;
-
-    // UI States
     const [openAdd, setOpenAdd] = useState(false);
     const [openManage, setOpenManage] = useState(false);
     const [filter, setFilter] = useState('All');
-
-    // Data State
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [formData, setFormData] = useState({
         hospital: '', bloodType: 'O-', units: 1, filled: 0, urgency: 'Normal', status: 'Pending'
@@ -79,7 +72,6 @@ const RequestsView = ({ requests: propRequests, setRequests: propSetRequests }) 
         setOpenManage(false);
     };
 
-    // Derived states
     const filteredRequests = filter === 'All' ? requests :
         filter === 'Critical' ? requests.filter(r => r.urgency === 'Critical') :
             requests.filter(r => r.status === filter);
