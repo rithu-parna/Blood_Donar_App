@@ -75,8 +75,8 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
 
     const getStatusColors = (status) => {
         switch (status) {
-            case 'Ongoing': return { bg: '#dcfce7', text: '#16a34a', main: '#dc2626' }; // Red main for ongoing emergency/active focus
-            case 'Upcoming': return { bg: '#eff6ff', text: '#2563eb', main: '#0f172a' }; // Dark slate for upcoming
+            case 'Ongoing': return { bg: '#dcfce7', text: '#16a34a', main: '#dc2626' }; 
+            case 'Upcoming': return { bg: '#eff6ff', text: '#2563eb', main: '#0f172a' }; 
             case 'Completed': return { bg: '#f1f5f9', text: '#64748b', main: '#64748b' };
             default: return { bg: '#fef2f2', text: '#dc2626', main: '#0f172a' };
         }
@@ -105,7 +105,6 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, ease: 'circOut' }}
             >
-                {/* Premium Banner Header */}
                 <Box sx={{
                     borderRadius: 5,
                     bgcolor: '#ffffff',
@@ -153,13 +152,11 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                         </Button>
                     </motion.div>
 
-                    {/* Abstract icon floating in background */}
                     <Box sx={{ position: 'absolute', right: -20, bottom: -40, opacity: 0.03, transform: 'rotate(-15deg)' }}>
                         <FestivalIcon sx={{ fontSize: 240 }} />
                     </Box>
                 </Box>
 
-                {/* Filter Controls */}
                 <Box sx={{ display: 'flex', gap: 1.5, mb: 4, overflowX: 'auto', pb: 1, '&::-webkit-scrollbar': { display: 'none' } }}>
                     {['All', 'Upcoming', 'Ongoing', 'Completed'].map(type => (
                         <Button
@@ -181,7 +178,6 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                     ))}
                 </Box>
 
-                {/* Ticket Style Event Grid */}
                 <Grid container spacing={3}>
                     {filteredCamps.map((camp, i) => {
                         const target = camp.target || 200;
@@ -208,7 +204,6 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                                             borderColor: '#cbd5e1'
                                         }
                                     }}>
-                                        {/* Date Block (Ticket Stub) */}
                                         <Box sx={{
                                             minWidth: { xs: '100%', sm: 160 },
                                             bgcolor: colors.main,
@@ -220,11 +215,8 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                                             <Typography sx={{ fontSize: { xs: 36, sm: 56 }, fontWeight: 900, lineHeight: 1, my: { xs: 0, sm: 1 } }}>{day}</Typography>
                                             <Typography sx={{ fontSize: 13, fontWeight: 700, opacity: 0.8 }}>{year}</Typography>
 
-                                            {/* Perforation detail line (hidden on mobile layout) */}
                                             <Box sx={{ display: { xs: 'none', sm: 'block' }, position: 'absolute', right: -1, top: 0, bottom: 0, width: 2, backgroundImage: 'linear-gradient(to bottom, transparent 50%, white 50%)', backgroundSize: '100% 12px', opacity: 0.2 }} />
                                         </Box>
-
-                                        {/* Event Content Block */}
                                         <Box sx={{ p: 4, flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', bgcolor: 'white' }}>
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
                                                 <Box>
@@ -241,10 +233,9 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                                                 />
                                             </Box>
 
-                                            <Box sx={{ flex: 1 }} /> {/* Spacer */}
+                                            <Box sx={{ flex: 1 }} /> 
 
                                             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: { xs: 3, md: 4 }, mt: 4, pt: 3, borderTop: '1px dashed #e2e8f0' }}>
-                                                {/* Progress Ring Stats */}
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                                                     <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                         <CircularProgress variant="determinate" value={100} size={46} thickness={5} sx={{ color: '#f1f5f9', position: 'absolute' }} />
@@ -258,8 +249,6 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                                                 </Box>
 
                                                 <Box sx={{ flex: 1 }} />
-
-                                                {/* Action Buttons */}
                                                 <Box sx={{ display: 'flex', gap: 1.5, width: { xs: '100%', sm: 'auto' } }}>
                                                     <IconButton
                                                         onClick={() => handleOpenManage(camp)}
@@ -289,8 +278,6 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                     })}
                 </Grid>
             </motion.div>
-
-            {/* Premium Camp Dialog */}
             <CampDialog
                 open={openAdd || openManage}
                 onClose={() => { setOpenAdd(false); setOpenManage(false); }}
@@ -301,8 +288,6 @@ const CampsView = ({ camps: propCamps, setCamps: propSetCamps }) => {
                 setFormData={setFormData}
                 mode={openAdd ? "add" : "edit"}
             />
-
-            {/* Premium Requests Dialog */}
             <RequestsDialog
                 open={openRequests}
                 onClose={() => setOpenRequests(false)}
