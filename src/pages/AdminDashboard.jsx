@@ -52,7 +52,14 @@ const AdminDashboard = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f8fafc', fontFamily: '"DM Sans", Inter, sans-serif', position: 'relative' }}>
+        <Box sx={{
+            display: 'flex',
+            height: '100vh',
+            overflow: 'hidden',
+            bgcolor: '#f8fafc',
+            fontFamily: '"DM Sans", Inter, sans-serif',
+            position: 'relative'
+        }}>
             <Particles />
 
             {/* Sidebar */}

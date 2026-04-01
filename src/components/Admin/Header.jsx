@@ -50,7 +50,7 @@ const Header = ({ searchQuery, setSearchQuery, setActiveTab, activeTab, toggleSi
                     display: 'flex', alignItems: 'center', px: 4,
                     justifyContent: 'space-between', zIndex: 5,
                     boxShadow: isProfile ? 'none' : '0 4px 20px rgba(0,0,0,0.03)',
-                    position: 'relative',
+                    position: 'sticky', top: 0,
                     transition: 'all 0.5s ease',
                     '&::before': isProfile ? {
                         content: '""',
