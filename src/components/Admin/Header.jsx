@@ -14,9 +14,12 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import SecurityIcon from '@mui/icons-material/Security';
+import MenuIcon from '@mui/icons-material/Menu';
 import { motion } from 'framer-motion';
 
-const Header = ({ searchQuery, setSearchQuery, setActiveTab }) => {
+const Header = ({ searchQuery, setSearchQuery, setActiveTab, activeTab, toggleSidebar, isCollapsed }) => {
+    const isProfile = activeTab === 'profile' || activeTab === 'dashboard';
+    const BANNER_URL = "/admin_profile_banner.png";
     const [searchFocused, setSearchFocused] = useState(false);
     const [notiOpen, setNotiOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -36,42 +39,74 @@ const Header = ({ searchQuery, setSearchQuery, setActiveTab }) => {
         <>
             <motion.div initial={{ y: -90 }} animate={{ y: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
                 <Box sx={{
-                    height: 76, borderBottom: '1px solid #e2e8f0',
-                    bgcolor: 'rgba(255,255,255,0.85)',
+                    height: 76,
+                    borderBottom: '1px solid',
+                    borderColor: isProfile ? 'rgba(255,255,255,0.1)' : '#e2e8f0',
+                    bgcolor: isProfile ? 'rgba(15, 23, 42, 0.05)' : 'rgba(255,255,255,0.85)',
+                    backgroundImage: isProfile ? `url(${BANNER_URL})` : 'none',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center 20%', // Adjust position to match sidebar transition
                     backdropFilter: 'blur(16px)',
                     display: 'flex', alignItems: 'center', px: 4,
                     justifyContent: 'space-between', zIndex: 5,
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                    boxShadow: isProfile ? 'none' : '0 4px 20px rgba(0,0,0,0.03)',
+                    position: 'relative',
+                    transition: 'all 0.5s ease',
+                    '&::before': isProfile ? {
+                        content: '""',
+                        position: 'absolute',
+                        inset: 0,
+                        bgcolor: 'rgba(15, 23, 42, 0.05)',
+                        backdropFilter: 'blur(12px)',
+                        zIndex: -1
+                    } : {}
                 }}>
-                    {/* Search */}
-                    <motion.div animate={{ width: searchFocused ? 380 : 300 }} transition={{ duration: 0.3 }}>
-                        <Box sx={{
-                            display: 'flex', alignItems: 'center',
-                            bgcolor: searchFocused ? 'white' : '#f1f5f9',
-                            px: 2, py: 1, borderRadius: 100,
-                            border: '1px solid',
-                            borderColor: searchFocused ? '#dc262640' : '#e2e8f0',
-                            boxShadow: searchFocused ? '0 4px 20px rgba(220,38,38,0.1)' : 'none',
-                            transition: 'all 0.3s',
-                        }}>
-                            <SearchIcon sx={{ color: searchFocused ? '#dc2626' : '#94a3b8', fontSize: 18, mr: 1.5, transition: 'color 0.3s' }} />
-                            <InputBase
-                                placeholder="Search donors, blood groups..."
-                                sx={{ fontSize: 13, flex: 1, color: '#334155', '& input': { fontWeight: 500 } }}
-                                onFocus={() => setSearchFocused(true)}
-                                onBlur={() => setSearchFocused(false)}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </Box>
-                    </motion.div>
+                    {/* Left section: Toggle & Search */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                        <IconButton
+                            onClick={toggleSidebar}
+                            sx={{
+                                color: isProfile ? 'white' : '#64748b',
+                                bgcolor: isProfile ? 'rgba(255,255,255,0.05)' : '#f8fafc',
+                                '&:hover': { bgcolor: isProfile ? 'rgba(255,255,255,0.1)' : '#f1f5f9' }
+                            }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
+                        <motion.div animate={{ width: searchFocused ? 380 : 300 }} transition={{ duration: 0.3 }}>
+                            <Box sx={{
+                                display: 'flex', alignItems: 'center',
+                                bgcolor: searchFocused ? 'white' : (isProfile ? 'rgba(255,255,255,0.1)' : '#f1f5f9'),
+                                px: 2, py: 1, borderRadius: 100,
+                                border: '1px solid',
+                                borderColor: searchFocused ? '#dc262640' : (isProfile ? 'rgba(255,255,255,0.1)' : '#e2e8f0'),
+                                boxShadow: searchFocused ? '0 4px 20px rgba(220,38,38,0.1)' : 'none',
+                                transition: 'all 0.3s',
+                            }}>
+                                <SearchIcon sx={{ color: searchFocused ? '#dc2626' : (isProfile ? 'rgba(255,255,255,0.6)' : '#94a3b8'), fontSize: 18, mr: 1.5, transition: 'color 0.3s' }} />
+                                <InputBase
+                                    placeholder="Search donors, blood groups..."
+                                    sx={{ fontSize: 13, flex: 1, color: isProfile ? 'white' : '#334155', '& input': { fontWeight: 500, '&::placeholder': { color: isProfile ? 'rgba(255,255,255,0.4)' : 'inherit' } } }}
+                                    onFocus={() => setSearchFocused(true)}
+                                    onBlur={() => setSearchFocused(false)}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </Box>
+                        </motion.div>
+                    </Box>
 
                     {/* Right icons */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                             <IconButton
                                 size="small"
-                                sx={{ bgcolor: '#f8fafc', color: '#64748b', '&:hover': { bgcolor: '#f1f5f9' } }}
+                                sx={{
+                                    bgcolor: isProfile ? 'rgba(255,255,255,0.05)' : '#f8fafc',
+                                    color: isProfile ? 'white' : '#64748b',
+                                    '&:hover': { bgcolor: isProfile ? 'rgba(255,255,255,0.1)' : '#f1f5f9' }
+                                }}
                                 onClick={() => setActiveTab('language')}
                             >
                                 <LanguageIcon sx={{ fontSize: 18 }} />
@@ -80,7 +115,11 @@ const Header = ({ searchQuery, setSearchQuery, setActiveTab }) => {
                         <motion.div whileHover={{ scale: 1.1, rotate: 20 }} whileTap={{ scale: 0.9 }}>
                             <IconButton
                                 size="small"
-                                sx={{ bgcolor: '#f8fafc', color: '#64748b', '&:hover': { bgcolor: '#f1f5f9' } }}
+                                sx={{
+                                    bgcolor: isProfile ? 'rgba(255,255,255,0.05)' : '#f8fafc',
+                                    color: isProfile ? 'white' : '#64748b',
+                                    '&:hover': { bgcolor: isProfile ? 'rgba(255,255,255,0.1)' : '#f1f5f9' }
+                                }}
                                 onClick={() => setSettingsOpen(true)}
                             >
                                 <SettingsIcon sx={{ fontSize: 18 }} />
@@ -97,17 +136,17 @@ const Header = ({ searchQuery, setSearchQuery, setActiveTab }) => {
                                 </Badge>
                             </IconButton>
                         </motion.div>
-                        <Divider orientation="vertical" flexItem sx={{ mx: 1, height: 28, my: 'auto' }} />
+                        <Divider orientation="vertical" flexItem sx={{ mx: 1, height: 28, my: 'auto', borderColor: isProfile ? 'rgba(255,255,255,0.1)' : 'inherit' }} />
                         <motion.div
                             whileHover={{ scale: 1.03 }}
                             style={{ cursor: 'pointer' }}
                             onClick={() => setActiveTab('profile')}
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                <Avatar sx={{ width: 38, height: 38, bgcolor: '#0f172a', fontWeight: 900, fontSize: 14, boxShadow: '0 4px 12px rgba(15,23,42,0.3)' }}>A</Avatar>
+                                <Avatar sx={{ width: 38, height: 38, bgcolor: isProfile ? '#dc2626' : '#0f172a', fontWeight: 900, fontSize: 14, boxShadow: '0 4px 12px rgba(0,0,0,0.3)', border: isProfile ? '2px solid rgba(255,255,255,0.2)' : 'none' }}>A</Avatar>
                                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                                    <Typography sx={{ fontWeight: 800, fontSize: 13, color: '#0f172a', lineHeight: 1.2 }}>Admin User</Typography>
-                                    <Typography sx={{ fontSize: 11, color: '#94a3b8' }}>System Operator</Typography>
+                                    <Typography sx={{ fontWeight: 800, fontSize: 13, color: isProfile ? 'white' : '#0f172a', lineHeight: 1.2 }}>Admin User</Typography>
+                                    <Typography sx={{ fontSize: 11, color: isProfile ? 'rgba(255,255,255,0.5)' : '#94a3b8' }}>System Operator</Typography>
                                 </Box>
                             </Box>
                         </motion.div>

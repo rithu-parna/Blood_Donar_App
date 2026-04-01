@@ -25,10 +25,10 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const { lineData, lineOptions, barData, barOptions, hospitals, donors, requests, camps, setDonors, setHospitals, setCamps, setRequests } = useDashboardData();
 
-
-
+    const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
     const handleLogout = () => {
         navigate('/login');
@@ -56,12 +56,19 @@ const AdminDashboard = () => {
             <Particles />
 
             {/* Sidebar */}
-            <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} />
+            <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} isCollapsed={isCollapsed} />
 
             {/* Main Content Area */}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
                 {/* Header */}
-                <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} setActiveTab={setActiveTab} />
+                <Header
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    setActiveTab={setActiveTab}
+                    activeTab={activeTab}
+                    toggleSidebar={toggleSidebar}
+                    isCollapsed={isCollapsed}
+                />
 
                 {/* Page Content */}
                 <Box sx={{ p: 4, overflowY: 'auto', flex: 1 }}>
