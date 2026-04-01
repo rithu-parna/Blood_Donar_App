@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { motion } from 'framer-motion';
 
 const Header = ({ searchQuery, setSearchQuery, setActiveTab, activeTab, toggleSidebar, isCollapsed }) => {
-    const isProfile = activeTab === 'profile' || activeTab === 'dashboard';
+    const isProfile = true; // Permanent premium theme
     const BANNER_URL = "/admin_profile_banner.png";
     const [searchFocused, setSearchFocused] = useState(false);
     const [notiOpen, setNotiOpen] = useState(false);

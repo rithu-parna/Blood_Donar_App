@@ -11,7 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { motion } from 'framer-motion';
 
 const Sidebar = ({ activeTab, setActiveTab, onLogout, isCollapsed }) => {
-    const isProfile = activeTab === 'profile' || activeTab === 'dashboard';
+    const isProfile = true; // Permanent premium theme
     const BANNER_URL = "/admin_profile_banner.png";
 
     return (
